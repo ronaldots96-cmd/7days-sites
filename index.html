@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Professional websites for small businesses, delivered in 3–7 days with fixed pricing and no monthly lock-in.">
+  <meta name="theme-color" content="#f4f6f8">
+  <title>Sevenday — Professional websites, delivered in a week</title>
+  <style>
+    :root {
+      --ink: #12151a;
+      --ink-2: #303640;
+      --muted: #68707d;
+      --paper: #ffffff;
+      --canvas: #f3f5f7;
+      --line: #dfe3e8;
+      --line-dark: #c9ced6;
+      --blue: #175cff;
+      --blue-dark: #0d42ca;
+      --blue-soft: #eaf0ff;
+      --lime: #c9ff4a;
+      --lime-dark: #8fbf1f;
+      --danger: #ff6b4a;
+      --radius-sm: 10px;
+      --radius: 18px;
+      --radius-lg: 28px;
+      --shadow-sm: 0 8px 24px rgba(18, 21, 26, .06);
+      --shadow: 0 24px 70px rgba(18, 21, 26, .12);
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      --max: 1200px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 20;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button, select { cursor: pointer; }
+    img, svg { display: block; }
+    ::selection { background: var(--lime); color: var(--ink); }
+    :focus-visible { outline: 3px solid rgba(23, 92, 255, .32); outline-offset: 3px; }
+
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+      padding: 10px 14px;
+      color: #fff;
+      background: var(--ink);
+      border-radius: 8px;
+      transform: translateY(-150%);
+      transition: transform .2s ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .shell { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+    .section { padding: 112px 0; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 32px;
+      margin-bottom: 46px;
+    }
+    .section-head > div:first-child { max-width: 720px; }
+    .section-kicker, .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 14px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .section-kicker::before, .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: currentColor;
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px rgba(23, 92, 255, .1);
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { letter-spacing: -.045em; }
+    h2 {
+      margin-bottom: 14px;
+      font-size: clamp(42px, 5vw, 72px);
+      line-height: .98;
+      font-weight: 800;
+    }
+    .section-lead { margin: 0; max-width: 670px; color: var(--muted); font-size: 18px; }
+
+    .btn {
+      min-height: 52px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1;
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease), background-color .25s ease, border-color .25s ease;
+    }
+    .btn svg { width: 17px; height: 17px; transition: transform .35s var(--ease); }
+    .btn:hover { transform: translateY(-3px); }
+    .btn:hover svg { transform: translateX(4px); }
+    .btn-primary {
+      color: white;
+      background: var(--blue);
+      box-shadow: 0 10px 22px rgba(23, 92, 255, .22);
+    }
+    .btn-primary:hover { background: var(--blue-dark); box-shadow: 0 16px 32px rgba(23, 92, 255, .3); }
+    .btn-secondary { background: var(--paper); border-color: var(--line-dark); }
+    .btn-secondary:hover { border-color: var(--ink); box-shadow: var(--shadow-sm); }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(243, 245, 247, .86);
+      border-bottom: 1px solid rgba(201, 206, 214, .75);
+      backdrop-filter: blur(18px) saturate(140%);
+    }
+    .nav { height: 74px; display: flex; justify-content: space-between; align-items: center; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-size: 14px; font-weight: 800; letter-spacing: -.02em; }
+    .brand-mark {
+      width: 37px;
+      height: 37px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      color: #fff;
+      background: var(--ink);
+      border-radius: 9px;
+      font-size: 14px;
+      letter-spacing: -.07em;
+    }
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 4px;
+      right: -7px;
+      bottom: 4px;
+      background: var(--lime);
+      transform: rotate(-40deg);
+    }
+    .brand-name span { color: var(--blue); }
+    .nav-links { display: flex; align-items: center; gap: 30px; }
+    .nav-links > a:not(.btn) { color: var(--ink-2); font-size: 13px; font-weight: 600; }
+    .nav-links > a:not(.btn):hover { color: var(--blue); }
+    .nav .btn { min-height: 42px; padding-inline: 16px; }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      padding: 84px 0 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(23, 92, 255, .12), transparent 27%),
+        radial-gradient(circle at 4% 88%, rgba(201, 255, 74, .16), transparent 23%),
+        var(--canvas);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .32;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, #000, transparent 86%);
+    }
+    .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(340px, .75fr); gap: 70px; align-items: center; }
+    .hero-copy { padding-bottom: 66px; }
+    .hero .eyebrow { color: var(--ink-2); }
+    .hero .eyebrow::before { background: var(--lime-dark); box-shadow: 0 0 0 5px rgba(143, 191, 31, .13); }
+    h1 {
+      max-width: 760px;
+      margin: 0 0 24px;
+      font-size: clamp(42px, 5.5vw, 70px);
+      line-height: .91;
+      font-weight: 800;
+    }
+    .hero-highlight { position: relative; z-index: 1; color: var(--blue); white-space: nowrap; }
+    .hero-highlight::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      left: -2%;
+      right: -2%;
+      bottom: .04em;
+      height: .17em;
+      background: var(--lime);
+      transform: rotate(-1.2deg);
+      transform-origin: left;
+    }
+    .hero-lead { max-width: 650px; margin-bottom: 30px; color: var(--ink-2); font-size: clamp(18px, 2vw, 21px); line-height: 1.55; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-note { margin-top: 20px; color: var(--muted); font-size: 12px; font-weight: 600; }
+
+    .quote-wrap { position: relative; padding: 16px; }
+    .quote-wrap::before {
+      content: "ESTIMATE / 01";
+      position: absolute;
+      top: -9px;
+      right: -22px;
+      z-index: 2;
+      padding: 7px 11px;
+      color: var(--ink);
+      background: var(--lime);
+      border: 1px solid var(--ink);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      transform: rotate(4deg);
+    }
+    .quote-card {
+      position: relative;
+      padding: 28px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .94);
+      border: 1px solid var(--line-dark);
+      border-radius: var(--radius-lg);
+      box-shadow: 12px 12px 0 var(--ink), var(--shadow);
+    }
+    .quote-card::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      top: -84px;
+      right: -78px;
+      background: var(--blue-soft);
+      border-radius: 50%;
+    }
+    .quote-top { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .quote-top strong { font-size: 13px; letter-spacing: .09em; text-transform: uppercase; }
+    .status-dot { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; font-weight: 700; }
+    .status-dot::before { content: ""; width: 7px; height: 7px; background: #24b56b; border-radius: 50%; box-shadow: 0 0 0 4px rgba(36, 181, 107, .12); }
+    .field { display: block; margin-bottom: 16px; }
+    .field span { display: block; margin-bottom: 7px; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .field select, .contact-field input, .contact-field select, .contact-field textarea {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 15px;
+      color: var(--ink);
+      background: #f8f9fb;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      font-weight: 600;
+      appearance: none;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .select-wrap { position: relative; }
+    .select-wrap::after { content: "↓"; position: absolute; right: 15px; top: 14px; pointer-events: none; color: var(--muted); font-weight: 800; }
+    .field select:focus, .contact-field input:focus, .contact-field select:focus, .contact-field textarea:focus { border-color: var(--blue); background: white; box-shadow: 0 0 0 4px rgba(23, 92, 255, .09); outline: none; }
+    .quote-result {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+      min-height: 88px;
+      margin: 22px 0 18px;
+      padding: 16px;
+      background: var(--ink);
+      border-radius: 12px;
+      color: white;
+    }
+    .quote-result small { display: block; margin-bottom: 2px; color: #aeb5c0; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .quote-price { font-size: 27px; line-height: 1; font-weight: 800; letter-spacing: -.04em; }
+    .quote-time { color: var(--lime); font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .quote-card .btn { width: 100%; }
+
+    .proof-bar { position: relative; z-index: 3; background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .proof-item { display: flex; align-items: center; gap: 11px; min-height: 82px; padding: 15px 22px; border-right: 1px solid var(--line); }
+    .proof-item:first-child { border-left: 1px solid var(--line); }
+    .proof-icon { width: 29px; height: 29px; flex: 0 0 29px; display: grid; place-items: center; color: var(--blue); background: var(--blue-soft); border-radius: 50%; font-size: 13px; font-weight: 800; }
+    .proof-item strong { display: block; font-size: 13px; line-height: 1.25; }
+    .proof-item span { color: var(--muted); font-size: 11px; }
+
+    /* Portfolio */
+    .work-section { background: var(--paper); }
+    .filters { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+    .filter-btn {
+      min-height: 38px;
+      padding: 0 13px;
+      color: var(--muted);
+      background: var(--canvas);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      transition: color .2s ease, background .2s ease, border-color .2s ease, transform .25s var(--ease);
+    }
+    .filter-btn:hover { color: var(--ink); transform: translateY(-2px); }
+    .filter-btn.active { color: white; background: var(--ink); border-color: var(--ink); }
+    .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .work-card {
+      --spot-x: 50%;
+      --spot-y: 50%;
+      position: relative;
+      min-width: 0;
+      padding: 10px;
+      overflow: hidden;
+      background: #fafbfc;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .3s ease, opacity .25s ease;
+    }
+    .work-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(330px circle at var(--spot-x) var(--spot-y), rgba(23, 92, 255, .11), transparent 56%);
+      transition: opacity .3s ease;
+    }
+    .work-card:hover { z-index: 2; transform: translateY(-8px); border-color: #b7c7ff; box-shadow: 0 25px 55px rgba(23, 45, 90, .13); }
+    .work-card:hover::before { opacity: 1; }
+    .work-card.is-hidden { display: none; }
+    .mock-stage {
+      position: relative;
+      height: 270px;
+      padding: 25px 25px 20px 18px;
+      overflow: hidden;
+      background: var(--stage, #edf2ff);
+      border-radius: 12px;
+    }
+    .mock-stage::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      top: -90px;
+      right: -60px;
+      background: var(--glow, rgba(23, 92, 255, .16));
+      border-radius: 50%;
+      filter: blur(4px);
+    }
+    .browser {
+      position: relative;
+      z-index: 1;
+      width: 90%;
+      height: 205px;
+      overflow: hidden;
+      background: var(--site, #fff);
+      border: 1px solid rgba(18, 21, 26, .17);
+      border-radius: 8px;
+      box-shadow: 0 18px 35px rgba(18, 21, 26, .18);
+      transform: perspective(900px) rotateY(3deg) rotateX(1deg);
+      transition: transform .65s var(--ease);
+    }
+    .work-card:hover .browser { transform: perspective(900px) rotateY(0) rotateX(0) scale(1.025); }
+    .browser-top { height: 18px; display: flex; align-items: center; gap: 4px; padding-left: 8px; background: rgba(18, 21, 26, .07); }
+    .browser-top i { width: 4px; height: 4px; background: rgba(18, 21, 26, .24); border-radius: 50%; }
+    .mock-nav { height: 26px; display: flex; justify-content: space-between; align-items: center; padding: 0 11px; }
+    .mock-logo { width: 37px; height: 5px; background: var(--mock-ink, #10233c); border-radius: 4px; }
+    .mock-links { width: 54px; height: 3px; background: var(--mock-muted, #bdc8d6); border-radius: 4px; }
+    .mock-hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 10px; padding: 14px 11px 9px; }
+    .mock-kicker { width: 30px; height: 3px; margin-bottom: 7px; background: var(--mock-accent, #175cff); border-radius: 3px; }
+    .mock-title { height: 10px; margin-bottom: 6px; background: var(--mock-ink, #10233c); border-radius: 2px; }
+    .mock-title.short { width: 70%; }
+    .mock-copy { width: 88%; height: 4px; margin-top: 5px; background: var(--mock-muted, #c4ccd6); border-radius: 2px; }
+    .mock-button { width: 45px; height: 13px; margin-top: 10px; background: var(--mock-accent, #175cff); border-radius: 3px; }
+    .mock-image { position: relative; overflow: hidden; background: var(--mock-accent, #175cff); border-radius: 5px; }
+    .mock-image::before { content: ""; position: absolute; width: 45px; height: 45px; right: -9px; top: -7px; background: rgba(255,255,255,.25); border-radius: 50%; }
+    .mock-image::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 9px; height: 34%; background: rgba(255,255,255,.3); border-radius: 4px 4px 1px 1px; }
+    .mock-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 10px 11px; background: rgba(18, 21, 26, .035); }
+    .mock-cards i { height: 39px; background: var(--site, #fff); border: 1px solid rgba(18,21,26,.08); border-radius: 3px; }
+    .phone {
+      position: absolute;
+      z-index: 2;
+      width: 61px;
+      height: 126px;
+      right: 14px;
+      bottom: 15px;
+      padding: 5px;
+      overflow: hidden;
+      background: var(--ink);
+      border-radius: 12px;
+      box-shadow: 0 15px 26px rgba(18, 21, 26, .29);
+      transform: rotate(3deg);
+      transition: transform .6s var(--ease);
+    }
+    .work-card:hover .phone { transform: rotate(0) translateY(-4px); }
+    .phone-screen { height: 100%; padding: 9px 6px; background: var(--site, white); border-radius: 8px; }
+    .phone-screen i { display: block; height: 4px; margin-bottom: 6px; background: var(--mock-ink, #10233c); border-radius: 2px; }
+    .phone-screen i:nth-child(2) { width: 70%; }
+    .phone-screen b { display: block; height: 39px; margin: 8px 0; background: var(--mock-accent, #175cff); border-radius: 4px; }
+    .phone-screen em { display: block; height: 16px; margin-top: 5px; background: rgba(18,21,26,.07); border-radius: 3px; }
+    .work-info { position: relative; z-index: 1; padding: 18px 10px 12px; }
+    .work-meta { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 11px; color: var(--blue); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .delivery-badge { padding: 5px 8px; color: var(--ink); background: var(--lime); border-radius: 999px; letter-spacing: 0; text-transform: none; }
+    .work-info h3 { margin-bottom: 7px; font-size: 19px; line-height: 1.2; }
+    .work-info p { min-height: 44px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .work-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+    .work-action {
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 11px;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line-dark);
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      transition: color .2s ease, border-color .2s ease, transform .25s var(--ease);
+    }
+    .work-action:hover { color: var(--blue); border-color: var(--blue); transform: translateY(-2px); }
+    .work-action.preview { color: white; background: var(--ink); border-color: var(--ink); }
+    .work-action.preview:hover { color: white; background: var(--blue); border-color: var(--blue); }
+
+    .preview-dialog {
+      width: min(1180px, calc(100% - 36px));
+      height: min(780px, calc(100% - 36px));
+      padding: 0;
+      overflow: hidden;
+      background: var(--canvas);
+      border: 1px solid #3a4049;
+      border-radius: 18px;
+      box-shadow: 0 35px 100px rgba(0,0,0,.4);
+    }
+    .preview-dialog::backdrop { background: rgba(10, 12, 16, .76); backdrop-filter: blur(8px); }
+    .preview-shell { height: 100%; display: grid; grid-template-rows: auto 1fr; }
+    .preview-toolbar { min-height: 62px; display: flex; align-items: center; gap: 14px; padding: 10px 12px 10px 18px; color: white; background: var(--ink); }
+    .preview-toolbar-copy { min-width: 0; margin-right: auto; }
+    .preview-toolbar strong, .preview-toolbar small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .preview-toolbar strong { font-size: 13px; }
+    .preview-toolbar small { color: #aeb5c0; font-size: 10px; }
+    .preview-toolbar .work-action { color: white; background: #272c34; border-color: #444b56; }
+    .preview-close { width: 38px; height: 38px; flex: 0 0 auto; color: white; background: transparent; border: 1px solid #444b56; border-radius: 8px; font-size: 19px; line-height: 1; }
+    .preview-close:hover { background: #272c34; }
+    .preview-frame-wrap { position: relative; min-height: 0; background: white; }
+    .preview-frame-wrap::before { content: "Loading live website…"; position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 12px; }
+    .preview-frame { position: relative; z-index: 1; width: 100%; height: 100%; display: block; background: white; border: 0; }
+
+    .theme-clinic { --stage:#e8f6f3; --glow:rgba(29,158,137,.2); --mock-accent:#159a83; --mock-ink:#183d38; --mock-muted:#b5ccc8; }
+    .theme-floor { --stage:#fff0df; --glow:rgba(236,133,44,.23); --mock-accent:#e27b23; --mock-ink:#3f2b20; --mock-muted:#d7c4b8; }
+    .theme-studio { --stage:#ede9ff; --glow:rgba(108,74,255,.2); --mock-accent:#6c4aff; --mock-ink:#251b52; --mock-muted:#c2b9e4; }
+    .theme-dental { --stage:#eaf4ff; --glow:rgba(36,123,229,.2); --mock-accent:#247be5; --mock-ink:#17385f; --mock-muted:#b8cadf; }
+    .theme-arch { --stage:#ececee; --glow:rgba(17,17,18,.14); --mock-accent:#202126; --mock-ink:#15161a; --mock-muted:#bbbcc1; }
+    .theme-account { --stage:#edf7e6; --glow:rgba(80,146,46,.18); --mock-accent:#4d9132; --mock-ink:#263d22; --mock-muted:#becdb6; }
+
+    /* Pricing */
+    .pricing-section { position: relative; overflow: hidden; }
+    .pricing-section::before { content: ""; position: absolute; width: 380px; height: 380px; right: -170px; top: 80px; border: 1px solid #cdd4de; border-radius: 50%; box-shadow: 0 0 0 55px rgba(255,255,255,.35), 0 0 0 110px rgba(255,255,255,.18); }
+    .pricing-grid { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+    .price-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 30px;
+      background: var(--paper);
+      border: 1px solid var(--line-dark);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      transition: transform .45s var(--ease), box-shadow .45s var(--ease);
+    }
+    .price-card:hover { transform: translateY(-7px); box-shadow: var(--shadow); }
+    .price-card.featured { color: white; background: var(--ink); border-color: var(--ink); box-shadow: 0 24px 60px rgba(18,21,26,.22); }
+    .popular {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 6px 9px;
+      color: var(--ink);
+      background: var(--lime);
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .price-index { color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+    .featured .price-index { color: var(--lime); }
+    .price-card h3 { margin: 18px 0 7px; font-size: 23px; }
+    .price-tag { margin: 0 0 4px; font-size: 48px; line-height: 1; font-weight: 800; letter-spacing: -.06em; }
+    .price-time { margin-bottom: 23px; color: var(--blue); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+    .featured .price-time { color: var(--lime); }
+    .price-description { min-height: 50px; margin-bottom: 22px; color: var(--muted); font-size: 14px; }
+    .featured .price-description { color: #b9c0ca; }
+    .feature-list { margin: 0 0 26px; padding: 0; list-style: none; }
+    .feature-list li { position: relative; padding: 9px 0 9px 25px; border-top: 1px solid var(--line); font-size: 13px; }
+    .featured .feature-list li { border-color: rgba(255,255,255,.12); }
+    .feature-list li::before { content: "✓"; position: absolute; left: 2px; color: var(--blue); font-weight: 800; }
+    .featured .feature-list li::before { color: var(--lime); }
+    .price-note { margin-top: auto; padding: 11px 12px; color: var(--muted); background: var(--canvas); border-radius: 8px; font-size: 11px; }
+    .featured .price-note { color: #c4cad2; background: rgba(255,255,255,.08); }
+    .price-card .btn { margin-top: 20px; }
+    .featured .btn { color: var(--ink); background: var(--lime); }
+    .featured .btn:hover { background: #d8ff7e; }
+    .terms-band { position: relative; display: grid; grid-template-columns: 1.2fr .8fr; gap: 22px; margin-top: 22px; }
+    .term-box { padding: 22px 24px; background: rgba(255,255,255,.78); border: 1px solid var(--line); border-radius: 12px; }
+    .term-box strong { display: block; margin-bottom: 6px; font-size: 13px; }
+    .term-box p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+
+    /* Process */
+    .process-section { color: white; background: var(--blue); }
+    .process-section .section-kicker { color: var(--lime); }
+    .process-section .section-kicker::before { box-shadow: 0 0 0 5px rgba(201,255,74,.14); }
+    .process-section .section-lead { color: #ccd8ff; }
+    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid rgba(255,255,255,.22); border-bottom: 1px solid rgba(255,255,255,.22); }
+    .process-step { position: relative; min-height: 300px; padding: 28px 25px 32px; border-right: 1px solid rgba(255,255,255,.22); }
+    .process-step:first-child { border-left: 1px solid rgba(255,255,255,.22); }
+    .step-number { display: flex; justify-content: space-between; align-items: center; margin-bottom: 70px; color: var(--lime); font-size: 12px; font-weight: 800; letter-spacing: .09em; }
+    .step-number::after { content: "↗"; width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.3); border-radius: 50%; }
+    .process-step h3 { margin-bottom: 11px; font-size: 22px; }
+    .process-step p { margin: 0; color: #d5defc; font-size: 13px; line-height: 1.65; }
+    .deadline-note { margin: 30px 0 0; padding: 18px 22px; color: var(--ink); background: var(--lime); border-radius: 10px; font-size: 13px; font-weight: 700; text-align: center; }
+
+    /* About */
+    .about-strip { padding: 42px 0; background: var(--paper); border-bottom: 1px solid var(--line); }
+    .about-grid { display: grid; grid-template-columns: 160px 1fr auto; gap: 36px; align-items: center; }
+    .about-label { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .about-copy { margin: 0; color: var(--ink-2); font-size: 17px; line-height: 1.65; }
+    .about-copy strong { color: var(--ink); }
+    .availability { display: inline-flex; align-items: center; gap: 8px; padding: 10px 13px; background: #ebf9f1; border: 1px solid #ccebd9; border-radius: 999px; color: #167444; font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .availability::before { content: ""; width: 7px; height: 7px; background: #24b56b; border-radius: 50%; }
+
+    /* FAQ */
+    .faq-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; align-items: start; }
+    .faq-sticky { position: sticky; top: 110px; }
+    .faq-sticky h2 { font-size: clamp(42px, 5vw, 68px); }
+    .faq-sticky p { color: var(--muted); }
+    .faq-list { border-top: 1px solid var(--line-dark); }
+    .faq-item { border-bottom: 1px solid var(--line-dark); }
+    .faq-question {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 32px;
+      gap: 18px;
+      align-items: center;
+      padding: 24px 0;
+      color: var(--ink);
+      background: none;
+      border: 0;
+      text-align: left;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+    .faq-icon { width: 30px; height: 30px; position: relative; border: 1px solid var(--line-dark); border-radius: 50%; transition: transform .4s var(--ease), background .2s ease; }
+    .faq-icon::before, .faq-icon::after { content: ""; position: absolute; top: 50%; left: 50%; width: 11px; height: 1.5px; background: currentColor; transform: translate(-50%, -50%); }
+    .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+    .faq-item.open .faq-icon { color: white; background: var(--blue); border-color: var(--blue); transform: rotate(45deg); }
+    .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s var(--ease); }
+    .faq-answer > div { overflow: hidden; }
+    .faq-answer p { margin: 0; padding: 0 48px 24px 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
+    .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+
+    /* Contact */
+    .contact-section { padding: 34px 0 0; background: var(--ink); }
+    .contact-card {
+      position: relative;
+      padding: 75px;
+      overflow: hidden;
+      background: var(--lime);
+      border-radius: 30px;
+    }
+    .contact-card::before {
+      content: "";
+      position: absolute;
+      width: 430px;
+      height: 430px;
+      left: -120px;
+      bottom: -305px;
+      border: 50px solid rgba(18,21,26,.08);
+      border-radius: 50%;
+    }
+    .contact-grid { position: relative; display: grid; grid-template-columns: 1fr .82fr; gap: 70px; }
+    .contact-copy h2 { max-width: 620px; margin-bottom: 24px; font-size: clamp(48px, 6vw, 82px); }
+    .contact-copy p { max-width: 590px; margin-bottom: 30px; color: #3c471f; font-size: 17px; }
+    .contact-options { display: flex; flex-wrap: wrap; gap: 10px; }
+    .contact-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 13px; background: rgba(255,255,255,.55); border: 1px solid rgba(18,21,26,.14); border-radius: 999px; font-size: 11px; font-weight: 800; }
+    .contact-form { padding: 26px; background: white; border: 1px solid var(--ink); border-radius: 18px; box-shadow: 10px 10px 0 var(--ink); }
+    .contact-field { display: block; margin-bottom: 13px; }
+    .contact-field span { display: block; margin-bottom: 6px; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .contact-field textarea { min-height: 105px; padding-top: 13px; resize: vertical; }
+    .contact-form .btn { width: 100%; margin-top: 4px; }
+    .form-note { margin: 12px 0 0; color: var(--muted); font-size: 10px; text-align: center; }
+
+    .footer { padding: 56px 0 30px; color: white; background: var(--ink); }
+    .footer-top { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: end; padding-bottom: 42px; border-bottom: 1px solid rgba(255,255,255,.13); }
+    .footer .brand-mark { color: var(--ink); background: white; }
+    .footer .brand-name span { color: var(--lime); }
+    .footer-tagline { margin: 15px 0 0; color: #929aa5; font-size: 13px; }
+    .footer-links { display: flex; gap: 24px; color: #c3c8cf; font-size: 12px; font-weight: 700; }
+    .footer-links a:hover { color: var(--lime); }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 24px; padding-top: 26px; color: #6f7782; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+
+    .whatsapp-float {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 25;
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: #1fbd67;
+      border: 4px solid white;
+      border-radius: 50%;
+      box-shadow: 0 12px 28px rgba(18,21,26,.22);
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+    }
+    .whatsapp-float:hover { transform: translateY(-5px) rotate(-4deg); box-shadow: 0 18px 34px rgba(18,21,26,.28); }
+    .whatsapp-float svg { width: 23px; height: 23px; fill: currentColor; }
+    .whatsapp-float::after { content: "Chat now"; position: absolute; right: 62px; padding: 7px 10px; color: white; background: var(--ink); border-radius: 6px; font-size: 10px; font-weight: 800; white-space: nowrap; opacity: 0; transform: translateX(7px); transition: opacity .2s ease, transform .2s ease; }
+    .whatsapp-float:hover::after { opacity: 1; transform: translateX(0); }
+
+    /* Restrained motion borrowed from the project's component library */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .75s var(--ease), transform .75s var(--ease); }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+    .reveal-delay { transition-delay: .12s; }
+    .hero-copy, .quote-wrap { animation: hero-in .9s var(--ease) both; }
+    .quote-wrap { animation-delay: .12s; }
+    @keyframes hero-in { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 1200px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero-copy { padding-bottom: 0; }
+      .quote-wrap { max-width: 600px; margin-bottom: 30px; }
+    }
+
+    @media (max-width: 980px) {
+      .section { padding: 88px 0; }
+      .proof-grid { grid-template-columns: repeat(2, 1fr); }
+      .proof-item:nth-child(3) { border-left: 1px solid var(--line); border-top: 1px solid var(--line); }
+      .proof-item:nth-child(4) { border-top: 1px solid var(--line); }
+      .work-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .price-description { min-height: 0; }
+      .process-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-step:nth-child(3) { border-left: 1px solid rgba(255,255,255,.22); border-top: 1px solid rgba(255,255,255,.22); }
+      .process-step:nth-child(4) { border-top: 1px solid rgba(255,255,255,.22); }
+      .about-grid { grid-template-columns: 130px 1fr; }
+      .availability { grid-column: 2; justify-self: start; }
+      .faq-layout { grid-template-columns: 1fr; gap: 45px; }
+      .faq-sticky { position: static; }
+      .contact-card { padding: 55px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 42px; }
+    }
+
+    @media (max-width: 700px) {
+      .shell { width: min(calc(100% - 28px), var(--max)); }
+      .section { padding: 72px 0; }
+      .nav-links > a:not(.btn) { display: none; }
+      .brand-name { font-size: 13px; }
+      .hero { padding-top: 60px; }
+      h1 { font-size: clamp(49px, 15vw, 68px); }
+      .hero-lead { font-size: 17px; }
+      .hero-actions .btn { width: 100%; }
+      .quote-wrap { padding: 8px 5px 14px 0; }
+      .quote-wrap::before { right: -4px; }
+      .quote-card { padding: 23px; box-shadow: 7px 7px 0 var(--ink), var(--shadow); }
+      .proof-grid { grid-template-columns: 1fr 1fr; }
+      .proof-item { padding: 14px 11px; }
+      .proof-item:nth-child(odd) { border-left: 1px solid var(--line); }
+      .section-head { display: block; }
+      .filters { justify-content: flex-start; margin-top: 25px; }
+      .work-grid { grid-template-columns: 1fr; }
+      .mock-stage { height: 255px; }
+      .browser { height: 191px; }
+      .preview-dialog { width: calc(100% - 16px); height: calc(100% - 16px); border-radius: 12px; }
+      .preview-toolbar { padding-left: 12px; }
+      .preview-toolbar-copy small { display: none; }
+      .terms-band { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr; }
+      .process-step, .process-step:first-child, .process-step:nth-child(3), .process-step:nth-child(4) { min-height: auto; border: 0; border-top: 1px solid rgba(255,255,255,.22); }
+      .process-step:last-child { border-bottom: 1px solid rgba(255,255,255,.22); }
+      .step-number { margin-bottom: 36px; }
+      .about-grid { grid-template-columns: 1fr; gap: 16px; }
+      .availability { grid-column: auto; }
+      .faq-answer p { padding-right: 8px; }
+      .contact-section { padding-top: 14px; }
+      .contact-section .shell { width: 100%; }
+      .contact-card { padding: 55px 20px; border-radius: 0; }
+      .contact-form { padding: 20px; box-shadow: 7px 7px 0 var(--ink); }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-links { flex-wrap: wrap; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+      .whatsapp-float { width: 52px; height: 52px; right: 14px; bottom: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav shell" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Sevenday home">
+        <span class="brand-mark">7D</span>
+        <span class="brand-name">SEVENDAY<span>/</span>SITES</span>
+      </a>
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#process">Process</a>
+        <a class="btn btn-primary" href="briefing.html">Start your brief <span aria-hidden="true">→</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Websites · Landing pages · Redesigns</p>
+          <h1>Professional websites, <span class="hero-highlight">delivered in a week.</span></h1>
+          <p class="hero-lead">Custom-built sites for clinics, contractors, studios and local businesses. Fixed price, fixed deadline, no monthly lock-in.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="briefing.html">Start your project brief
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn btn-secondary" href="#work">See recent work <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="hero-note">No calls required · Reply usually within a few hours</p>
+        </div>
+
+        <div class="quote-wrap" aria-label="Quick price estimate">
+          <div class="quote-card">
+            <div class="quote-top">
+              <strong>Quick quote</strong>
+              <span class="status-dot">Available</span>
+            </div>
+            <label class="field">
+              <span>Product type</span>
+              <span class="select-wrap">
+                <select id="project-type">
+                  <option value="landing">Landing page</option>
+                  <option value="simple" selected>Simple website</option>
+                  <option value="premium">Premium website</option>
+                </select>
+              </span>
+            </label>
+            <label class="field">
+              <span>Needed timeline</span>
+              <span class="select-wrap">
+                <select id="project-deadline">
+                  <option value="urgent">As soon as possible</option>
+                  <option value="week" selected>Within a week</option>
+                  <option value="month">This month</option>
+                  <option value="flexible">Flexible</option>
+                </select>
+              </span>
+            </label>
+            <label class="field">
+              <span>Main website goal</span>
+              <span class="select-wrap">
+                <select id="project-goal">
+                  <option value="business" selected>Business growth</option>
+                  <option value="portfolio">Portfolio</option>
+                  <option value="personal">Personal brand</option>
+                  <option value="services">Service inquiries</option>
+                  <option value="launch">Product launch</option>
+                </select>
+              </span>
+            </label>
+            <div class="quote-result" aria-live="polite">
+              <div>
+                <small>Starting price</small>
+                <div class="quote-price" id="quote-price">$1,000</div>
+              </div>
+              <div class="quote-time" id="quote-time">Up to 8 pages</div>
+            </div>
+            <a class="btn btn-primary" id="quote-cta" href="briefing.html?plan=simple&amp;deadline=week&amp;goal=business">Build my project brief
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="proof-bar">
+        <div class="shell proof-grid">
+          <div class="proof-item"><span class="proof-icon">✓</span><div><strong>3–7 day delivery</strong><span>Deadline set before we start</span></div></div>
+          <div class="proof-item"><span class="proof-icon">$</span><div><strong>Fixed pricing from $600</strong><span>No surprise invoices</span></div></div>
+          <!-- Replace 40+ with the verified project count before publishing. -->
+          <div class="proof-item"><span class="proof-icon">40</span><div><strong>40+ sites shipped</strong><span>Across 6+ industries</span></div></div>
+          <div class="proof-item"><span class="proof-icon">↗</span><div><strong>You own everything</strong><span>Code, domain and accounts</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work-section" id="work">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div>
+            <p class="section-kicker">Selected work / 2026</p>
+            <h2>Built for real businesses.</h2>
+            <p class="section-lead">Aesthetic clinics, flooring and home services, professional practices and local businesses. Different industries, same fast process.</p>
+          </div>
+          <div class="filters" role="group" aria-label="Filter portfolio">
+            <button class="filter-btn active" type="button" data-filter="all">All</button>
+            <button class="filter-btn" type="button" data-filter="clinic">Clinics</button>
+            <button class="filter-btn" type="button" data-filter="home">Home services</button>
+            <button class="filter-btn" type="button" data-filter="professional">Professional</button>
+            <button class="filter-btn" type="button" data-filter="local">Local business</button>
+          </div>
+        </div>
+
+        <!-- Add each published HTTPS URL to data-site-url. The preview and external-link controls appear automatically. -->
+        <div class="work-grid">
+          <article class="work-card theme-clinic reveal" data-category="clinic" data-site-url="">
+            <div class="mock-stage">
+              <div class="browser"><div class="browser-top"><i></i><i></i><i></i></div><div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div><div class="mock-hero"><div><div class="mock-kicker"></div><div class="mock-title"></div><div class="mock-title short"></div><div class="mock-copy"></div><div class="mock-copy"></div><div class="mock-button"></div></div><div class="mock-image"></div></div><div class="mock-cards"><i></i><i></i><i></i></div></div>
+              <div class="phone"><div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div></div>
+            </div>
+            <div class="work-info"><div class="work-meta"><span>Landing page</span><span class="delivery-badge">Delivered in 5 days</span></div><h3>Aesthetic clinic, São Paulo</h3><p>Premium positioning and a frictionless WhatsApp booking path.</p><div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a></div></div>
+          </article>
+
+          <article class="work-card theme-floor reveal reveal-delay" data-category="home" data-site-url="">
+            <div class="mock-stage">
+              <div class="browser"><div class="browser-top"><i></i><i></i><i></i></div><div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div><div class="mock-hero"><div><div class="mock-kicker"></div><div class="mock-title"></div><div class="mock-title short"></div><div class="mock-copy"></div><div class="mock-copy"></div><div class="mock-button"></div></div><div class="mock-image"></div></div><div class="mock-cards"><i></i><i></i><i></i></div></div>
+              <div class="phone"><div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div></div>
+            </div>
+            <div class="work-info"><div class="work-meta"><span>Business site</span><span class="delivery-badge">Delivered in 4 days</span></div><h3>Flooring contractor, Florida</h3><p>Quote requests organized around services, location and proof.</p><div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a></div></div>
+          </article>
+
+          <article class="work-card theme-studio reveal" data-category="local" data-site-url="">
+            <div class="mock-stage">
+              <div class="browser"><div class="browser-top"><i></i><i></i><i></i></div><div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div><div class="mock-hero"><div><div class="mock-kicker"></div><div class="mock-title"></div><div class="mock-title short"></div><div class="mock-copy"></div><div class="mock-copy"></div><div class="mock-button"></div></div><div class="mock-image"></div></div><div class="mock-cards"><i></i><i></i><i></i></div></div>
+              <div class="phone"><div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div></div>
+            </div>
+            <div class="work-info"><div class="work-meta"><span>Portfolio</span><span class="delivery-badge">Delivered in 6 days</span></div><h3>Creative studio, Lisbon</h3><p>A flexible portfolio system with visual work front and center.</p><div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a></div></div>
+          </article>
+
+          <article class="work-card theme-dental reveal" data-category="clinic" data-site-url="">
+            <div class="mock-stage">
+              <div class="browser"><div class="browser-top"><i></i><i></i><i></i></div><div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div><div class="mock-hero"><div><div class="mock-kicker"></div><div class="mock-title"></div><div class="mock-title short"></div><div class="mock-copy"></div><div class="mock-copy"></div><div class="mock-button"></div></div><div class="mock-image"></div></div><div class="mock-cards"><i></i><i></i><i></i></div></div>
+              <div class="phone"><div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div></div>
+            </div>
+            <div class="work-info"><div class="work-meta"><span>5-page website</span><span class="delivery-badge">Delivered in 5 days</span></div><h3>Dental practice, Madrid</h3><p>Clear treatment navigation and mobile-first appointment requests.</p><div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a></div></div>
+          </article>
+
+          <article class="work-card theme-arch reveal reveal-delay" data-category="professional" data-site-url="">
+            <div class="mock-stage">
+              <div class="browser"><div class="browser-top"><i></i><i></i><i></i></div><div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div><div class="mock-hero"><div><div class="mock-kicker"></div><div class="mock-title"></div><div class="mock-title short"></div><div class="mock-copy"></div><div class="mock-copy"></div><div class="mock-button"></div></div><div class="mock-image"></div></div><div class="mock-cards"><i></i><i></i><i></i></div></div>
+              <div class="phone"><div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div></div>
+            </div>
+            <div class="work-info"><div class="work-meta"><span>Redesign</span><span class="delivery-badge">Delivered in 7 days</span></div><h3>Architecture office, Porto</h3><p>A sharp project archive that stays easy for the team to update.</p><div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a></div></div>
+          </article>
+
+          <article class="work-card theme-account reveal" data-category="professional" data-site-url="">
+            <div class="mock-stage">
+              <div class="browser"><div class="browser-top"><i></i><i></i><i></i></div><div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div><div class="mock-hero"><div><div class="mock-kicker"></div><div class="mock-title"></div><div class="mock-title short"></div><div class="mock-copy"></div><div class="mock-copy"></div><div class="mock-button"></div></div><div class="mock-image"></div></div><div class="mock-cards"><i></i><i></i><i></i></div></div>
+              <div class="phone"><div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div></div>
+            </div>
+            <div class="work-info"><div class="work-meta"><span>Business site</span><span class="delivery-badge">Delivered in 5 days</span></div><h3>Accounting firm, London</h3><p>Complex services translated into an approachable lead flow.</p><div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pricing-section" id="pricing">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div><p class="section-kicker">Simple pricing / no surprises</p><h2>Pick your starting point.</h2><p class="section-lead">A clear scope, a fixed price and a delivery date before work begins.</p></div>
+        </div>
+        <div class="pricing-grid">
+          <article class="price-card reveal">
+            <span class="price-index">01 / LEAN</span><h3>Landing Page</h3><div class="price-tag">$600</div><div class="price-time">3 working days</div><p class="price-description">One focused page, built to convert.</p>
+            <ul class="feature-list"><li>Single page, custom design</li><li>Mobile-first, speed optimized</li><li>Contact form + WhatsApp</li><li>Basic analytics installed</li><li>1 revision round</li></ul>
+            <div class="price-note">You provide text and photos.</div><a class="btn btn-secondary" href="briefing.html?plan=landing">Choose Landing <span>→</span></a>
+          </article>
+          <article class="price-card featured reveal reveal-delay">
+            <span class="popular">Most chosen</span><span class="price-index">02 / GROW</span><h3>Simple Website</h3><div class="price-tag">$1,000</div><div class="price-time">5 working days</div><p class="price-description">A clean website for a growing business.</p>
+            <ul class="feature-list"><li>Up to 8 custom pages</li><li>Forms, maps, WhatsApp + social</li><li>Analytics + conversion tracking</li><li>Basic technical SEO setup</li><li>2 revision rounds</li></ul>
+            <div class="price-note">Best fit for standard business, portfolio and service sites.</div><a class="btn" href="briefing.html?plan=simple">Choose Simple <span>→</span></a>
+          </article>
+          <article class="price-card reveal">
+            <span class="price-index">03 / PREMIUM</span><h3>Premium Website</h3><div class="price-tag">$1,600</div><div class="price-time">7+ working days</div><p class="price-description">More pages, deeper polish and stronger launch setup.</p>
+            <ul class="feature-list"><li>More pages and richer layouts</li><li>Complex visual customizations</li><li>Advanced forms or quote flows</li><li>SEO structure and metadata</li><li>30 days post-launch support</li></ul>
+            <div class="price-note">For projects with extra content, visual complexity or functional needs.</div><a class="btn btn-secondary" href="briefing.html?plan=premium">Choose Premium <span>→</span></a>
+          </article>
+        </div>
+        <div class="terms-band reveal">
+          <div class="term-box"><strong>Clear payment, full ownership.</strong><p>50% to start, 50% on delivery. You own the domain, code and every account. No monthly fees unless you want hosting and maintenance ($49/month, cancel anytime).</p></div>
+          <div class="term-box"><strong>Not included.</strong><p>Photography, logo design, content writing unless added, e-commerce and custom integrations. Ask and you'll receive a separate quote.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section process-section" id="process">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div><p class="section-kicker">A process with momentum</p><h2>From brief to live in four moves.</h2><p class="section-lead">Short forms, direct communication and a live preview. No ceremony added to simple work.</p></div>
+        </div>
+        <div class="process-grid reveal">
+          <article class="process-step"><div class="step-number">01 / QUOTE</div><h3>Same-day quote</h3><p>Send a short form or message. You'll get a fixed price and delivery date, usually within a few hours.</p></article>
+          <article class="process-step"><div class="step-number">02 / BRIEF</div><h3>30-minute brief</h3><p>One form, one folder. Send your text, photos and reference sites. No long kickoff meetings.</p></article>
+          <article class="process-step"><div class="step-number">03 / BUILD</div><h3>3–7 day build</h3><p>You receive a working preview link halfway through — something you can click, not a static mockup.</p></article>
+          <article class="process-step"><div class="step-number">04 / LAUNCH</div><h3>Tested and live</h3><p>After revisions, forms and tracking are tested. A short handoff video shows you how to make updates.</p></article>
+        </div>
+        <p class="deadline-note reveal">If the deadline slips because of us, you get 10% back. If we're waiting on your content, we simply move the date.</p>
+      </div>
+    </section>
+
+    <section class="about-strip" aria-labelledby="about-title">
+      <div class="shell about-grid reveal">
+        <h2 class="about-label" id="about-title">Who you're hiring</h2>
+        <p class="about-copy"><strong>A senior designer, directly.</strong> No account manager in the middle, no work disappearing into an agency queue. Clear communication in English or Portuguese, usually within a few hours.</p>
+        <span class="availability">Taking new projects</span>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="shell faq-layout">
+        <div class="faq-sticky reveal"><p class="section-kicker">Questions / honest answers</p><h2>Before you ask.</h2><p>Everything you need to make a decision without booking a discovery call.</p></div>
+        <div class="faq-list reveal">
+          <div class="faq-item open"><button class="faq-question" type="button" aria-expanded="true"><span>Why is this cheaper than agencies here?</span><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-answer"><div><p>We're based in Brazil, work lean and use a tested component system. The work is custom; the overhead is not. That cost structure keeps the price lower without turning the project into template assembly.</p></div></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span>What if I don't like the design?</span><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-answer"><div><p>You see a live preview partway through, not only at the end. Every package includes revisions, and the project only launches after your approval.</p></div></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span>Do I need to pay monthly?</span><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-answer"><div><p>No. You own the domain, code and all accounts. Optional hosting and maintenance is $49/month if you'd rather not manage it, and you can cancel anytime.</p></div></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span>Can you improve my current site instead?</span><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-answer"><div><p>Sometimes — and if updating your existing site is the cheaper answer, we'll say so. Send the link and you'll get an honest recommendation.</p></div></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span>How do we handle payment?</span><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-answer"><div><p>50% to start and 50% before launch, by bank transfer, Wise or card. An invoice is provided for every project.</p></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="shell">
+        <div class="contact-card">
+          <div class="contact-grid">
+            <div class="contact-copy reveal">
+              <p class="section-kicker" style="color:var(--ink)">Your move / reply today</p>
+              <h2>Tell us what you need. Get a price today.</h2>
+              <p>No calls required, no discovery maze. Send your current site or describe what you want and you'll receive a fixed quote and delivery date.</p>
+              <div class="contact-options"><a class="contact-pill" href="https://api.whatsapp.com/send?text=Hi%20Sevenday%2C%20I%27d%20like%20a%20website%20quote." target="_blank" rel="noopener">WhatsApp ↗</a><a class="contact-pill" href="mailto:hello@sevendaysites.studio">Email ↗</a><span class="contact-pill">English / Português</span></div>
+            </div>
+            <!-- Replace the email and WhatsApp links with the real contact details before publishing. -->
+            <form class="contact-form reveal reveal-delay" action="mailto:hello@sevendaysites.studio" method="post" enctype="text/plain">
+              <label class="contact-field"><span>Your name</span><input type="text" name="name" autocomplete="name" placeholder="Jane Smith" required></label>
+              <label class="contact-field"><span>Email</span><input type="email" name="email" autocomplete="email" placeholder="jane@company.com" required></label>
+              <label class="contact-field"><span>Product type</span><span class="select-wrap"><select name="product" id="contact-product"><option>Landing page</option><option selected>Simple website</option><option>Premium website</option></select></span></label>
+              <label class="contact-field"><span>Needed timeline</span><span class="select-wrap"><select name="deadline" id="contact-deadline"><option>As soon as possible</option><option selected>Within a week</option><option>This month</option><option>Flexible</option></select></span></label>
+              <label class="contact-field"><span>Main website goal</span><span class="select-wrap"><select name="goal" id="contact-goal"><option selected>Business growth</option><option>Portfolio</option><option>Personal brand</option><option>Service inquiries</option><option>Product launch</option></select></span></label>
+              <label class="contact-field"><span>Useful context</span><textarea name="message" placeholder="Current URL, references, must-have sections or anything else useful..."></textarea></label>
+              <button class="btn btn-primary" type="submit">Send my project <span aria-hidden="true">→</span></button>
+              <p class="form-note">No spam. Just a price, a deadline and any useful questions.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="preview-dialog" id="portfolio-preview" aria-labelledby="preview-title">
+    <div class="preview-shell">
+      <div class="preview-toolbar">
+        <div class="preview-toolbar-copy"><strong id="preview-title">Live website preview</strong><small>Some websites may block embedded previews; use “Open site” if the frame stays blank.</small></div>
+        <a class="work-action" id="preview-external" href="#" target="_blank" rel="noopener noreferrer">Open site ↗</a>
+        <button class="preview-close" id="preview-close" type="button" aria-label="Close preview">×</button>
+      </div>
+      <div class="preview-frame-wrap"><iframe class="preview-frame" id="preview-frame" title="Live website preview" src="about:blank" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe></div>
+    </div>
+  </dialog>
+
+  <footer class="footer">
+    <div class="shell">
+      <div class="footer-top"><div><a class="brand" href="#top"><span class="brand-mark">7D</span><span class="brand-name">SEVENDAY<span>/</span>SITES</span></a><p class="footer-tagline">Websites for small businesses, built fast.</p></div><div class="footer-links"><a href="mailto:hello@sevendaysites.studio">Email</a><a href="https://api.whatsapp.com/send?text=Hi%20Sevenday%2C%20I%27d%20like%20a%20website%20quote." target="_blank" rel="noopener">WhatsApp</a><a href="#">LinkedIn</a></div></div>
+      <div class="footer-bottom"><span>Based in Brazil · Working worldwide</span><span>© 2026 Sevenday Sites</span></div>
+    </div>
+  </footer>
+
+  <a class="whatsapp-float" href="https://api.whatsapp.com/send?text=Hi%20Sevenday%2C%20I%27d%20like%20a%20website%20quote." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a12.8 12.8 0 0 0-11 19.4L3.2 29l6.8-1.8A12.9 12.9 0 1 0 16 3Zm0 23.4a10.5 10.5 0 0 1-5.4-1.5l-.4-.2-4 .9 1.1-3.9-.3-.4A10.6 10.6 0 1 1 16 26.4Zm5.8-7.9c-.3-.2-1.9-1-2.2-1.1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1a8.6 8.6 0 0 1-2.6-1.6 9.6 9.6 0 0 1-1.8-2.2c-.2-.3 0-.5.1-.7l.5-.6.3-.6c.1-.2 0-.4 0-.6l-1-2.3c-.3-.6-.6-.5-.8-.5h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9 0 1.7 1.2 3.3 1.4 3.6.2.2 2.5 3.8 6 5.3.8.4 1.5.6 2 .7.9.3 1.6.2 2.2.1.7-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.4-.3-.8-.4Z"/></svg>
+  </a>
+
+  <script>
+    (() => {
+      const type = document.querySelector('#project-type');
+      const deadline = document.querySelector('#project-deadline');
+      const goal = document.querySelector('#project-goal');
+      const price = document.querySelector('#quote-price');
+      const time = document.querySelector('#quote-time');
+      const quoteCta = document.querySelector('#quote-cta');
+
+      const packages = {
+        landing: ['$600', '1 page'],
+        simple: ['$1,000', 'Up to 8 pages'],
+        premium: ['$1,600', 'More pages + SEO']
+      };
+
+      function updateQuote() {
+        const result = packages[type.value];
+        price.textContent = result[0];
+        time.textContent = result[1];
+        const params = new URLSearchParams({ plan: type.value, deadline: deadline.value, goal: goal.value });
+        quoteCta.href = 'briefing.html?' + params.toString();
+      }
+      [type, deadline, goal].forEach(field => field.addEventListener('change', updateQuote));
+      updateQuote();
+
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const workCards = document.querySelectorAll('.work-card');
+      filterButtons.forEach(button => button.addEventListener('click', () => {
+        filterButtons.forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        const filter = button.dataset.filter;
+        workCards.forEach(card => {
+          const show = filter === 'all' || card.dataset.category === filter;
+          card.classList.toggle('is-hidden', !show);
+        });
+      }));
+
+      workCards.forEach(card => card.addEventListener('pointermove', event => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--spot-x', `${event.clientX - rect.left}px`);
+        card.style.setProperty('--spot-y', `${event.clientY - rect.top}px`);
+      }));
+
+      const previewDialog = document.querySelector('#portfolio-preview');
+      const previewFrame = document.querySelector('#preview-frame');
+      const previewTitle = document.querySelector('#preview-title');
+      const previewExternal = document.querySelector('#preview-external');
+      const closePreview = () => {
+        previewDialog.close();
+        previewFrame.src = 'about:blank';
+      };
+      workCards.forEach(card => {
+        const rawUrl = card.dataset.siteUrl.trim();
+        if (!/^https:\/\//i.test(rawUrl)) return;
+        const actions = card.querySelector('.work-actions');
+        const externalLink = card.querySelector('.external');
+        const previewButton = card.querySelector('.preview');
+        const projectName = card.querySelector('h3').textContent.trim();
+        actions.hidden = false;
+        externalLink.href = rawUrl;
+        previewButton.setAttribute('aria-label', 'Preview ' + projectName);
+        previewButton.addEventListener('click', () => {
+          previewTitle.textContent = projectName;
+          previewExternal.href = rawUrl;
+          previewFrame.title = projectName + ' live website preview';
+          previewFrame.src = rawUrl;
+          previewDialog.showModal();
+        });
+      });
+      document.querySelector('#preview-close').addEventListener('click', closePreview);
+      previewDialog.addEventListener('click', event => {
+        if (event.target === previewDialog) closePreview();
+      });
+      previewDialog.addEventListener('cancel', event => {
+        event.preventDefault();
+        closePreview();
+      });
+
+      document.querySelectorAll('.faq-question').forEach(button => button.addEventListener('click', () => {
+        const item = button.closest('.faq-item');
+        const isOpen = item.classList.toggle('open');
+        button.setAttribute('aria-expanded', String(isOpen));
+      }));
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduceMotion && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: .12, rootMargin: '0px 0px -30px' });
+        document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+      } else {
+        document.querySelectorAll('.reveal').forEach(element => element.classList.add('in-view'));
+      }
+    })();
+  </script>
+</body>
+</html>
