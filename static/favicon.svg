@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Sevenday Sites</title>
+  <rect width="64" height="64" rx="16" fill="#111111"/>
+  <path d="M46 43 62 27v13L49 53Z" fill="#c9ff4a"/>
+  <text x="30" y="38" fill="#ffffff" font-family="Arial, sans-serif" font-size="22" font-weight="700" text-anchor="middle">7D</text>
+</svg>

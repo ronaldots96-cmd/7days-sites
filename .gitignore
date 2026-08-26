@@ -1,6 +1,32 @@
+# Python and test artifacts
 __pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local configuration and logs
+.env
+.env.*
+!.env.example
+instance/
+*.log
+.audit-*
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local references and separately deployed projects
 *.pdf
-skill_lp.md
-deploy-git-easypanel.md
+/merae-skin-studio/
 /index.html
 /briefing.html
+skill_lp.md
+deploy-git-easypanel.md

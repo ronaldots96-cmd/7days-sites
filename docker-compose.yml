@@ -5,5 +5,8 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - FLASK_ENV=production
+      - APP_ENV=production
+      - SITE_URL=${SITE_URL:-}
+      - SITE_INDEXABLE=${SITE_INDEXABLE:-false}
+      - ASSET_VERSION=${ASSET_VERSION:-20260826}
     restart: unless-stopped

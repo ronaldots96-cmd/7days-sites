@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Build your website blueprint with Sevenday Sites, one choice at a time.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="{{ site_url }}/briefing">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}?v={{ asset_version }}" type="image/svg+xml">
   <meta name="theme-color" content="#f3f5f7">
   <title>Website Blueprint — Sevenday Sites</title>
   <style>
     :root {
       --ink: #12151a;
       --ink-2: #303640;
-      --muted: #68707d;
+      --muted: #59616d;
       --paper: #fff;
       --canvas: #f3f5f7;
       --line: #dfe3e8;
@@ -67,11 +70,11 @@
     .skip-link:focus { transform: translateY(0); }
     .site-header { position: sticky; top: 0; z-index: 30; background: rgba(243,245,247,.88); border-bottom: 1px solid rgba(201,206,214,.78); backdrop-filter: blur(18px) saturate(140%); }
     .nav { min-height: 70px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-    .brand { display: inline-flex; align-items: center; gap: 11px; font-size: 14px; font-weight: 850; letter-spacing: -.02em; }
+    .brand { min-height: 44px; display: inline-flex; align-items: center; gap: 11px; font-size: 14px; font-weight: 850; letter-spacing: -.02em; }
     .brand-mark { width: 37px; height: 37px; position: relative; display: grid; place-items: center; overflow: hidden; color: white; background: var(--ink); border-radius: 9px; letter-spacing: -.07em; }
     .brand-mark::after { content: ""; position: absolute; width: 22px; height: 4px; right: -7px; bottom: 4px; background: var(--lime); transform: rotate(-40deg); }
     .brand-name span { color: var(--blue); }
-    .back-link { color: var(--ink-2); font-size: 12px; font-weight: 780; }
+    .back-link { min-height: 44px; display: inline-flex; align-items: center; color: var(--ink-2); font-size: 12px; font-weight: 780; }
     .back-link:hover { color: var(--blue); }
 
     .page-intro { display: flex; justify-content: space-between; align-items: end; gap: 30px; padding: 38px 0 25px; }
@@ -124,7 +127,8 @@
     input[type="text"], input[type="email"], input[type="tel"], input[type="url"], select, textarea, input[type="file"] { width: 100%; min-height: 51px; padding: 12px 13px; color: var(--ink); background: #fbfcfd; border: 1px solid var(--line-dark); border-radius: 10px; transition: border-color .2s ease, box-shadow .2s ease, background .2s ease; }
     textarea { min-height: 92px; resize: vertical; }
     input:hover, select:hover, textarea:hover { border-color: #aeb6c2; }
-    input:focus, select:focus, textarea:focus { outline: 0; background: white; border-color: var(--blue); box-shadow: 0 0 0 4px rgba(23,92,255,.09); }
+    input:focus, select:focus, textarea:focus { background: white; border-color: var(--blue); box-shadow: 0 0 0 4px rgba(23,92,255,.09); }
+    input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
     input[type="file"] { padding: 9px; font-size: 11px; }
     input[type="file"]::file-selector-button { margin-right: 9px; padding: 8px 10px; color: white; background: var(--ink); border: 0; border-radius: 7px; font-weight: 750; }
 
@@ -244,6 +248,47 @@
     .footer-note { padding: 0 0 30px; color: var(--muted); font-size: 9px; text-align: center; }
     .noscript { margin: 30px auto; padding: 18px; color: var(--danger); background: var(--danger-soft); border: 1px solid #f2c1b6; border-radius: 12px; }
 
+    /* Keep all functional copy legible on mobile; the miniature site remains a visual-only mockup. */
+    .eyebrow,
+    .intro-badge,
+    .progress-label,
+    .progress-number,
+    .milestones,
+    .question-index,
+    .choice-face small,
+    .auto-hint,
+    .field > span,
+    fieldset > legend,
+    .field small,
+    input[type="file"],
+    .chip span,
+    .scope-tip,
+    .cta-choice span,
+    .mood-face strong,
+    .upload-status,
+    .finish-item span,
+    .finish-item strong,
+    .consent,
+    .action-hint,
+    .status,
+    .blueprint-label,
+    .blueprint-percent,
+    .preview-toggle,
+    .build-title,
+    .build-title span,
+    .build-check,
+    .reset,
+    .unlock-toast,
+    .footer-note {
+      font-size: 12px;
+    }
+
+    .chip span,
+    .preview-toggle,
+    .reset {
+      min-height: 44px;
+    }
+
     @media (max-width: 980px) {
       .builder-layout { grid-template-columns: minmax(0,1fr); }
       .blueprint { position: static; grid-row: 1; grid-template-columns: 1fr 1fr; }
@@ -308,8 +353,8 @@
   <a class="skip-link" href="#quiz-form">Skip to website builder</a>
   <header class="site-header">
     <nav class="nav shell" aria-label="Builder navigation">
-      <a class="brand" href="index.html" aria-label="Sevenday Sites home"><span class="brand-mark">7D</span><span class="brand-name">SEVENDAY<span>/</span>SITES</span></a>
-      <a class="back-link" href="index.html">← Back to the website</a>
+      <a class="brand" href="{{ url_for('home') }}" aria-label="Sevenday Sites home"><span class="brand-mark">7D</span><span class="brand-name">SEVENDAY<span>/</span>SITES</span></a>
+      <a class="back-link" href="{{ url_for('home') }}">← Back to the website</a>
     </nav>
   </header>
 
@@ -476,14 +521,14 @@
           <div class="success-icon">✓</div>
           <h2 id="success-title" tabindex="-1">Blueprint received.</h2>
           <p>Your project now has a clear foundation. We’ll review it and reply with the next step, fixed scope and delivery date.</p>
-          <div class="success-actions"><a class="btn btn-primary" href="index.html">Back to the website</a><button class="btn btn-secondary" id="download-json" type="button">Download a copy</button></div>
+          <div class="success-actions"><a class="btn btn-primary" href="{{ url_for('home') }}">Back to the website</a><button class="btn btn-secondary" id="download-json" type="button">Download a copy</button></div>
         </section>
       </div>
 
       <aside class="blueprint" aria-label="Live website blueprint">
         <div class="blueprint-card" id="blueprint-card">
           <div class="blueprint-top"><p class="blueprint-label">Your site · live blueprint</p><span class="blueprint-percent" id="blueprint-percent">13% built</span><button class="preview-toggle" id="preview-toggle" type="button" aria-expanded="false">Preview ↓</button></div>
-          <div class="mini-browser">
+          <div class="mini-browser" aria-hidden="true">
             <div class="mini-browser-top"><i></i><i></i><i></i></div>
             <div class="mini-site" id="mini-site" data-theme="minimal">
               <div class="mini-nav"><strong class="mini-brand" id="mini-brand">Your brand</strong><span class="mini-nav-lines"></span></div>

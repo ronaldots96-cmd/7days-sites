@@ -1,19 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="Professional websites for small businesses, delivered in 3–7 days with fixed pricing and no monthly lock-in.">
-  <meta name="theme-color" content="#f4f6f8">
-  <title>Sevenday — Professional websites, delivered in a week</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+    content="Custom websites for small businesses, delivered in 3–7 days. Fixed pricing from $600, mobile-first build, technical SEO and full ownership.">
+  <meta name="robots" content="{{ robots_directive }}">
+  <meta name="theme-color" content="#f7f2e7">
+  <meta name="color-scheme" content="light">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sevenday Sites">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Small Business Websites in 3–7 Days | Sevenday Sites">
+  <meta property="og:description"
+    content="Custom, mobile-first websites with fixed pricing from $600 and full ownership.">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:image" content="{{ site_url }}{{ url_for('static', filename='og-cover.png') }}?v={{ asset_version }}">
+  <meta property="og:image:secure_url"
+    content="{{ site_url }}{{ url_for('static', filename='og-cover.png') }}?v={{ asset_version }}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sevenday Sites — professional websites delivered in a week">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Small Business Websites in 3–7 Days | Sevenday Sites">
+  <meta name="twitter:description" content="Custom, mobile-first websites with fixed pricing and full ownership.">
+  <meta name="twitter:image" content="{{ site_url }}{{ url_for('static', filename='og-cover.png') }}?v={{ asset_version }}">
+  <meta name="twitter:image:alt" content="Sevenday Sites — professional websites delivered in a week">
+
+  <title>Small Business Websites in 3–7 Days | Sevenday Sites</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}?v={{ asset_version }}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}?v={{ asset_version }}">
+  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}?v={{ asset_version }}">
+  <link rel="preload" href="{{ url_for('static', filename='fonts/fredoka-variable-latin-v17.woff2') }}"
+    as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <script type="application/ld+json">{{ structured_data | tojson }}</script>
   <style>
+    @font-face {
+      font-family: "Fredoka";
+      src: url("{{ url_for('static', filename='fonts/fredoka-variable-latin-v17.woff2') }}") format("woff2");
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+    }
+
     :root {
       --ink: #111111;
       --ink-2: #3a4049;
@@ -44,7 +80,7 @@
       --radius-lg: 26px;
       --shadow-sm: var(--hard-sm);
       --shadow: var(--hard);
-      --display: Fredoka, Inter, ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+      --display: Fredoka, ui-rounded, "Arial Rounded MT Bold", ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
       --ease: cubic-bezier(.16, 1, .3, 1);
       --pop: cubic-bezier(.34, 1.56, .64, 1);
       --max: 1200px;
@@ -58,17 +94,33 @@
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 96px;
     }
 
     body {
       margin: 0;
       color: var(--ink);
       background: var(--canvas);
-      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 16px;
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    section[id] {
+      scroll-margin-top: 96px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      overflow-wrap: break-word;
+      text-wrap: balance;
     }
 
     body::before {
@@ -128,6 +180,18 @@
 
     .skip-link:focus {
       transform: translateY(0);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .shell {
@@ -283,6 +347,12 @@
       align-items: center;
     }
 
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
     .brand {
       display: inline-flex;
       align-items: center;
@@ -355,6 +425,65 @@
       min-height: 44px;
       padding-inline: 16px;
       font-size: 12px;
+    }
+
+    .nav-toggle {
+      width: 44px;
+      height: 44px;
+      display: none;
+      place-items: center;
+      padding: 0;
+      color: var(--stroke);
+      background: #fff;
+      border: 3px solid var(--stroke);
+      border-radius: 12px;
+      box-shadow: var(--hard-xs);
+    }
+
+    .nav-toggle-lines,
+    .nav-toggle-lines::before,
+    .nav-toggle-lines::after {
+      width: 18px;
+      height: 3px;
+      display: block;
+      background: currentColor;
+      border-radius: 999px;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+
+    .nav-toggle-lines {
+      position: relative;
+    }
+
+    .nav-toggle-lines::before,
+    .nav-toggle-lines::after {
+      content: "";
+      position: absolute;
+      left: 0;
+    }
+
+    .nav-toggle-lines::before {
+      top: -6px;
+    }
+
+    .nav-toggle-lines::after {
+      top: 6px;
+    }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-lines {
+      background: transparent;
+    }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-lines::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-lines::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .nav-cta-short {
+      display: none;
     }
 
     /* Hero */
@@ -442,6 +571,7 @@
     .hero-stack {
       position: relative;
       z-index: 2;
+      min-width: 0;
       /* Wider than .shell so the headline can run bigger than the page grid */
       width: min(calc(100% - 40px), 1300px);
       max-width: 1300px;
@@ -691,13 +821,14 @@
       font-weight: 900;
     }
 
-    .field select:focus,
-    .contact-field input:focus,
-    .contact-field select:focus,
-    .contact-field textarea:focus {
+    .field select:focus-visible,
+    .contact-field input:focus-visible,
+    .contact-field select:focus-visible,
+    .contact-field textarea:focus-visible {
       background: var(--pop-sky);
       box-shadow: var(--hard-sm);
-      outline: none;
+      outline: 3px solid var(--blue);
+      outline-offset: 3px;
     }
 
     .quote-result {
@@ -770,6 +901,26 @@
 
     .proof-marquee:hover .marquee-track {
       animation-play-state: paused;
+    }
+
+    .proof-marquee.is-paused .marquee-track {
+      animation-play-state: paused;
+    }
+
+    .marquee-toggle {
+      position: absolute;
+      right: 16px;
+      bottom: 8px;
+      z-index: 4;
+      min-height: 44px;
+      padding: 0 13px;
+      color: #fff;
+      background: var(--stroke);
+      border: 2px solid #fff;
+      border-radius: 999px;
+      box-shadow: var(--hard-xs);
+      font-size: 11px;
+      font-weight: 800;
     }
 
     @keyframes marquee {
@@ -911,15 +1062,21 @@
       width: min(calc(100% - 32px), 1440px);
     }
 
+    .work-section .section-head>div:first-child {
+      flex: 0 1 620px;
+      max-width: 620px;
+    }
+
     .filters {
       display: flex;
+      flex: 1 1 640px;
       flex-wrap: wrap;
       justify-content: flex-end;
       gap: 7px;
     }
 
     .filter-btn {
-      min-height: 40px;
+      min-height: 44px;
       padding: 0 15px;
       color: var(--stroke);
       background: #fff;
@@ -944,15 +1101,60 @@
       box-shadow: var(--hard-xs);
     }
 
+    .filter-count {
+      min-width: 20px;
+      height: 20px;
+      display: inline-grid;
+      place-items: center;
+      margin-left: 6px;
+      padding-inline: 5px;
+      color: var(--stroke);
+      background: var(--lime);
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: 10px;
+      line-height: 1;
+    }
+
+    .filter-btn.active .filter-count {
+      color: var(--stroke);
+      background: #fff;
+    }
+
     .work-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 24px;
     }
 
+    @media (min-width: 701px) {
+      .work-grid>.work-card:is(:last-child:nth-child(odd), .is-filter-featured) {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(290px, .65fr);
+        gap: 12px;
+      }
+
+      .work-grid>.work-card:is(:last-child:nth-child(odd), .is-filter-featured) .mock-stage {
+        height: 100%;
+        min-height: 360px;
+      }
+
+      .work-grid>.work-card:is(:last-child:nth-child(odd), .is-filter-featured) .browser {
+        height: 100%;
+        min-height: 326px;
+        aspect-ratio: auto;
+      }
+
+      .work-grid>.work-card:is(:last-child:nth-child(odd), .is-filter-featured) .work-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 28px 24px;
+      }
+    }
+
     .work-card {
-      --spot-x: 50%;
-      --spot-y: 50%;
       position: relative;
       min-width: 0;
       padding: 12px;
@@ -962,27 +1164,29 @@
       border: 3px solid #111;
       border-radius: 24px;
       box-shadow: 8px 8px 0 #111;
+      content-visibility: auto;
+      contain-intrinsic-size: auto 520px;
       transition: transform .35s var(--ease), box-shadow .35s var(--ease), opacity .25s ease;
     }
 
-    .work-card.theme-clinic {
+    .work-card.theme-pool {
       background: var(--pop-sky);
     }
 
-    .work-card.theme-floor {
+    .work-card.theme-flooring {
       background: var(--pop-peach);
     }
 
-    .work-card.theme-studio {
-      background: var(--pop-purple);
+    .work-card.theme-wellness {
+      background: var(--pop-pink);
     }
 
-    .work-card.theme-dental {
+    .work-card.theme-legal {
       background: var(--pop-mint);
     }
 
-    .work-card.theme-arch {
-      background: var(--pop-pink);
+    .work-card.theme-saas {
+      background: var(--pop-purple);
     }
 
 
@@ -992,7 +1196,7 @@
       inset: 0;
       pointer-events: none;
       opacity: 0;
-      background: radial-gradient(330px circle at var(--spot-x) var(--spot-y), rgba(17, 17, 17, .06), transparent 56%);
+      background: radial-gradient(330px circle at 78% 8%, rgba(17, 17, 17, .07), transparent 56%);
       transition: opacity .3s ease;
     }
 
@@ -1010,17 +1214,11 @@
       display: none;
     }
 
-    /* The portfolio currently has five live projects. */
-    .work-card.theme-account {
-      display: none;
-    }
-
     .mock-stage {
       position: relative;
-      height: 270px;
-      padding: 25px 25px 20px 18px;
+      padding: 14px;
       overflow: hidden;
-      background: var(--stage, #edf2ff);
+      background: rgba(255, 255, 255, .36);
       border: 3px solid var(--stroke);
       border-radius: 16px;
     }
@@ -1032,7 +1230,7 @@
       height: 180px;
       top: -90px;
       right: -60px;
-      background: var(--glow, rgba(23, 92, 255, .16));
+      background: rgba(255, 255, 255, .48);
       border-radius: 50%;
       filter: blur(4px);
     }
@@ -1040,51 +1238,56 @@
     .browser {
       position: relative;
       z-index: 1;
-      width: 90%;
-      height: 205px;
+      width: 100%;
+      aspect-ratio: 2 / 1;
       overflow: hidden;
-      background: var(--site, #fff);
+      background: #fff;
       border: 3px solid var(--stroke);
       border-radius: 10px;
       box-shadow: var(--hard-sm);
-      transform: perspective(900px) rotateY(3deg) rotateX(1deg);
-      transition: transform .65s var(--ease);
-    }
-
-    .mock-stage:has(.live-browser) {
-      height: 305px;
-      padding: 16px;
-      background: transparent;
-    }
-
-    .live-browser {
-      width: 100%;
-      height: 273px;
       transform: none;
+      transition: transform .55s var(--ease), box-shadow .55s var(--ease);
     }
 
-    .work-card:hover .live-browser {
-      transform: none;
+    .work-card:hover .browser {
+      transform: translateY(-3px);
+      box-shadow: 5px 6px 0 var(--stroke);
     }
 
-    .live-site-frame {
-      position: relative;
-      z-index: 1;
+    .portfolio-shot {
       display: block;
-      width: 200%;
-      height: 200%;
+      width: 100%;
+      height: calc(100% - 18px);
+      object-fit: cover;
+      object-position: top center;
       background: #fff;
-      border: 0;
-      transform: scale(.5);
-      transform-origin: top left;
+      transition: transform .65s var(--ease), filter .3s ease;
     }
 
-    .mock-stage:has(.live-browser) .phone {
-      display: none;
+    .work-card:hover .portfolio-shot {
+      transform: scale(1.015);
     }
 
-    .work-card:hover .browser:not(.live-browser) {
-      transform: perspective(900px) rotateY(0) rotateX(0) scale(1.025);
+    .portfolio-concept-note {
+      padding: 7px 10px;
+      color: #fff;
+      background: #111;
+      border: 2px solid #fff;
+      border-radius: 999px;
+      box-shadow: 2px 2px 0 #fff;
+      font-family: var(--display);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .portfolio-concept-note {
+      position: absolute;
+      z-index: 3;
+      right: 12px;
+      bottom: 12px;
+      pointer-events: none;
     }
 
     .browser-top {
@@ -1103,170 +1306,6 @@
       border-radius: 50%;
     }
 
-    .mock-nav {
-      height: 26px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 11px;
-    }
-
-    .mock-logo {
-      width: 37px;
-      height: 5px;
-      background: var(--mock-ink, #10233c);
-      border-radius: 4px;
-    }
-
-    .mock-links {
-      width: 54px;
-      height: 3px;
-      background: var(--mock-muted, #bdc8d6);
-      border-radius: 4px;
-    }
-
-    .mock-hero {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 10px;
-      padding: 14px 11px 9px;
-    }
-
-    .mock-kicker {
-      width: 30px;
-      height: 3px;
-      margin-bottom: 7px;
-      background: var(--mock-accent, #175cff);
-      border-radius: 3px;
-    }
-
-    .mock-title {
-      height: 10px;
-      margin-bottom: 6px;
-      background: var(--mock-ink, #10233c);
-      border-radius: 2px;
-    }
-
-    .mock-title.short {
-      width: 70%;
-    }
-
-    .mock-copy {
-      width: 88%;
-      height: 4px;
-      margin-top: 5px;
-      background: var(--mock-muted, #c4ccd6);
-      border-radius: 2px;
-    }
-
-    .mock-button {
-      width: 45px;
-      height: 13px;
-      margin-top: 10px;
-      background: var(--mock-accent, #175cff);
-      border-radius: 3px;
-    }
-
-    .mock-image {
-      position: relative;
-      overflow: hidden;
-      background: var(--mock-accent, #175cff);
-      border-radius: 5px;
-    }
-
-    .mock-image::before {
-      content: "";
-      position: absolute;
-      width: 45px;
-      height: 45px;
-      right: -9px;
-      top: -7px;
-      background: rgba(255, 255, 255, .25);
-      border-radius: 50%;
-    }
-
-    .mock-image::after {
-      content: "";
-      position: absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 9px;
-      height: 34%;
-      background: rgba(255, 255, 255, .3);
-      border-radius: 4px 4px 1px 1px;
-    }
-
-    .mock-cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 5px;
-      padding: 10px 11px;
-      background: rgba(18, 21, 26, .035);
-    }
-
-    .mock-cards i {
-      height: 39px;
-      background: var(--site, #fff);
-      border: 1px solid rgba(18, 21, 26, .08);
-      border-radius: 3px;
-    }
-
-    .phone {
-      position: absolute;
-      z-index: 2;
-      width: 61px;
-      height: 126px;
-      right: 14px;
-      bottom: 15px;
-      padding: 5px;
-      overflow: hidden;
-      background: var(--ink);
-      border: 3px solid var(--stroke);
-      border-radius: 14px;
-      box-shadow: var(--hard-sm);
-      transform: rotate(3deg);
-      transition: transform .6s var(--ease);
-    }
-
-    .work-card:hover .phone {
-      transform: rotate(0) translateY(-4px);
-    }
-
-    .phone-screen {
-      height: 100%;
-      padding: 9px 6px;
-      background: var(--site, white);
-      border-radius: 8px;
-    }
-
-    .phone-screen i {
-      display: block;
-      height: 4px;
-      margin-bottom: 6px;
-      background: var(--mock-ink, #10233c);
-      border-radius: 2px;
-    }
-
-    .phone-screen i:nth-child(2) {
-      width: 70%;
-    }
-
-    .phone-screen b {
-      display: block;
-      height: 39px;
-      margin: 8px 0;
-      background: var(--mock-accent, #175cff);
-      border-radius: 4px;
-    }
-
-    .phone-screen em {
-      display: block;
-      height: 16px;
-      margin-top: 5px;
-      background: rgba(18, 21, 26, .07);
-      border-radius: 3px;
-    }
-
     .work-info {
       position: relative;
       z-index: 1;
@@ -1279,8 +1318,8 @@
       gap: 12px;
       align-items: center;
       margin-bottom: 11px;
-      color: #7b45d3;
-      font-size: 10px;
+      color: #7037c4;
+      font-size: 11px;
       font-weight: 800;
       letter-spacing: .1em;
       text-transform: uppercase;
@@ -1322,7 +1361,7 @@
     }
 
     .work-action {
-      min-height: 42px;
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -1359,6 +1398,16 @@
       background: #fff;
       border-color: #111;
       color: #111;
+    }
+
+    .work-action.is-disabled,
+    .work-action.is-disabled:hover {
+      color: #59616d;
+      background: rgba(255, 255, 255, .45);
+      border-color: rgba(17, 17, 17, .55);
+      box-shadow: none;
+      cursor: default;
+      transform: none;
     }
 
     .preview-dialog {
@@ -1428,8 +1477,8 @@
     }
 
     .preview-close {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       flex: 0 0 auto;
       color: var(--stroke);
       background: #fff;
@@ -1443,6 +1492,10 @@
     .preview-close:hover {
       color: #fff;
       background: #e2453a;
+    }
+
+    .preview-toolbar :focus-visible {
+      outline-color: var(--lime);
     }
 
     .preview-frame-wrap {
@@ -1469,54 +1522,6 @@
       display: block;
       background: white;
       border: 0;
-    }
-
-    .theme-clinic {
-      --stage: #e8f6f3;
-      --glow: rgba(29, 158, 137, .2);
-      --mock-accent: #159a83;
-      --mock-ink: #183d38;
-      --mock-muted: #b5ccc8;
-    }
-
-    .theme-floor {
-      --stage: #fff0df;
-      --glow: rgba(236, 133, 44, .23);
-      --mock-accent: #e27b23;
-      --mock-ink: #3f2b20;
-      --mock-muted: #d7c4b8;
-    }
-
-    .theme-studio {
-      --stage: #ede9ff;
-      --glow: rgba(108, 74, 255, .2);
-      --mock-accent: #6c4aff;
-      --mock-ink: #251b52;
-      --mock-muted: #c2b9e4;
-    }
-
-    .theme-dental {
-      --stage: #eaf4ff;
-      --glow: rgba(36, 123, 229, .2);
-      --mock-accent: #247be5;
-      --mock-ink: #17385f;
-      --mock-muted: #b8cadf;
-    }
-
-    .theme-arch {
-      --stage: #ececee;
-      --glow: rgba(17, 17, 18, .14);
-      --mock-accent: #202126;
-      --mock-ink: #15161a;
-      --mock-muted: #bbbcc1;
-    }
-
-    .theme-account {
-      --stage: #edf7e6;
-      --glow: rgba(80, 146, 46, .18);
-      --mock-accent: #4d9132;
-      --mock-ink: #263d22;
-      --mock-muted: #becdb6;
     }
 
     /* Pricing */
@@ -1631,14 +1636,14 @@
     }
 
     .price-index {
-      color: #7b45d3;
+      color: #7037c4;
       font-size: 11px;
       font-weight: 900;
       letter-spacing: .14em;
     }
 
     .featured .price-index {
-      color: #7b45d3;
+      color: #7037c4;
     }
 
     .price-card h3 {
@@ -1828,7 +1833,7 @@
     }
 
     .process-section .section-lead {
-      color: #e4ebff;
+      color: #f0f4ff;
     }
 
     .process-grid {
@@ -2161,6 +2166,7 @@
     }
 
     .contact-pill {
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -2261,6 +2267,12 @@
       font-weight: 700;
     }
 
+    .footer-links a {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
     .footer-links a:hover {
       color: var(--lime);
     }
@@ -2270,7 +2282,7 @@
       justify-content: space-between;
       gap: 24px;
       padding-top: 26px;
-      color: #6f7782;
+      color: #9199a4;
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: .08em;
@@ -2343,13 +2355,15 @@
       border-radius: 50%;
       box-shadow: var(--hard-sm);
       opacity: 0;
+      visibility: hidden;
       transform: translateY(24px) scale(.5) rotate(-25deg);
       pointer-events: none;
-      transition: opacity .25s ease, transform .45s var(--pop), box-shadow .25s var(--ease), background .2s ease;
+      transition: opacity .25s ease, visibility .25s ease, transform .45s var(--pop), box-shadow .25s var(--ease), background .2s ease;
     }
 
     .to-top.is-visible {
       opacity: 1;
+      visibility: visible;
       transform: translateY(0) scale(1) rotate(0deg);
       pointer-events: auto;
     }
@@ -2412,12 +2426,27 @@
       --from-y: 48px;
       --from-scale: .92;
       --from-rotate: 0deg;
+      opacity: 1;
+    }
+
+    .js .reveal {
       opacity: 0;
     }
 
-    .reveal.in-view {
+    .js .reveal.in-view {
       opacity: 1;
       animation: pop-in .62s var(--pop) var(--d, 0ms) backwards;
+    }
+
+    .no-js #work-filters,
+    .no-js .work-action.preview,
+    .no-js .marquee-toggle {
+      display: none;
+    }
+
+    .no-js .faq-answer[hidden] {
+      display: grid !important;
+      grid-template-rows: 1fr;
     }
 
     @keyframes pop-in {
@@ -2536,15 +2565,9 @@
       }
     }
 
-    .hero-stack>h1,
-    .hero-stack>.hero-lead,
     .hero-stack>.hero-actions,
     .hero-stack>.hero-note {
       animation: hero-in .85s var(--ease) both;
-    }
-
-    .hero-stack>.hero-lead {
-      animation-delay: .1s;
     }
 
     .hero-stack>.hero-actions {
@@ -2581,6 +2604,15 @@
 
       .work-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .work-section .section-head {
+        display: block;
+      }
+
+      .work-section .filters {
+        justify-content: flex-start;
+        margin-top: 25px;
       }
 
       .pricing-grid {
@@ -2629,6 +2661,57 @@
       }
     }
 
+    @media (max-width: 860px) {
+      .nav-actions {
+        gap: 8px;
+      }
+
+      .nav-toggle {
+        display: grid;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 14px;
+        right: 14px;
+        display: grid;
+        gap: 5px;
+        padding: 12px;
+        background: var(--canvas);
+        border: 3px solid var(--stroke);
+        border-top: 0;
+        border-radius: 0 0 16px 16px;
+        box-shadow: var(--hard);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+      }
+
+      .nav-links.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .nav-links>a:not(.btn) {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-color: var(--line-dark);
+        border-radius: 10px;
+      }
+
+      .no-js .nav-toggle,
+      .no-js .nav-links {
+        display: none;
+      }
+    }
+
     @media (max-width: 700px) {
       .shell {
         width: min(calc(100% - 28px), var(--max));
@@ -2636,10 +2719,6 @@
 
       .section {
         padding: 72px 0;
-      }
-
-      .nav-links>a:not(.btn) {
-        display: none;
       }
 
       .brand-name {
@@ -2651,7 +2730,27 @@
       }
 
       h1 {
-        font-size: clamp(48px, 14vw, 78px);
+        font-size: clamp(43px, 13.5vw, 70px);
+        line-height: .98;
+      }
+
+      .hero-stack {
+        width: min(calc(100% - 28px), 1300px);
+      }
+
+      .hero-highlight {
+        display: inline;
+        padding: 0 .08em;
+        white-space: normal;
+        background: var(--lime);
+        border-radius: 8px;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+      }
+
+      .hero-highlight::before,
+      .hero-highlight::after {
+        display: none;
       }
 
       .hero-lead {
@@ -2680,12 +2779,19 @@
         box-shadow: 7px 7px 0 var(--stroke);
       }
 
-      .marquee-track {
-        animation-duration: 34s;
-      }
-
       .proof-marquee {
         padding: 16px 0;
+        overflow-x: auto;
+        scrollbar-width: thin;
+      }
+
+      .marquee-track {
+        animation: none;
+      }
+
+      .marquee-row[aria-hidden="true"],
+      .marquee-toggle {
+        display: none;
       }
 
       .proof-item {
@@ -2721,31 +2827,13 @@
       }
 
       .mock-stage {
-        height: 255px;
-      }
-
-      .mock-stage:has(.live-browser) {
-        height: 560px;
-        padding: 10px;
+        height: auto;
+        padding: 9px;
       }
 
       .browser {
-        height: 191px;
-      }
-
-      .live-browser {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        height: 540px;
-      }
-
-      .live-site-frame {
-        width: 100% !important;
-        max-width: 100%;
-        min-width: 0;
-        height: calc(100% - 18px) !important;
-        transform: none !important;
+        height: auto;
+        aspect-ratio: 16 / 9;
       }
 
       .preview-dialog {
@@ -2829,6 +2917,24 @@
       .footer-bottom {
         flex-direction: column;
         gap: 8px;
+        font-size: 11px;
+      }
+
+      .work-meta,
+      .contact-field span,
+      .field span,
+      .form-note {
+        font-size: 12px;
+      }
+
+      body::before,
+      .hero-glow {
+        display: none;
+      }
+
+      .popular,
+      .to-top svg {
+        animation: none;
       }
 
       .whatsapp-float {
@@ -2848,6 +2954,56 @@
       .to-top svg {
         width: 21px;
         height: 21px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .brand-name {
+        display: none;
+      }
+
+      .nav-cta-full {
+        display: none;
+      }
+
+      .nav-cta-short {
+        display: inline;
+      }
+
+      .nav .btn {
+        padding-inline: 12px;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      body::before,
+      .hero-glow {
+        display: none;
+      }
+
+      .hero-highlight::after,
+      .popular,
+      .to-top svg {
+        animation: none;
+      }
+
+      .proof-marquee {
+        overflow-x: auto;
+      }
+
+      .marquee-track {
+        animation: none;
+      }
+
+      .marquee-row[aria-hidden="true"],
+      .marquee-toggle {
+        display: none;
+      }
+
+      .work-grid .work-card:hover,
+      .work-card:hover .browser,
+      .work-card:hover .portfolio-shot {
+        transform: none;
       }
     }
 
@@ -2878,7 +3034,8 @@
         animation: none !important;
       }
 
-      .marquee-row[aria-hidden="true"] {
+      .marquee-row[aria-hidden="true"],
+      .marquee-toggle {
         display: none;
       }
     }
@@ -2894,12 +3051,19 @@
         <span class="brand-mark">7D</span>
         <span class="brand-name">SEVENDAY<span>/</span>SITES</span>
       </a>
-      <div class="nav-links">
-        <a href="#quote">Quick quote</a>
-        <a href="#work">Work</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#process">Process</a>
-        <a class="btn btn-primary" href="briefing">Start your brief <span aria-hidden="true">→</span></a>
+      <div class="nav-actions">
+        <div class="nav-links" id="primary-navigation">
+          <a href="#quote">Quick quote</a>
+          <a href="#work">Work</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#process">Process</a>
+        </div>
+        <a class="btn btn-primary nav-cta" href="briefing"><span class="nav-cta-full">Start your brief</span><span
+            class="nav-cta-short">Start brief</span> <span aria-hidden="true">→</span></a>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false"
+          aria-controls="primary-navigation" aria-label="Open navigation menu">
+          <span class="nav-toggle-lines" aria-hidden="true"></span>
+        </button>
       </div>
     </nav>
   </header>
@@ -2926,7 +3090,10 @@
     </section>
 
     <!-- The marquee duplicates its row for a seamless loop; keep both copies identical. -->
-    <div class="proof-marquee" aria-label="Why clients choose Sevenday">
+    <div class="proof-marquee" role="region" aria-labelledby="proof-title">
+      <h2 class="sr-only" id="proof-title">Why clients choose Sevenday Sites</h2>
+      <button class="marquee-toggle" id="marquee-toggle" type="button" aria-pressed="false"><span>Pause</span>
+        motion</button>
         <div class="marquee-track">
           <ul class="marquee-row">
             <li class="proof-item"><span class="proof-icon" aria-hidden="true">
@@ -3036,10 +3203,10 @@
               like yours — before talking to anyone.</p>
           </div>
         </div>
-        <div class="quote-wrap reveal" aria-label="Quick price estimate">
+        <div class="quote-wrap reveal" role="group" aria-labelledby="quote-title">
           <div class="quote-card">
             <div class="quote-top">
-              <strong>Quick quote</strong>
+              <strong id="quote-title">Quick quote</strong>
               <span class="status-dot">Available</span>
             </div>
             <label class="field">
@@ -3099,220 +3266,54 @@
           <div>
             <p class="section-kicker">Selected work / 2026</p>
             <h2>Built for real businesses.</h2>
-            <p class="section-lead">Aesthetic clinics, flooring and home services, professional practices and local
-              businesses. Different industries, same fast process.</p>
+            <p class="section-lead">Home services, medical aesthetics, legal practices and B2B software. Different
+              buying journeys, one fast process.</p>
           </div>
-          <div class="filters" role="group" aria-label="Filter portfolio">
-            <button class="filter-btn active" type="button" data-filter="all">All</button>
-            <button class="filter-btn" type="button" data-filter="clinic">Clinics</button>
-            <button class="filter-btn" type="button" data-filter="home">Home services</button>
-            <button class="filter-btn" type="button" data-filter="professional">Professional</button>
-            <button class="filter-btn" type="button" data-filter="local">Local business</button>
+          <div class="filters" id="work-filters" role="group" aria-label="Filter portfolio projects">
+            <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">All<span
+                class="filter-count" aria-hidden="true">{{ portfolio_projects | length }}</span></button>
+            {% for category in portfolio_categories %}
+            <button class="filter-btn" type="button" data-filter="{{ category.id }}" aria-pressed="false">{{
+              category.label }}<span class="filter-count" aria-hidden="true">{{ portfolio_projects |
+                selectattr('category', 'equalto', category.id) | list | length }}</span></button>
+            {% endfor %}
           </div>
+          <p class="sr-only" id="work-filter-status" aria-live="polite">{{ portfolio_projects | length }} projects
+            shown.</p>
         </div>
 
-        <!-- Add each published HTTPS URL to data-site-url. The preview and external-link controls appear automatically. -->
-        <div class="work-grid">
-          <article class="work-card theme-clinic reveal" data-category="clinic" data-site-url="https://drsdabeleza.pages.dev/spa/">
+        <div class="work-grid" id="work-grid">
+          {% for project in portfolio_projects %}
+          <article class="work-card theme-{{ project.theme }} reveal" data-category="{{ project.category }}">
             <div class="mock-stage">
-              <div class="browser live-browser">
-                <div class="browser-top"><i></i><i></i><i></i></div>
-                <iframe class="live-site-frame" src="https://drsdabeleza.pages.dev/spa/" title="SPA DRS da Beleza" loading="lazy"></iframe>
-                <div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div>
-                <div class="mock-hero">
-                  <div>
-                    <div class="mock-kicker"></div>
-                    <div class="mock-title"></div>
-                    <div class="mock-title short"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-button"></div>
-                  </div>
-                  <div class="mock-image"></div>
-                </div>
-                <div class="mock-cards"><i></i><i></i><i></i></div>
-              </div>
-              <div class="phone">
-                <div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div>
+              <div class="browser portfolio-browser">
+                <div class="browser-top" aria-hidden="true"><i></i><i></i><i></i></div>
+                <img class="portfolio-shot" src="{{ url_for('static', filename=project.image, v=asset_version) }}"
+                  srcset="{{ url_for('static', filename=project.image_small, v=asset_version) }} 720w, {{ url_for('static', filename=project.image, v=asset_version) }} 1200w"
+                  sizes="(max-width: 700px) calc(100vw - 44px), (max-width: 1440px) calc(50vw - 44px), 680px"
+                  width="1200" height="600" alt="{{ project.alt }}" loading="lazy" decoding="async"
+                  fetchpriority="low">
+                {% if not project.url %}<span class="portfolio-concept-note">Concept</span>{% endif %}
               </div>
             </div>
             <div class="work-info">
-              <div class="work-meta"><span>Landing page</span><span class="delivery-badge">Delivered in 5 days</span>
-              </div>
-              <h3>DRS da Beleza / SPA</h3>
-              <p>Uma experiência de spa apresentada dentro da própria LP.</p>
-              <div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a
-                  class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="work-card theme-floor reveal" data-category="home" data-site-url="https://drsdabeleza.pages.dev/levieen/">
-            <div class="mock-stage">
-              <div class="browser live-browser">
-                <div class="browser-top"><i></i><i></i><i></i></div>
-                <iframe class="live-site-frame" src="https://drsdabeleza.pages.dev/levieen/" title="Levieen" loading="lazy"></iframe>
-                <div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div>
-                <div class="mock-hero">
-                  <div>
-                    <div class="mock-kicker"></div>
-                    <div class="mock-title"></div>
-                    <div class="mock-title short"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-button"></div>
-                  </div>
-                  <div class="mock-image"></div>
-                </div>
-                <div class="mock-cards"><i></i><i></i><i></i></div>
-              </div>
-              <div class="phone">
-                <div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div>
-              </div>
-            </div>
-            <div class="work-info">
-              <div class="work-meta"><span>Business site</span><span class="delivery-badge">Delivered in 4 days</span>
-              </div>
-              <h3>Levieen</h3>
-              <p>Landing page interativa para conhecer e navegar pelo projeto.</p>
-              <div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a
-                  class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a>
+              <div class="work-meta"><span>{{ project.type }}</span><span class="delivery-badge">{{ project.status
+                  }}</span></div>
+              <h3>{{ project.title }}</h3>
+              <p>{{ project.description }}</p>
+              <div class="work-actions">
+                {% if project.url %}
+                <button class="work-action preview" type="button" data-preview-index="{{ loop.index0 }}">Live
+                  preview</button>
+                <a class="work-action external" href="{{ project.url }}" target="_blank"
+                  rel="noopener noreferrer">Open website ↗</a>
+                {% else %}
+                <span class="work-action is-disabled">Live URL pending</span>
+                {% endif %}
               </div>
             </div>
           </article>
-
-          <article class="work-card theme-studio reveal" data-category="local" data-site-url="https://lp.akafloor.com.br/">
-            <div class="mock-stage">
-              <div class="browser live-browser">
-                <div class="browser-top"><i></i><i></i><i></i></div>
-                <iframe class="live-site-frame" src="https://lp.akafloor.com.br/" title="Aka Floor" loading="lazy"></iframe>
-                <div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div>
-                <div class="mock-hero">
-                  <div>
-                    <div class="mock-kicker"></div>
-                    <div class="mock-title"></div>
-                    <div class="mock-title short"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-button"></div>
-                  </div>
-                  <div class="mock-image"></div>
-                </div>
-                <div class="mock-cards"><i></i><i></i><i></i></div>
-              </div>
-              <div class="phone">
-                <div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div>
-              </div>
-            </div>
-            <div class="work-info">
-              <div class="work-meta"><span>Portfolio</span><span class="delivery-badge">Delivered in 6 days</span></div>
-              <h3>Aka Floor</h3>
-              <p>Uma LP de produto com apresentação visual e foco em conversão.</p>
-              <div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a
-                  class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="work-card theme-dental reveal" data-category="clinic" data-site-url="https://lp.construtoraavanco.com/index">
-            <div class="mock-stage">
-              <div class="browser live-browser">
-                <div class="browser-top"><i></i><i></i><i></i></div>
-                <iframe class="live-site-frame" src="https://lp.construtoraavanco.com/index" title="Construtora Avanço" loading="lazy"></iframe>
-                <div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div>
-                <div class="mock-hero">
-                  <div>
-                    <div class="mock-kicker"></div>
-                    <div class="mock-title"></div>
-                    <div class="mock-title short"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-button"></div>
-                  </div>
-                  <div class="mock-image"></div>
-                </div>
-                <div class="mock-cards"><i></i><i></i><i></i></div>
-              </div>
-              <div class="phone">
-                <div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div>
-              </div>
-            </div>
-            <div class="work-info">
-              <div class="work-meta"><span>5-page website</span><span class="delivery-badge">Delivered in 5 days</span>
-              </div>
-              <h3>Construtora Avanço</h3>
-              <p>Site institucional com navegação clara e apresentação de serviços.</p>
-              <div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a
-                  class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="work-card theme-arch reveal" data-category="professional" data-site-url="https://lps-cliente-lp-flua.bxjqxb.easypanel.host/as-chaves-dos-relacionamentos">
-            <div class="mock-stage">
-              <div class="browser live-browser">
-                <div class="browser-top"><i></i><i></i><i></i></div>
-                <iframe class="live-site-frame" src="https://lps-cliente-lp-flua.bxjqxb.easypanel.host/as-chaves-dos-relacionamentos" title="As Chaves dos Relacionamentos" loading="lazy"></iframe>
-                <div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div>
-                <div class="mock-hero">
-                  <div>
-                    <div class="mock-kicker"></div>
-                    <div class="mock-title"></div>
-                    <div class="mock-title short"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-button"></div>
-                  </div>
-                  <div class="mock-image"></div>
-                </div>
-                <div class="mock-cards"><i></i><i></i><i></i></div>
-              </div>
-              <div class="phone">
-                <div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div>
-              </div>
-            </div>
-            <div class="work-info">
-              <div class="work-meta"><span>Redesign</span><span class="delivery-badge">Delivered in 7 days</span></div>
-              <h3>As Chaves dos Relacionamentos</h3>
-              <p>Uma página de campanha para explorar diretamente no card.</p>
-              <div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a
-                  class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="work-card theme-account reveal" data-category="professional" data-site-url="">
-            <div class="mock-stage">
-              <div class="browser">
-                <div class="browser-top"><i></i><i></i><i></i></div>
-                <div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"></span></div>
-                <div class="mock-hero">
-                  <div>
-                    <div class="mock-kicker"></div>
-                    <div class="mock-title"></div>
-                    <div class="mock-title short"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-copy"></div>
-                    <div class="mock-button"></div>
-                  </div>
-                  <div class="mock-image"></div>
-                </div>
-                <div class="mock-cards"><i></i><i></i><i></i></div>
-              </div>
-              <div class="phone">
-                <div class="phone-screen"><i></i><i></i><b></b><em></em><em></em></div>
-              </div>
-            </div>
-            <div class="work-info">
-              <div class="work-meta"><span>Business site</span><span class="delivery-badge">Delivered in 5 days</span>
-              </div>
-              <h3>Accounting firm, London</h3>
-              <p>Complex services translated into an approachable lead flow.</p>
-              <div class="work-actions" hidden><button class="work-action preview" type="button">Live preview</button><a
-                  class="work-action external" href="#" target="_blank" rel="noopener noreferrer">Open website ↗</a>
-              </div>
-            </div>
-          </article>
+          {% endfor %}
         </div>
       </div>
     </section>
@@ -3444,52 +3445,20 @@
           <p>Everything you need to make a decision without booking a discovery call.</p>
         </div>
         <div class="faq-list">
-          <div class="faq-item open reveal"><button class="faq-question" type="button" aria-expanded="true"><span>Why is this
-                cheaper than agencies here?</span><span class="faq-icon" aria-hidden="true"></span></button>
-            <div class="faq-answer">
+          {% for item in faq_items %}
+          <div class="faq-item{% if loop.first %} open{% endif %} reveal">
+            <button class="faq-question" id="faq-question-{{ loop.index }}" type="button"
+              aria-expanded="{{ 'true' if loop.first else 'false' }}" aria-controls="faq-answer-{{ loop.index }}">
+              <span>{{ item.question }}</span><span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer" id="faq-answer-{{ loop.index }}" role="region"
+              aria-labelledby="faq-question-{{ loop.index }}"{% if not loop.first %} hidden{% endif %}>
               <div>
-                <p>We're based in Brazil, work lean and use a tested component system. The work is custom; the overhead
-                  is not. That cost structure keeps the price lower without turning the project into template assembly.
-                </p>
+                <p>{{ item.answer }}</p>
               </div>
             </div>
           </div>
-          <div class="faq-item reveal"><button class="faq-question" type="button" aria-expanded="false"><span>What if I don't
-                like the design?</span><span class="faq-icon" aria-hidden="true"></span></button>
-            <div class="faq-answer">
-              <div>
-                <p>You see a live preview partway through, not only at the end. Every package includes revisions, and
-                  the project only launches after your approval.</p>
-              </div>
-            </div>
-          </div>
-          <div class="faq-item reveal"><button class="faq-question" type="button" aria-expanded="false"><span>Do I need to pay
-                monthly?</span><span class="faq-icon" aria-hidden="true"></span></button>
-            <div class="faq-answer">
-              <div>
-                <p>No. You own the domain, code and all accounts. Optional hosting and maintenance is $49/month if you'd
-                  rather not manage it, and you can cancel anytime.</p>
-              </div>
-            </div>
-          </div>
-          <div class="faq-item reveal"><button class="faq-question" type="button" aria-expanded="false"><span>Can you improve
-                my current site instead?</span><span class="faq-icon" aria-hidden="true"></span></button>
-            <div class="faq-answer">
-              <div>
-                <p>Sometimes — and if updating your existing site is the cheaper answer, we'll say so. Send the link and
-                  you'll get an honest recommendation.</p>
-              </div>
-            </div>
-          </div>
-          <div class="faq-item reveal"><button class="faq-question" type="button" aria-expanded="false"><span>How do we handle
-                payment?</span><span class="faq-icon" aria-hidden="true"></span></button>
-            <div class="faq-answer">
-              <div>
-                <p>50% to start and 50% before launch, by bank transfer, Wise or card. An invoice is provided for every
-                  project.</p>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
         </div>
       </div>
     </section>
@@ -3500,7 +3469,7 @@
           <div class="contact-grid">
             <div class="contact-copy reveal">
               <p class="section-kicker" style="color:var(--ink)">Your move / reply today</p>
-              <h2>Tell us what you need. Get a price today.</h2>
+              <h2 id="contact-title">Tell us what you need. Get a price today.</h2>
               <p>No calls required, no discovery maze. Send your current site or describe what you want and you'll
                 receive a fixed quote and delivery date.</p>
               <div class="contact-options"><a class="contact-pill"
@@ -3511,7 +3480,7 @@
             </div>
             <!-- Replace the email and WhatsApp links with the real contact details before publishing. -->
             <form class="contact-form reveal reveal-delay" action="mailto:hello@sevendaysites.studio" method="post"
-              enctype="text/plain">
+              enctype="text/plain" aria-labelledby="contact-title" aria-describedby="contact-form-note">
               <label class="contact-field"><span>Your name</span><input type="text" name="name" autocomplete="name"
                   placeholder="Jane Smith" required></label>
               <label class="contact-field"><span>Email</span><input type="email" name="email" autocomplete="email"
@@ -3538,9 +3507,11 @@
                     <option>Product launch</option>
                   </select></span></label>
               <label class="contact-field"><span>Useful context</span><textarea name="message"
+                  rows="4"
                   placeholder="Current URL, references, must-have sections or anything else useful..."></textarea></label>
               <button class="btn btn-primary" type="submit">Send my project <span aria-hidden="true">→</span></button>
-              <p class="form-note">No spam. Just a price, a deadline and any useful questions.</p>
+              <p class="form-note" id="contact-form-note">No spam. Just a price, a deadline and any useful questions.</p>
+              <p class="sr-only" id="contact-form-status" role="status" aria-live="polite"></p>
             </form>
           </div>
         </div>
@@ -3553,7 +3524,7 @@
       <div class="preview-toolbar">
         <div class="preview-toolbar-copy"><strong id="preview-title">Live website preview</strong><small>Some websites
             may block embedded previews; use “Open site” if the frame stays blank.</small></div>
-        <a class="work-action" id="preview-external" href="#" target="_blank" rel="noopener noreferrer">Open site ↗</a>
+        <a class="work-action" id="preview-external" target="_blank" rel="noopener noreferrer">Open site ↗</a>
         <button class="preview-close" id="preview-close" type="button" aria-label="Close preview">×</button>
       </div>
       <div class="preview-frame-wrap"><iframe class="preview-frame" id="preview-frame" title="Live website preview"
@@ -3570,16 +3541,16 @@
               class="brand-name">SEVENDAY<span>/</span>SITES</span></a>
           <p class="footer-tagline">Websites for small businesses, built fast.</p>
         </div>
-        <div class="footer-links"><a href="mailto:hello@sevendaysites.studio">Email</a><a
+        <div class="footer-links" aria-label="Contact links"><a href="mailto:hello@sevendaysites.studio">Email</a><a
             href="https://api.whatsapp.com/send?text=Hi%20Sevenday%2C%20I%27d%20like%20a%20website%20quote."
-            target="_blank" rel="noopener">WhatsApp</a><a href="#">LinkedIn</a></div>
+            target="_blank" rel="noopener">WhatsApp</a></div>
       </div>
       <div class="footer-bottom"><span>Based in Brazil · Working worldwide</span><span>© 2026 Sevenday Sites</span>
       </div>
     </div>
   </footer>
 
-  <button class="to-top" id="to-top" type="button" aria-label="Back to top">
+  <button class="to-top" id="to-top" type="button" aria-label="Back to top" aria-hidden="true" tabindex="-1">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"
       stroke-linejoin="round" aria-hidden="true">
       <path d="M12 19.5V5.5M5 12.5l7-7 7 7" />
@@ -3597,6 +3568,46 @@
 
   <script>
     (() => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const navToggle = document.querySelector('#nav-toggle');
+      const primaryNavigation = document.querySelector('#primary-navigation');
+      const mobileNavigation = window.matchMedia('(max-width: 860px)');
+
+      const setNavigationState = open => {
+        const isMobile = mobileNavigation.matches;
+        const shouldOpen = isMobile && open;
+        primaryNavigation.classList.toggle('is-open', shouldOpen);
+        navToggle.setAttribute('aria-expanded', String(shouldOpen));
+        navToggle.setAttribute('aria-label', shouldOpen ? 'Close navigation menu' : 'Open navigation menu');
+        if (isMobile) {
+          primaryNavigation.setAttribute('aria-hidden', String(!shouldOpen));
+          primaryNavigation.inert = !shouldOpen;
+        } else {
+          primaryNavigation.removeAttribute('aria-hidden');
+          primaryNavigation.inert = false;
+        }
+      };
+
+      navToggle.addEventListener('click', () => {
+        setNavigationState(navToggle.getAttribute('aria-expanded') !== 'true');
+      });
+      primaryNavigation.addEventListener('click', event => {
+        if (event.target.closest('a')) setNavigationState(false);
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') {
+          setNavigationState(false);
+          navToggle.focus();
+        }
+      });
+      document.addEventListener('click', event => {
+        if (!event.target.closest('.nav') && navToggle.getAttribute('aria-expanded') === 'true') {
+          setNavigationState(false);
+        }
+      });
+      mobileNavigation.addEventListener('change', () => setNavigationState(false));
+      setNavigationState(false);
+
       const type = document.querySelector('#project-type');
       const deadline = document.querySelector('#project-deadline');
       const goal = document.querySelector('#project-goal');
@@ -3620,51 +3631,67 @@
       [type, deadline, goal].forEach(field => field.addEventListener('change', updateQuote));
       updateQuote();
 
-      const filterButtons = document.querySelectorAll('.filter-btn');
-      const workCards = document.querySelectorAll('.work-card');
+      // Projects are server-rendered for crawlability; this compact payload powers only the preview dialog.
+      const portfolioProjects = {{ portfolio_projects | tojson }};
+      const isSecureUrl = value => /^https:\/\//i.test((value || '').trim());
+      const workGrid = document.querySelector('#work-grid');
+      const workFilters = document.querySelector('#work-filters');
+      const filterStatus = document.querySelector('#work-filter-status');
+
+      const filterButtons = [...workFilters.querySelectorAll('.filter-btn')];
+      const workCards = [...workGrid.querySelectorAll('.work-card')];
       filterButtons.forEach(button => button.addEventListener('click', () => {
-        filterButtons.forEach(item => item.classList.remove('active'));
-        button.classList.add('active');
         const filter = button.dataset.filter;
+        let visibleCount = 0;
+        filterButtons.forEach(item => {
+          const isActive = item === button;
+          item.classList.toggle('active', isActive);
+          item.setAttribute('aria-pressed', String(isActive));
+        });
         workCards.forEach(card => {
           const show = filter === 'all' || card.dataset.category === filter;
           card.classList.toggle('is-hidden', !show);
+          if (show) visibleCount += 1;
         });
-      }));
-
-      workCards.forEach(card => card.addEventListener('pointermove', event => {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--spot-x', `${event.clientX - rect.left}px`);
-        card.style.setProperty('--spot-y', `${event.clientY - rect.top}px`);
+        workCards.forEach(card => {
+          const isOnlyResult = filter !== 'all' && visibleCount === 1 && !card.classList.contains('is-hidden');
+          card.classList.toggle('is-filter-featured', isOnlyResult);
+        });
+        filterStatus.textContent = `${visibleCount} project${visibleCount === 1 ? '' : 's'} shown.`;
       }));
 
       const previewDialog = document.querySelector('#portfolio-preview');
       const previewFrame = document.querySelector('#preview-frame');
       const previewTitle = document.querySelector('#preview-title');
       const previewExternal = document.querySelector('#preview-external');
+      const previewCloseButton = document.querySelector('#preview-close');
+      let previewReturnTarget = null;
+
       const closePreview = () => {
+        if (!previewDialog.open) return;
         previewDialog.close();
         previewFrame.src = 'about:blank';
+        previewExternal.removeAttribute('href');
+        if (previewReturnTarget) previewReturnTarget.focus({ preventScroll: true });
+        previewReturnTarget = null;
       };
-      workCards.forEach(card => {
-        const rawUrl = card.dataset.siteUrl.trim();
-        if (!/^https:\/\//i.test(rawUrl)) return;
-        const actions = card.querySelector('.work-actions');
-        const externalLink = card.querySelector('.external');
-        const previewButton = card.querySelector('.preview');
-        const projectName = card.querySelector('h3').textContent.trim();
-        actions.hidden = false;
-        externalLink.href = rawUrl;
-        previewButton.setAttribute('aria-label', 'Preview ' + projectName);
-        previewButton.addEventListener('click', () => {
-          previewTitle.textContent = projectName;
-          previewExternal.href = rawUrl;
-          previewFrame.title = projectName + ' live website preview';
-          previewFrame.src = rawUrl;
-          previewDialog.showModal();
-        });
+
+      workGrid.addEventListener('click', event => {
+        const trigger = event.target.closest('[data-preview-index]');
+        if (!trigger || !workGrid.contains(trigger)) return;
+        const project = portfolioProjects[Number(trigger.dataset.previewIndex)];
+        const rawUrl = (project?.url || '').trim();
+        if (!project || !isSecureUrl(rawUrl)) return;
+        previewReturnTarget = trigger;
+        previewTitle.textContent = project.title;
+        previewExternal.href = rawUrl;
+        previewFrame.title = project.title + ' live website preview';
+        previewDialog.showModal();
+        previewFrame.src = rawUrl;
+        previewCloseButton.focus();
       });
-      document.querySelector('#preview-close').addEventListener('click', closePreview);
+
+      previewCloseButton.addEventListener('click', closePreview);
       previewDialog.addEventListener('click', event => {
         if (event.target === previewDialog) closePreview();
       });
@@ -3675,16 +3702,48 @@
 
       document.querySelectorAll('.faq-question').forEach(button => button.addEventListener('click', () => {
         const item = button.closest('.faq-item');
-        const isOpen = item.classList.toggle('open');
+        const answer = document.getElementById(button.getAttribute('aria-controls'));
+        const isOpen = !item.classList.contains('open');
+        if (isOpen) answer.hidden = false;
+        item.classList.toggle('open', isOpen);
         button.setAttribute('aria-expanded', String(isOpen));
+        if (!isOpen) answer.hidden = true;
       }));
 
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const proofMarquee = document.querySelector('.proof-marquee');
+      const marqueeToggle = document.querySelector('#marquee-toggle');
+      marqueeToggle.addEventListener('click', () => {
+        const isPaused = proofMarquee.classList.toggle('is-paused');
+        marqueeToggle.setAttribute('aria-pressed', String(isPaused));
+        marqueeToggle.querySelector('span').textContent = isPaused ? 'Play' : 'Pause';
+      });
+
+      const contactForm = document.querySelector('.contact-form');
+      const contactStatus = document.querySelector('#contact-form-status');
+      contactForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const formData = new FormData(contactForm);
+        const subject = `Website project — ${formData.get('product')}`;
+        const body = [
+          `Name: ${formData.get('name')}`,
+          `Email: ${formData.get('email')}`,
+          `Product: ${formData.get('product')}`,
+          `Timeline: ${formData.get('deadline')}`,
+          `Main goal: ${formData.get('goal')}`,
+          '',
+          String(formData.get('message') || '')
+        ].join('\n');
+        contactStatus.textContent = 'Opening your email app with the project details filled in.';
+        window.location.href = `mailto:hello@sevendaysites.studio?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      });
 
       const toTop = document.querySelector('#to-top');
       let toTopTicking = false;
       const syncToTop = () => {
-        toTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * .7);
+        const isVisible = window.scrollY > window.innerHeight * .7;
+        toTop.classList.toggle('is-visible', isVisible);
+        toTop.setAttribute('aria-hidden', String(!isVisible));
+        toTop.tabIndex = isVisible ? 0 : -1;
         toTopTicking = false;
       };
       window.addEventListener('scroll', () => {
