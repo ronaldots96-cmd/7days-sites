@@ -12,6 +12,7 @@ from flask import (
     redirect,
     render_template,
     request,
+    send_from_directory,
     url_for,
 )
 
@@ -59,12 +60,24 @@ PORTFOLIO_PROJECTS = [
         "category": "wellness",
         "theme": "wellness",
         "type": "Industry concept",
-        "status": "Portfolio concept",
-        "url": "",
+        "status": "Live demo",
+        "url": "/merae-skin-studio/",
         "image": "portfolio/merae-skin-studio.webp",
         "image_small": "portfolio/merae-skin-studio-720.webp",
         "alt": "Merae Skin Studio portfolio concept homepage",
         "description": "A consultation-led concept for a premium medical-aesthetics studio, designed around informed choice.",
+    },
+    {
+        "title": "Brazilian Clinic",
+        "category": "wellness",
+        "theme": "clinic",
+        "type": "Conversion landing page",
+        "status": "Live demo",
+        "url": "/spa/",
+        "image": "portfolio/brazilian-clinic.webp",
+        "image_small": "portfolio/brazilian-clinic-720.webp",
+        "alt": "Brazilian aesthetics clinic day spa landing page",
+        "description": "A high-intent spa landing page for a Brazilian aesthetics clinic, pairing premium storytelling, local SEO and WhatsApp booking.",
     },
     {
         "title": "Friedland Law",
@@ -84,10 +97,10 @@ PORTFOLIO_PROJECTS = [
         "theme": "saas",
         "type": "Product landing page",
         "status": "Live website",
-        "url": "https://lp.cbcloud.com.br/mcp/",
+        "url": "https://lp.cbcloud.com.br/mcp/?lang=en",
         "image": "portfolio/cbcloud-mcp.webp",
         "image_small": "portfolio/cbcloud-mcp-720.webp",
-        "alt": "CbCloud MCP product landing page",
+        "alt": "CbCloud MCP product landing page in English",
         "description": "A product-led SaaS page that turns complex AI infrastructure into a clear seven-day trial path.",
     },
 ]
@@ -120,6 +133,9 @@ app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = not IS_PRODUCTION
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 31536000 if IS_PRODUCTION else 0
 app.jinja_env.auto_reload = not IS_PRODUCTION
+SPA_DIRECTORY = os.path.join(app.root_path, "spa")
+MERAE_DIRECTORY = os.path.join(app.root_path, "merae-skin-studio")
+MERAE_ASSETS_DIRECTORY = os.path.join(MERAE_DIRECTORY, "assets")
 
 
 def site_url() -> str:
@@ -243,6 +259,7 @@ def optimize_response(response):
 
     compressible = {
         "text/html",
+        "text/javascript",
         "text/css",
         "text/plain",
         "text/xml",
@@ -278,6 +295,66 @@ def optimize_response(response):
 @app.get("/")
 def home():
     return render_template("index.html")
+
+
+@app.get("/spa/")
+def spa_demo():
+    response = make_response(send_from_directory(SPA_DIRECTORY, "index.html", max_age=0))
+    response.direct_passthrough = False
+    response.headers["Cache-Control"] = "no-cache"
+    response.headers["X-Robots-Tag"] = "noindex, nofollow, noarchive"
+    return response
+
+
+@app.get("/spa")
+@app.get("/spa/index.html")
+def spa_demo_redirect():
+    return redirect(url_for("spa_demo"), code=308)
+
+
+@app.get("/spa/<path:asset_path>")
+def spa_asset(asset_path):
+    if not asset_path.startswith(("images/", "video/")):
+        abort(404)
+    response = make_response(
+        send_from_directory(
+            SPA_DIRECTORY,
+            asset_path,
+            max_age=86400 if IS_PRODUCTION else 0,
+        )
+    )
+    response.headers["X-Robots-Tag"] = "noindex, nofollow, noarchive"
+    return response
+
+
+@app.get("/merae-skin-studio/")
+def merae_demo():
+    response = make_response(send_from_directory(MERAE_DIRECTORY, "index.html", max_age=0))
+    response.direct_passthrough = False
+    response.headers["Cache-Control"] = "no-cache"
+    response.headers["X-Robots-Tag"] = "noindex, nofollow, noarchive"
+    return response
+
+
+@app.get("/merae-skin-studio")
+@app.get("/merae-skin-studio/index.html")
+def merae_demo_redirect():
+    return redirect(url_for("merae_demo"), code=308)
+
+
+@app.get("/merae-skin-studio/assets/<path:asset_path>")
+def merae_asset(asset_path):
+    response = make_response(
+        send_from_directory(
+            MERAE_ASSETS_DIRECTORY,
+            asset_path,
+            max_age=86400 if IS_PRODUCTION else 0,
+        )
+    )
+    if response.mimetype in {"text/css", "text/javascript", "application/javascript"}:
+        response.direct_passthrough = False
+    response.headers["X-Robots-Tag"] = "noindex, nofollow, noarchive"
+    return response
 
 
 @app.get("/index")

@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Merae Skin Studio — Modern aesthetics, thoughtfully personal</title>
+  <meta name="description" content="A fictional portfolio concept for a consultation-led medical aesthetics and skin wellness studio.">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#f6f1ea">
+  <meta property="og:title" content="Merae Skin Studio — Portfolio concept">
+  <meta property="og:description" content="A fictional website concept for a modern medical aesthetics and skin wellness studio.">
+  <meta property="og:type" content="website">
+  <link rel="preload" as="image" href="./assets/images/hero-portrait.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <script>
+    document.documentElement.classList.add('js');
+    if (window.location.hash) document.documentElement.classList.add('has-initial-hash');
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <aside class="concept-bar" aria-label="Portfolio concept notice">
+    <p><strong>Portfolio concept</strong><span aria-hidden="true">·</span> Fictional clinic <span aria-hidden="true">·</span> No appointments are accepted</p>
+  </aside>
+
+  <header class="site-header" id="top">
+    <div class="shell header-inner">
+      <a class="brand" href="#top" aria-label="Merae Skin Studio home">
+        <span class="brand-mark" aria-hidden="true"><span>M</span></span>
+        <span class="brand-copy"><strong>MERAE</strong><small>Skin Studio</small></span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#treatments">Treatments</a>
+        <a href="#approach">Our approach</a>
+        <a href="#visit">Your visit</a>
+        <a href="#questions">Questions</a>
+      </nav>
+
+      <button class="button button-small js-open-booking" type="button" data-track="header_book">
+        Book a consultation
+      </button>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+      <div class="shell">
+        <a href="#treatments">Treatments</a>
+        <a href="#approach">Our approach</a>
+        <a href="#visit">Your visit</a>
+        <a href="#questions">Questions</a>
+        <button class="button js-open-booking" type="button" data-track="mobile_book">Book a consultation</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-orbit orbit-one" aria-hidden="true"></div>
+      <div class="hero-orbit orbit-two" aria-hidden="true"></div>
+      <div class="shell hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Modern aesthetics, thoughtfully personal.</p>
+          <h1 id="hero-title">Your features.<br>Your pace.<br><em>A more thoughtful plan.</em></h1>
+          <p class="hero-lead">A consultation-led approach to skin health, facial balance and modern aesthetic treatments—shaped around your goals, comfort and timeline.</p>
+          <div class="hero-actions">
+            <button class="button js-open-booking" type="button" data-track="hero_book">Book a consultation</button>
+            <a class="text-link" href="#treatments" data-track="hero_explore">Explore treatments <span aria-hidden="true">↘</span></a>
+          </div>
+          <p class="hero-note"><span aria-hidden="true">✦</span> New here? Start with a conversation—not a treatment.</p>
+        </div>
+
+        <figure class="hero-visual reveal">
+          <div class="hero-image-wrap">
+            <img src="./assets/images/hero-portrait.webp" width="1731" height="909" alt="Portrait of an adult woman in soft natural light" fetchpriority="high">
+          </div>
+          <figcaption class="image-caption">
+            <span>01</span>
+            <p>Individuality is<br>always in style.</p>
+          </figcaption>
+          <div class="image-seal" aria-hidden="true">
+            <svg viewBox="0 0 120 120" role="img">
+              <defs><path id="seal-path" d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0"/></defs>
+              <text><textPath href="#seal-path">CONSULTATION FIRST · CLARITY ALWAYS · </textPath></text>
+            </svg>
+            <span>m</span>
+          </div>
+        </figure>
+      </div>
+
+      <div class="shell principles" aria-label="Merae principles">
+        <p><span>01</span> Consultation first</p>
+        <p><span>02</span> Education before decisions</p>
+        <p><span>03</span> A plan paced around you</p>
+      </div>
+    </section>
+
+    <section class="section goals-section" id="treatments" aria-labelledby="goals-title">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <div>
+            <p class="eyebrow">Start with your goals</p>
+            <h2 id="goals-title">You don’t need to know<br>the treatment name.</h2>
+          </div>
+          <p>Begin with what you’ve noticed and what you’d like to support. In a real consultation, a qualified provider would review suitability, options and timing with you.</p>
+        </div>
+
+        <div class="goal-explorer reveal">
+          <div class="goal-tabs" role="group" aria-label="Choose a skin or aesthetic goal">
+            <button type="button" class="goal-tab is-active" data-goal="lines" aria-pressed="true">Expression lines</button>
+            <button type="button" class="goal-tab" data-goal="texture" aria-pressed="false">Tone &amp; texture</button>
+            <button type="button" class="goal-tab" data-goal="refresh" aria-pressed="false">Tired-looking skin</button>
+            <button type="button" class="goal-tab" data-goal="balance" aria-pressed="false">Facial balance</button>
+            <button type="button" class="goal-tab" data-goal="routine" aria-pressed="false">A consistent routine</button>
+            <button type="button" class="goal-tab" data-goal="laser" aria-pressed="false">Laser &amp; light</button>
+          </div>
+
+          <article class="goal-output" id="goal-output" aria-live="polite">
+            <p class="goal-index">Your starting point <span>01 / 06</span></p>
+            <h3>Soften the look of expression lines</h3>
+            <p>A consultation can explore facial movement, what you want to preserve and whether a provider-led option belongs in your plan.</p>
+            <button class="text-link js-open-booking" type="button" data-track="goal_book">Talk through this goal <span aria-hidden="true">→</span></button>
+          </article>
+        </div>
+
+        <div class="treatment-heading reveal">
+          <p class="eyebrow">Ways we can explore</p>
+          <h2>Options, organized around you.</h2>
+        </div>
+
+        <div class="treatment-grid">
+          <article class="treatment-card reveal">
+            <span class="card-number">01</span>
+            <div class="line-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 30c8-18 18-22 31-14M12 37c7-11 15-15 27-14"/></svg></div>
+            <h3>Consultation &amp;<br>skin planning</h3>
+            <p>A conversation about your goals, skin history, timing and comfort—before any service is considered.</p>
+            <span class="card-tag">The place to begin</span>
+          </article>
+
+          <article class="treatment-card reveal">
+            <span class="card-number">02</span>
+            <div class="line-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 7c9 8 13 14 13 22a13 13 0 0 1-26 0C11 21 15 15 24 7Z"/><path d="M18 31c2 3 5 4 9 3"/></svg></div>
+            <h3>Skin<br>renewal</h3>
+            <p>Facials, peels and microneedling conversations centered on hydration, tone and texture.</p>
+            <span class="card-tag">Tone · texture · hydration</span>
+          </article>
+
+          <article class="treatment-card reveal">
+            <span class="card-number">03</span>
+            <div class="line-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M30 8c-9 0-15 7-15 17v15M15 25c7-1 13-5 17-12M15 31c6 2 11 2 16-1"/></svg></div>
+            <h3>Facial<br>balance</h3>
+            <p>Provider-led discussions of neuromodulators and dermal fillers, with candidacy and tradeoffs reviewed first.</p>
+            <span class="card-tag">Movement · proportion</span>
+          </article>
+
+          <article class="treatment-card reveal">
+            <span class="card-number">04</span>
+            <div class="line-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 8v6M24 34v6M8 24h6M34 24h6M13 13l4 4M31 31l4 4M35 13l-4 4M17 31l-4 4"/><circle cx="24" cy="24" r="6"/></svg></div>
+            <h3>Laser<br>+ light</h3>
+            <p>Technology-led options for concerns such as tone, redness, texture or unwanted hair. Suitability varies.</p>
+            <span class="card-tag">Tone · redness · texture</span>
+          </article>
+
+          <article class="treatment-card reveal">
+            <span class="card-number">05</span>
+            <div class="line-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 8c8 5 13 12 13 20 0 7-5 12-13 12S11 35 11 28c0-8 5-15 13-20Z"/><path d="M19 27c3-2 7-2 10 0"/></svg></div>
+            <h3>Body<br>+ wellness</h3>
+            <p>Body-focused aesthetic services considered around your goals, comfort and schedule.</p>
+            <span class="card-tag">Shape · comfort · care</span>
+          </article>
+
+          <article class="treatment-card reveal">
+            <span class="card-number">06</span>
+            <div class="line-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 18a14 14 0 1 1-1 13"/><path d="m8 17 5 2 2-5"/><path d="M24 17v8l6 4"/></svg></div>
+            <h3>Ongoing<br>care</h3>
+            <p>A considered rhythm for skincare and follow-up—without committing to a treatment before consultation.</p>
+            <span class="card-tag">Routine · review · refine</span>
+          </article>
+        </div>
+
+        <p class="service-note reveal">Services shown are illustrative. A live clinic must verify provider scope, device indications and state requirements.</p>
+      </div>
+    </section>
+
+    <section class="section philosophy-section" id="approach" aria-labelledby="approach-title">
+      <div class="shell philosophy-grid">
+        <figure class="skin-portrait reveal">
+          <img src="./assets/images/skin-detail.webp" width="1122" height="1402" alt="Close portrait showing natural adult skin texture" loading="lazy" decoding="async">
+          <figcaption>Real texture. Real expression. No before-and-after promise.</figcaption>
+        </figure>
+
+        <div class="philosophy-copy reveal">
+          <p class="eyebrow">The Merae approach</p>
+          <h2 id="approach-title">A quieter, clearer<br>kind of care.</h2>
+          <p class="large-copy">Good aesthetic care isn’t a race to the latest treatment. It begins with a careful conversation: what you notice, what you want to preserve and what fits your life.</p>
+
+          <ol class="approach-list">
+            <li><span>01</span><div><h3>Listen</h3><p>Your goals, history and comfort guide the conversation.</p></div></li>
+            <li><span>02</span><div><h3>Explain</h3><p>Options, tradeoffs, costs and expected downtime are discussed before a plan.</p></div></li>
+            <li><span>03</span><div><h3>Plan</h3><p>If treatment is appropriate, next steps are paced around you.</p></div></li>
+          </ol>
+        </div>
+      </div>
+
+      <blockquote class="shell editorial-quote reveal">
+        <p>“The goal isn’t to look like someone else. It’s to make an informed choice that still feels like you.”</p>
+      </blockquote>
+    </section>
+
+    <section class="section visit-section" id="visit" aria-labelledby="visit-title">
+      <div class="shell visit-grid">
+        <div class="visit-copy reveal">
+          <p class="eyebrow">Your first visit</p>
+          <h2 id="visit-title">You ask. We listen.<br>You decide.</h2>
+
+          <ol class="visit-steps">
+            <li>
+              <span>01</span>
+              <div><h3>Request a consultation</h3><p>Share contact and scheduling preferences. Medical details belong in an approved intake process.</p></div>
+            </li>
+            <li>
+              <span>02</span>
+              <div><h3>Review together</h3><p>Discuss goals, suitability, alternatives, cost, downtime and aftercare with a qualified provider.</p></div>
+            </li>
+            <li>
+              <span>03</span>
+              <div><h3>Choose your next step</h3><p>Proceed only if and when it feels right. A consultation never commits you to a service.</p></div>
+            </li>
+          </ol>
+
+          <button class="button button-light js-open-booking" type="button" data-track="visit_book">Preview the booking flow</button>
+        </div>
+
+        <figure class="consultation-figure reveal">
+          <img src="./assets/images/consultation.webp" width="1448" height="1086" alt="Two adult women having a calm consultation conversation" loading="lazy" decoding="async">
+          <figcaption><span>Conversation before recommendation.</span><span>Choice before commitment.</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section standards-section" aria-labelledby="standards-title">
+      <div class="shell standards-grid">
+        <div class="standards-intro reveal">
+          <p class="eyebrow">Trust, made tangible</p>
+          <h2 id="standards-title">Credibility should<br>be specific.</h2>
+          <p>A live clinic website should identify every provider’s verified role, license, training and treatment scope. Those details are intentionally omitted here because Merae is a fictional portfolio concept.</p>
+        </div>
+
+        <ul class="standards-list reveal">
+          <li><span aria-hidden="true">01</span>Provider name and professional role</li>
+          <li><span aria-hidden="true">02</span>License information, where appropriate</li>
+          <li><span aria-hidden="true">03</span>Relevant training and treatment scope</li>
+          <li><span aria-hidden="true">04</span>Supervising relationships required by state</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="space-break" aria-labelledby="space-title">
+      <img src="./assets/images/studio-interior.webp" width="1784" height="882" alt="Warm, minimal skin studio interior with limewash walls and a plum chair" loading="lazy" decoding="async">
+      <div class="space-overlay" aria-hidden="true"></div>
+      <div class="shell space-copy reveal">
+        <p class="eyebrow">Room to ask</p>
+        <h2 id="space-title">Clarity can feel<br>like care, too.</h2>
+        <p>A thoughtful setting is only the beginning. The real experience is how clearly your questions are welcomed and answered.</p>
+      </div>
+    </section>
+
+    <section class="section faq-section" id="questions" aria-labelledby="questions-title">
+      <div class="shell faq-grid">
+        <div class="faq-intro reveal">
+          <p class="eyebrow">Questions, welcomed</p>
+          <h2 id="questions-title">A few things worth<br>knowing first.</h2>
+          <p>Thoughtful care makes room for questions, alternatives and the option to wait.</p>
+        </div>
+
+        <div class="faq-list reveal">
+          <details>
+            <summary>Do I need to know which treatment I want?<span aria-hidden="true"></span></summary>
+            <p>No. A consultation can begin with a goal or question. The appropriate next step may be a treatment, a skincare plan or no treatment at all.</p>
+          </details>
+          <details>
+            <summary>What happens during a consultation?<span aria-hidden="true"></span></summary>
+            <p>A real provider would review your goals, relevant history, suitability, alternatives, risks, expected downtime and pricing before making a recommendation.</p>
+          </details>
+          <details>
+            <summary>Are results guaranteed?<span aria-hidden="true"></span></summary>
+            <p>No aesthetic result can be guaranteed. Suitability, response and downtime vary from person to person.</p>
+          </details>
+          <details>
+            <summary>How should I prepare?<span aria-hidden="true"></span></summary>
+            <p>A live clinic would provide individualized instructions after reviewing your request. Do not stop medication or change medical care without guidance from a qualified clinician.</p>
+          </details>
+          <details>
+            <summary>Is Merae a real clinic?<span aria-hidden="true"></span></summary>
+            <p>No. Merae Skin Studio is a fictional website concept created to demonstrate strategy and design for medical-aesthetics practices. It does not provide medical services or accept appointments.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta" id="book" aria-labelledby="book-title">
+      <div class="final-cta-orbit" aria-hidden="true"></div>
+      <div class="shell final-cta-grid">
+        <div class="reveal">
+          <p class="eyebrow">The first step is a conversation</p>
+          <h2 id="book-title">Curious, not committed?</h2>
+        </div>
+        <div class="final-cta-action reveal">
+          <p>Preview how a calm, consultation-led booking experience could feel for a real clinic.</p>
+          <button class="button button-light js-open-booking" type="button" data-track="final_book">Book a consultation</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="concept-note">
+    <div class="shell footer-grid">
+      <div>
+        <a class="brand brand-footer" href="#top" aria-label="Back to the top">
+          <span class="brand-mark" aria-hidden="true"><span>M</span></span>
+          <span class="brand-copy"><strong>MERAE</strong><small>Skin Studio</small></span>
+        </a>
+        <p class="footer-tagline">Modern aesthetics, thoughtfully personal.</p>
+      </div>
+      <div class="footer-nav" aria-label="Footer navigation">
+        <a href="#treatments">Treatments</a>
+        <a href="#approach">Our approach</a>
+        <a href="#visit">Your visit</a>
+        <a href="#questions">Questions</a>
+      </div>
+    </div>
+    <div class="shell footer-legal">
+      <p>Portfolio concept. Merae Skin Studio is a fictional brand created to demonstrate website design for medical-aesthetics practices. It is not a clinic, does not provide medical advice or services, and does not accept appointments. Images are AI-generated. Any real implementation requires verified credentials, service-specific disclosures, privacy review and legal review.</p>
+      <p>Concept © <span id="year">2026</span></p>
+    </div>
+  </footer>
+
+  <dialog class="booking-dialog" id="booking-dialog" aria-labelledby="booking-title" aria-describedby="booking-description">
+    <div class="dialog-shell">
+      <button class="dialog-close" type="button" aria-label="Close booking preview"><span aria-hidden="true">×</span></button>
+      <div class="dialog-intro">
+        <p class="eyebrow">Demo booking flow</p>
+        <h2 id="booking-title">Start with a thoughtful conversation.</h2>
+        <p id="booking-description">This portfolio form demonstrates the experience only. Nothing is transmitted or stored.</p>
+      </div>
+
+      <form class="booking-form" id="booking-form" novalidate>
+        <div class="form-grid">
+          <label class="field"><span>Full name</span><input type="text" name="name" autocomplete="name" required></label>
+          <label class="field"><span>Email address</span><input type="email" name="email" autocomplete="email" required></label>
+          <label class="field"><span>Phone <em>Optional</em></span><input type="tel" name="phone" autocomplete="tel"></label>
+          <label class="field"><span>Preferred time</span><select name="time" required><option value="">Choose one</option><option>Weekday morning</option><option>Weekday afternoon</option><option>Weekday evening</option></select></label>
+          <label class="field field-wide"><span>What would you like to discuss?</span><select name="goal" required><option value="">Select a starting point</option><option>Expression lines</option><option>Tone and texture</option><option>Tired-looking skin</option><option>Facial balance</option><option>A consistent skin routine</option><option>Laser and light</option><option>I’m not sure yet</option></select></label>
+        </div>
+
+        <fieldset>
+          <legend>Have you visited before?</legend>
+          <label class="radio"><input type="radio" name="guest" value="new" checked><span>New guest</span></label>
+          <label class="radio"><input type="radio" name="guest" value="returning"><span>Returning guest</span></label>
+        </fieldset>
+
+        <p class="form-note"><strong>Please don’t include medical information.</strong> A live clinic should use an approved intake and scheduling workflow for sensitive details.</p>
+        <button class="button" type="submit">Request a consultation</button>
+      </form>
+
+      <div class="demo-success" id="demo-success" role="status" aria-live="polite" hidden>
+        <span aria-hidden="true">✓</span>
+        <h3>That’s the complete demo.</h3>
+        <p>Nothing was submitted. A live clinic version would now connect to its approved scheduling and privacy workflow.</p>
+        <button class="button dialog-done" type="button">Done</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="./assets/js/main.js" defer></script>
+</body>
+</html>

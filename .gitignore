@@ -6,8 +6,10 @@ venv/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.wrangler/
 .coverage
 htmlcov/
+/dist/
 
 # Local configuration and logs
 .env
@@ -23,10 +25,8 @@ instance/
 .DS_Store
 Thumbs.db
 
-# Local references and separately deployed projects
+# Local references and non-deployable source files
 *.pdf
-/merae-skin-studio/
 /index.html
 /briefing.html
 skill_lp.md
-deploy-git-easypanel.md
