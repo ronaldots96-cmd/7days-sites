@@ -111,7 +111,6 @@ def copy_public_assets() -> None:
 
 def write_cloudflare_files(site_url: str, site_indexable: bool) -> None:
     redirects = """/index / 301
-/index.html / 301
 /briefing.html /briefing 301
 /briefing/ /briefing 301
 /spa /spa/ 301
