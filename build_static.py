@@ -71,10 +71,10 @@ def render_pages() -> None:
                 raise RuntimeError(f"Could not render {route}: HTTP {response.status_code}")
 
             page = response.get_data(as_text=True)
-            if output_name == "briefing.html" and webhook_url:
+            if output_name in ("index.html", "briefing.html") and webhook_url:
                 marker = 'data-webhook-url=""'
                 if marker not in page:
-                    raise RuntimeError("Briefing webhook marker was not found in rendered HTML.")
+                    raise RuntimeError(f"Webhook marker was not found in rendered {output_name}.")
                 page = page.replace(
                     marker,
                     f'data-webhook-url="{html.escape(webhook_url, quote=True)}"',
