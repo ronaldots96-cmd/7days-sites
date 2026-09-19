@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js" data-webhook-url="">
+<html lang="en" class="no-js" data-webhook-url="{{ forms_webhook_url }}" data-page-name="homepage">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="Custom websites for small businesses, delivered in 3–7 days. Fixed pricing from $600, mobile-first build, technical SEO and full ownership.">
+    content="Custom websites for small businesses, delivered in 3–7 days. Fixed pricing from US$600, mobile-first build, technical SEO and full ownership.">
   <meta name="robots" content="{{ robots_directive }}">
   <meta name="theme-color" content="#f7f2e7">
   <meta name="color-scheme" content="light">
@@ -40,6 +40,12 @@
   <link rel="preload" href="/static/fonts/fredoka-variable-latin-v17.woff2"
     as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  {% if gtm_container_id %}
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f); })(window, document, 'script', 'dataLayer', '{{ gtm_container_id }}');</script>
+  <!-- End Google Tag Manager -->
+  {% endif %}
+  <script src="/static/tracking.js?v={{ asset_version }}" defer></script>
   <script type="application/ld+json">{{ structured_data | tojson }}</script>
   <style>
     @font-face {
@@ -690,13 +696,13 @@
 
     .quote-wrap {
       position: relative;
-      max-width: 620px;
+      max-width: 900px;
       margin-inline: auto;
       padding: 16px;
     }
 
     .quote-wrap::before {
-      content: "ESTIMATE / 01";
+      content: "PROJECT MATCH / 01";
       position: absolute;
       top: -9px;
       right: -18px;
@@ -879,6 +885,362 @@
 
     .quote-card .btn {
       width: 100%;
+    }
+
+    .lead-progress {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 28px;
+    }
+
+    .lead-progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .lead-progress-track {
+      height: 8px;
+      overflow: hidden;
+      background: var(--canvas);
+      border: 2px solid var(--stroke);
+      border-radius: 999px;
+    }
+
+    .lead-progress-bar {
+      width: 20%;
+      height: 100%;
+      background: var(--blue);
+      transition: width .35s var(--ease);
+    }
+
+    .lead-step {
+      position: relative;
+      z-index: 1;
+      min-height: 390px;
+      animation: lead-step-in .3s var(--ease) both;
+    }
+
+    @keyframes lead-step-in {
+      from { opacity: 0; transform: translateX(14px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .lead-step-kicker {
+      margin: 0 0 7px;
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .lead-step h3 {
+      margin-bottom: 8px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.03;
+    }
+
+    .lead-step-intro {
+      max-width: 650px;
+      margin-bottom: 24px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .lead-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 11px;
+    }
+
+    .lead-choice-grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .lead-choice {
+      position: relative;
+      min-width: 0;
+    }
+
+    .lead-choice>input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    .lead-choice-card {
+      min-height: 118px;
+      display: flex;
+      flex-direction: column;
+      padding: 13px;
+      background: #fff;
+      border: 2px solid var(--stroke);
+      border-radius: 14px;
+      transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s ease;
+    }
+
+    .lead-choice:hover .lead-choice-card {
+      transform: translateY(-2px);
+      box-shadow: var(--hard-sm);
+    }
+
+    .lead-choice>input:focus-visible+.lead-choice-card {
+      outline: 3px solid var(--blue);
+      outline-offset: 3px;
+    }
+
+    .lead-choice>input:checked+.lead-choice-card {
+      background: var(--blue-soft);
+      box-shadow: var(--hard-sm);
+    }
+
+    .style-swatch {
+      height: 55px;
+      display: flex;
+      align-items: end;
+      margin-bottom: 11px;
+      padding: 8px;
+      overflow: hidden;
+      color: var(--style-ink, #111);
+      background: var(--style-bg, #f2f2f2);
+      border: 2px solid var(--stroke);
+      border-radius: 8px;
+      font-family: var(--style-font, var(--display));
+      font-size: 17px;
+      font-weight: var(--style-weight, 700);
+    }
+
+    .style-minimal { --style-bg: #f5f4ef; --style-ink: #111; }
+    .style-bold { --style-bg: #111; --style-ink: #c9ff4a; --style-weight: 700; }
+    .style-premium { --style-bg: #eee4d3; --style-ink: #382e26; --style-font: Georgia, serif; --style-weight: 500; }
+    .style-friendly { --style-bg: #ffdfec; --style-ink: #b71f59; }
+    .style-technical { --style-bg: #dbe6ff; --style-ink: #1746ba; }
+    .style-unsure { --style-bg: #fff; --style-ink: #59616d; }
+
+    .lead-choice-card strong {
+      display: block;
+      margin-bottom: 3px;
+      font-family: var(--display);
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .lead-choice-card small {
+      margin-top: auto;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .lead-check-card {
+      min-height: 74px;
+      justify-content: center;
+    }
+
+    .lead-check-card::before {
+      content: "+";
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 9px;
+      color: #fff;
+      background: var(--blue);
+      border: 2px solid var(--stroke);
+      border-radius: 7px;
+      font-weight: 900;
+    }
+
+    .lead-choice>input:checked+.lead-check-card::before {
+      content: "✓";
+      color: var(--stroke);
+      background: var(--lime);
+    }
+
+    .lead-selection-hint {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .lead-fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .lead-field {
+      display: block;
+      min-width: 0;
+    }
+
+    .lead-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .lead-field>span,
+    .lead-fieldset>legend {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--stroke);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .lead-field input,
+    .lead-field select {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 14px;
+      color: var(--ink);
+      background: #fff;
+      border: 2px solid var(--stroke);
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .lead-field input:focus-visible,
+    .lead-field select:focus-visible {
+      background: var(--pop-sky);
+      outline: 3px solid var(--blue);
+      outline-offset: 3px;
+    }
+
+    .lead-field small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .lead-fieldset {
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .lead-inline-options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .lead-inline-options .lead-choice-card {
+      min-height: 82px;
+      justify-content: center;
+    }
+
+    .lead-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 12px;
+      background: var(--canvas);
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .lead-consent input {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      margin: 0;
+      accent-color: var(--blue);
+    }
+
+    .lead-actions {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 2px solid var(--line);
+    }
+
+    .lead-actions .btn {
+      width: auto;
+      min-width: 140px;
+    }
+
+    .lead-actions .btn-primary {
+      margin-left: auto;
+    }
+
+    .lead-status {
+      position: relative;
+      z-index: 1;
+      margin: 16px 0 0;
+      padding: 11px 13px;
+      color: #9b2e19;
+      background: #fff0ec;
+      border: 2px solid #d86850;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .lead-success {
+      position: relative;
+      z-index: 1;
+      min-height: 430px;
+      display: grid;
+      place-content: center;
+      text-align: center;
+    }
+
+    .lead-success-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 18px;
+      color: var(--stroke);
+      background: var(--lime);
+      border: 3px solid var(--stroke);
+      border-radius: 50%;
+      box-shadow: var(--hard-sm);
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .lead-success h3 {
+      margin-bottom: 8px;
+      font-size: clamp(30px, 5vw, 48px);
+    }
+
+    .lead-success p {
+      max-width: 560px;
+      margin: 0 auto 22px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .lead-success-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .lead-success-actions .btn {
+      width: auto;
     }
 
     /* Proof marquee — the loop needs two identical rows to reset seamlessly */
@@ -1089,6 +1451,18 @@
       transition: color .2s ease, background .2s ease, transform .2s var(--ease), box-shadow .2s var(--ease);
     }
 
+    .portfolio-privacy-note {
+      margin: 18px 0 0;
+      padding: 12px 14px;
+      color: var(--ink-2);
+      background: rgba(255, 255, 255, .72);
+      border: 2px solid var(--stroke);
+      border-radius: 12px;
+      box-shadow: var(--hard-xs);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
     .filter-btn:hover {
       background: var(--pop-peach);
       transform: translate(-1px, -2px);
@@ -1125,6 +1499,11 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 24px;
+    }
+
+    .work-more {
+      display: none;
+      margin: 24px auto 0;
     }
 
     @media (min-width: 701px) {
@@ -1665,6 +2044,16 @@
       line-height: 1;
       font-weight: 700;
       letter-spacing: -.04em;
+    }
+
+    .price-tag small {
+      display: block;
+      margin-bottom: 4px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
     }
 
     .price-time {
@@ -2222,6 +2611,47 @@
     .contact-form .btn {
       width: 100%;
       margin-top: 4px;
+    }
+
+    .contact-form h3 {
+      margin-bottom: 10px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.02;
+    }
+
+    .contact-form>p:not(.form-note) {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .contact-checklist {
+      display: grid;
+      gap: 9px;
+      margin: 22px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .contact-checklist li {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .contact-checklist li::before {
+      content: "✓";
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      color: var(--stroke);
+      background: var(--lime);
+      border: 2px solid var(--stroke);
+      border-radius: 50%;
+      font-size: 11px;
     }
 
     .form-note {
@@ -2787,13 +3217,96 @@
         padding: 14px 6px 14px 0;
       }
 
+      .quote-section {
+        padding-block: 56px 64px;
+      }
+
       .quote-wrap::before {
         right: -2px;
       }
 
       .quote-card {
-        padding: 23px;
+        padding: 20px;
         box-shadow: 7px 7px 0 var(--stroke);
+      }
+
+      .quote-top {
+        margin-bottom: 18px;
+      }
+
+      .lead-progress {
+        margin-bottom: 22px;
+      }
+
+      .lead-step {
+        min-height: clamp(330px, 48svh, 440px);
+      }
+
+      .lead-step h3 {
+        font-size: clamp(27px, 8vw, 36px);
+      }
+
+      .lead-choice-grid,
+      .lead-choice-grid.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+      }
+
+      .lead-choice-card {
+        min-height: 124px;
+        padding: 10px;
+      }
+
+      .lead-check-card {
+        min-height: 74px;
+      }
+
+      .style-swatch {
+        height: 62px;
+      }
+
+      .lead-inline-options {
+        grid-template-columns: 1fr;
+      }
+
+      .lead-inline-options .lead-choice-card {
+        min-height: 74px;
+      }
+
+      .lead-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .lead-field.full {
+        grid-column: auto;
+      }
+
+      .lead-field input,
+      .lead-field select {
+        font-size: 16px;
+      }
+
+      .lead-actions {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+      }
+
+      .lead-actions .btn {
+        min-width: 96px;
+        min-height: 52px;
+        padding-inline: 15px;
+        touch-action: manipulation;
+      }
+
+      .lead-actions .btn-primary {
+        flex: 1;
+      }
+
+      .lead-success-actions {
+        display: grid;
+      }
+
+      .lead-success-actions .btn {
+        width: 100%;
       }
 
       .proof-marquee {
@@ -2831,6 +3344,18 @@
 
       .work-grid {
         grid-template-columns: 1fr;
+      }
+
+      .work-grid:not(.is-expanded):not(.is-filtered)>.work-card.mobile-extra {
+        display: none;
+      }
+
+      .work-more {
+        display: inline-flex;
+      }
+
+      .work-more[hidden] {
+        display: none;
       }
 
       .work-section .shell {
@@ -3060,6 +3585,12 @@
 </head>
 
 <body>
+  {% if gtm_container_id %}
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ gtm_container_id }}" height="0" width="0"
+      style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  {% endif %}
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -3070,13 +3601,14 @@
       </a>
       <div class="nav-actions">
         <div class="nav-links" id="primary-navigation">
-          <a href="#quote">Quick quote</a>
+          <a href="#quote">Project match</a>
           <a href="#work">Work</a>
           <a href="#pricing">Pricing</a>
           <a href="#process">Process</a>
         </div>
-        <a class="btn btn-primary nav-cta" href="briefing"><span class="nav-cta-full">Start your brief</span><span
-            class="nav-cta-short">Start brief</span> <span aria-hidden="true">→</span></a>
+        <a class="btn btn-primary nav-cta" href="#quote" data-track-cta="start_project"
+          data-track-location="header"><span class="nav-cta-full">Start your project</span><span
+            class="nav-cta-short">Start</span> <span aria-hidden="true">→</span></a>
         <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false"
           aria-controls="primary-navigation" aria-label="Open navigation menu">
           <span class="nav-toggle-lines" aria-hidden="true"></span>
@@ -3095,12 +3627,14 @@
         <p class="hero-lead">Custom-built sites for clinics, contractors, studios and local businesses. Fixed price,
           fixed deadline, no monthly lock-in.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="briefing">Start your project brief
+          <a class="btn btn-primary" href="#quote" data-track-cta="start_project" data-track-location="hero">Start your
+            project
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
           </a>
-          <a class="btn btn-secondary" href="#work">See recent work <span aria-hidden="true">↓</span></a>
+          <a class="btn btn-secondary" href="#work" data-track-cta="view_work" data-track-location="hero">See recent
+            work <span aria-hidden="true">↓</span></a>
         </div>
         <p class="hero-note">No calls required · Reply usually within a few hours</p>
       </div>
@@ -3125,16 +3659,15 @@
                   stroke-linejoin="round">
                   <path d="M12 3v18M16.5 7.5c-.8-1.6-2.5-2.4-4.5-2.4-2.5 0-4.2 1.2-4.2 3.1 0 4.3 9 2.4 9 7 0 2-1.9 3.3-4.8 3.3-2.3 0-4.1-.9-4.9-2.6" />
                 </svg></span>
-              <div><strong>Fixed pricing from $600</strong><span>No surprise invoices</span></div>
+              <div><strong>Fixed pricing from US$600</strong><span>No surprise invoices</span></div>
             </li>
-            <!-- Replace 40+ with the verified project count before publishing. -->
             <li class="proof-item"><span class="proof-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
                   stroke-linejoin="round">
                   <rect x="3.2" y="4.5" width="17.6" height="15" rx="3" />
                   <path d="M3.2 9h17.6M7 6.8h.01M10 6.8h.01" />
                 </svg></span>
-              <div><strong>200+ sites shipped</strong><span>Across 6+ industries</span></div>
+              <div><strong>Real client work</strong><span>Shown as privacy-safe demos</span></div>
             </li>
             <li class="proof-item"><span class="proof-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"
@@ -3157,7 +3690,7 @@
                   <circle cx="12" cy="12" r="8.5" />
                   <path d="M3.6 12h16.8M12 3.5c2.2 2.4 3.3 5.3 3.3 8.5s-1.1 6.1-3.3 8.5c-2.2-2.4-3.3-5.3-3.3-8.5S9.8 5.9 12 3.5z" />
                 </svg></span>
-              <div><strong>Multi language</strong><span>Direct with the designer</span></div>
+              <div><strong>English + Portuguese</strong><span>Direct with the project team</span></div>
             </li>
           </ul>
           <ul class="marquee-row" aria-hidden="true">
@@ -3173,7 +3706,7 @@
                   stroke-linejoin="round">
                   <path d="M12 3v18M16.5 7.5c-.8-1.6-2.5-2.4-4.5-2.4-2.5 0-4.2 1.2-4.2 3.1 0 4.3 9 2.4 9 7 0 2-1.9 3.3-4.8 3.3-2.3 0-4.1-.9-4.9-2.6" />
                 </svg></span>
-              <div><strong>Fixed pricing from $600</strong><span>No surprise invoices</span></div>
+              <div><strong>Fixed pricing from US$600</strong><span>No surprise invoices</span></div>
             </li>
             <li class="proof-item"><span class="proof-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
@@ -3181,7 +3714,7 @@
                   <rect x="3.2" y="4.5" width="17.6" height="15" rx="3" />
                   <path d="M3.2 9h17.6M7 6.8h.01M10 6.8h.01" />
                 </svg></span>
-              <div><strong>200+ sites shipped</strong><span>Across 6+ industries</span></div>
+              <div><strong>Real client work</strong><span>Shown as privacy-safe demos</span></div>
             </li>
             <li class="proof-item"><span class="proof-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"
@@ -3204,7 +3737,7 @@
                   <circle cx="12" cy="12" r="8.5" />
                   <path d="M3.6 12h16.8M12 3.5c2.2 2.4 3.3 5.3 3.3 8.5s-1.1 6.1-3.3 8.5c-2.2-2.4-3.3-5.3-3.3-8.5S9.8 5.9 12 3.5z" />
                 </svg></span>
-              <div><strong>Multi language</strong><span>Direct with the designer</span></div>
+              <div><strong>English + Portuguese</strong><span>Direct with the project team</span></div>
             </li>
           </ul>
         </div>
@@ -3214,65 +3747,200 @@
       <div class="shell">
         <div class="section-head is-centered reveal">
           <div>
-            <p class="section-kicker">Instant estimate / no calls</p>
-            <h2>See your starting price.</h2>
-            <p class="section-lead">Three quick answers and you get the starting price and delivery window for a project
-              like yours — before talking to anyone.</p>
+            <p class="section-kicker">Project match / about 90 seconds</p>
+            <h2>Show us the direction.</h2>
+            <p class="section-lead">Five short steps. We’ll review the fit, reply with the right starting point and keep
+              the detailed onboarding for phase two.</p>
           </div>
         </div>
-        <div class="quote-wrap reveal" role="group" aria-labelledby="quote-title">
-          <div class="quote-card">
+        <div class="quote-wrap reveal">
+          <form class="quote-card lead-form" id="lead-form" novalidate aria-labelledby="lead-form-title">
+            <input type="hidden" name="package_interest" id="package-interest" value="">
+            <label class="sr-only" aria-hidden="true">Leave this field empty<input type="text" name="website"
+                tabindex="-1" autocomplete="off"></label>
             <div class="quote-top">
-              <strong id="quote-title">Quick quote</strong>
-              <span class="status-dot">Available</span>
+              <strong id="lead-form-title">Your project match</strong>
+              <span class="status-dot">No call required</span>
             </div>
-            <label class="field">
-              <span>Product type</span>
-              <span class="select-wrap">
-                <select id="project-type">
-                  <option value="landing">Landing page</option>
-                  <option value="simple" selected>Simple website</option>
-                  <option value="premium">Premium website</option>
-                </select>
-              </span>
-            </label>
-            <label class="field">
-              <span>Needed timeline</span>
-              <span class="select-wrap">
-                <select id="project-deadline">
-                  <option value="urgent">As soon as possible</option>
-                  <option value="week" selected>Within a week</option>
-                  <option value="month">This month</option>
-                  <option value="flexible">Flexible</option>
-                </select>
-              </span>
-            </label>
-            <label class="field">
-              <span>Main website goal</span>
-              <span class="select-wrap">
-                <select id="project-goal">
-                  <option value="business" selected>Business growth</option>
-                  <option value="portfolio">Portfolio</option>
-                  <option value="personal">Personal brand</option>
-                  <option value="services">Service inquiries</option>
-                  <option value="launch">Product launch</option>
-                </select>
-              </span>
-            </label>
-            <div class="quote-result" aria-live="polite">
-              <div>
-                <small>Starting price</small>
-                <div class="quote-price" id="quote-price">$1,000</div>
+            <div class="lead-progress">
+              <div class="lead-progress-top"><span id="lead-progress-label">Visual direction</span><span
+                  id="lead-progress-number">1 of 5</span></div>
+              <div class="lead-progress-track" role="progressbar" aria-label="Project match progress" aria-valuemin="1"
+                aria-valuemax="5" aria-valuenow="1">
+                <div class="lead-progress-bar" id="lead-progress-bar"></div>
               </div>
-              <div class="quote-time" id="quote-time">Up to 8 pages</div>
             </div>
-            <a class="btn btn-primary" id="quote-cta"
-              href="briefing?plan=simple&amp;deadline=week&amp;goal=business">Build my project brief
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </a>
-          </div>
+
+            <section class="lead-step" data-lead-step="0" data-step-name="Visual direction"
+              aria-labelledby="lead-step-0-title">
+              <p class="lead-step-kicker">01 / Look &amp; feel</p>
+              <h3 id="lead-step-0-title" tabindex="-1">Which directions feel closest?</h3>
+              <p class="lead-step-intro">Choose one or two. This is a starting signal, not a locked design.</p>
+              <fieldset class="lead-fieldset">
+                <legend class="sr-only">Preferred visual directions</legend>
+                <div class="lead-choice-grid">
+                  <label class="lead-choice"><input type="checkbox" name="visual_directions" value="minimal_clean"><span
+                      class="lead-choice-card"><span class="style-swatch style-minimal">Aa</span><strong>Minimal &amp;
+                        clean</strong><small>Quiet, structured and easy to scan.</small></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="visual_directions" value="bold_editorial"><span
+                      class="lead-choice-card"><span class="style-swatch style-bold">Aa</span><strong>Bold &amp;
+                        editorial</strong><small>High contrast with a strong point of view.</small></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="visual_directions"
+                      value="premium_refined"><span class="lead-choice-card"><span
+                        class="style-swatch style-premium">Aa</span><strong>Premium &amp; refined</strong><small>Calm,
+                        polished and detail-led.</small></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="visual_directions"
+                      value="friendly_playful"><span class="lead-choice-card"><span
+                        class="style-swatch style-friendly">Aa</span><strong>Friendly &amp; playful</strong><small>Warm,
+                        approachable and expressive.</small></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="visual_directions"
+                      value="technical_modern"><span class="lead-choice-card"><span
+                        class="style-swatch style-technical">Aa</span><strong>Technical &amp; modern</strong><small>Precise,
+                        credible and product-focused.</small></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="visual_directions" value="open_to_direction"><span
+                      class="lead-choice-card"><span class="style-swatch style-unsure">?</span><strong>Open to
+                        direction</strong><small>Recommend what fits the business best.</small></span></label>
+                </div>
+              </fieldset>
+              <p class="lead-selection-hint">Select 1–2 directions</p>
+            </section>
+
+            <section class="lead-step" data-lead-step="1" data-step-name="Website goals"
+              aria-labelledby="lead-step-1-title" hidden>
+              <p class="lead-step-kicker">02 / Outcome</p>
+              <h3 id="lead-step-1-title" tabindex="-1">What should the website make happen?</h3>
+              <p class="lead-step-intro">Choose every outcome that matters. You can prioritize them during onboarding.</p>
+              <fieldset class="lead-fieldset">
+                <legend class="sr-only">Website goals</legend>
+                <div class="lead-choice-grid two">
+                  <label class="lead-choice"><input type="checkbox" name="objectives" value="generate_leads"><span
+                      class="lead-choice-card lead-check-card"><strong>Generate qualified leads</strong></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="objectives" value="book_appointments"><span
+                      class="lead-choice-card lead-check-card"><strong>Book appointments</strong></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="objectives" value="sell_offer"><span
+                      class="lead-choice-card lead-check-card"><strong>Sell a product or service</strong></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="objectives" value="build_authority"><span
+                      class="lead-choice-card lead-check-card"><strong>Build trust and authority</strong></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="objectives" value="showcase_work"><span
+                      class="lead-choice-card lead-check-card"><strong>Showcase work or cases</strong></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="objectives" value="replace_existing_site"><span
+                      class="lead-choice-card lead-check-card"><strong>Replace an existing site</strong></span></label>
+                </div>
+              </fieldset>
+            </section>
+
+            <section class="lead-step" data-lead-step="2" data-step-name="Content readiness"
+              aria-labelledby="lead-step-2-title" hidden>
+              <p class="lead-step-kicker">03 / What you have</p>
+              <h3 id="lead-step-2-title" tabindex="-1">What content is already available?</h3>
+              <p class="lead-step-intro">Rough notes count. Select everything you already have.</p>
+              <fieldset class="lead-fieldset">
+                <legend class="sr-only">Available content and assets</legend>
+                <div class="lead-choice-grid two">
+                  <label class="lead-choice"><input type="checkbox" name="assets_available" value="logo_brand"><span
+                      class="lead-choice-card lead-check-card"><strong>Logo or brand guide</strong></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="assets_available" value="copy_text"><span
+                      class="lead-choice-card lead-check-card"><strong>Copy or text drafts</strong></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="assets_available" value="photos_video"><span
+                      class="lead-choice-card lead-check-card"><strong>Photos or video</strong></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="assets_available" value="ideas_references"><span
+                      class="lead-choice-card lead-check-card"><strong>Ideas or references</strong></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="assets_available"
+                      value="testimonials_reviews"><span class="lead-choice-card lead-check-card"><strong>Testimonials or
+                        reviews</strong></span></label>
+                  <label class="lead-choice"><input type="checkbox" name="assets_available" value="need_help"><span
+                      class="lead-choice-card lead-check-card"><strong>Nothing ready — I need help</strong></span></label>
+                </div>
+              </fieldset>
+            </section>
+
+            <section class="lead-step" data-lead-step="3" data-step-name="Name and domain"
+              aria-labelledby="lead-step-3-title" hidden>
+              <p class="lead-step-kicker">04 / Digital home</p>
+              <h3 id="lead-step-3-title" tabindex="-1">Does the project already have a name or domain?</h3>
+              <p class="lead-step-intro">No problem if it does not. This helps us understand what is already in place.</p>
+              <div class="lead-fields">
+                <fieldset class="lead-fieldset full">
+                  <legend>Business or website name</legend>
+                  <div class="lead-inline-options">
+                    <label class="lead-choice"><input type="radio" name="business_name_status" value="defined"><span
+                        class="lead-choice-card"><strong>Name is defined</strong><small>I know what the site will be
+                          called.</small></span></label>
+                    <label class="lead-choice"><input type="radio" name="business_name_status"
+                        value="working_on_it"><span class="lead-choice-card"><strong>Still deciding</strong><small>I may
+                          need guidance.</small></span></label>
+                  </div>
+                </fieldset>
+                <label class="lead-field full" id="business-name-field" hidden><span>Business / website name</span><input
+                    type="text" name="business_name" maxlength="100" autocomplete="organization"
+                    placeholder="Northstar Dental"></label>
+                <fieldset class="lead-fieldset full">
+                  <legend>Domain or current website</legend>
+                  <div class="lead-inline-options">
+                    <label class="lead-choice"><input type="radio" name="domain_status" value="owned"><span
+                        class="lead-choice-card"><strong>Domain purchased</strong><small>I already own the
+                          address.</small></span></label>
+                    <label class="lead-choice"><input type="radio" name="domain_status" value="existing_site"><span
+                        class="lead-choice-card"><strong>Existing website</strong><small>This is a redesign or
+                          replacement.</small></span></label>
+                    <label class="lead-choice"><input type="radio" name="domain_status" value="not_yet"><span
+                        class="lead-choice-card"><strong>Not yet</strong><small>I need help choosing or buying
+                          one.</small></span></label>
+                  </div>
+                </fieldset>
+                <label class="lead-field full" id="domain-value-field" hidden><span>Domain or current website URL</span><input
+                    type="text" name="domain_or_site_url" maxlength="240" inputmode="url"
+                    placeholder="example.com"><small>No passwords or account access needed.</small></label>
+              </div>
+            </section>
+
+            <section class="lead-step" data-lead-step="4" data-step-name="Contact details"
+              aria-labelledby="lead-step-4-title" hidden>
+              <p class="lead-step-kicker">05 / Send your match</p>
+              <h3 id="lead-step-4-title" tabindex="-1">Where should we send the next step?</h3>
+              <p class="lead-step-intro">We’ll review this direction and reply with the best starting point. No sales
+                call is required.</p>
+              <div class="lead-fields">
+                <label class="lead-field"><span>Your name</span><input type="text" name="contact_name"
+                    autocomplete="name" required placeholder="Jane Smith"></label>
+                <label class="lead-field"><span>Work email</span><input type="email" name="contact_email"
+                    autocomplete="email" required placeholder="jane@company.com"></label>
+                <label class="lead-field"><span>WhatsApp / phone</span><input type="tel" name="contact_phone"
+                    autocomplete="tel" placeholder="+1 555 000 0000"></label>
+                <label class="lead-field"><span>Preferred reply</span><select name="preferred_channel">
+                    <option value="">Choose one (optional)</option>
+                    <option value="email">Email</option>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="either">Either works</option>
+                  </select></label>
+                <label class="lead-consent full" id="privacy-note"><input type="checkbox" name="consent" value="yes"
+                    required><span>I agree that Sevenday Sites may use these details to evaluate my project and contact me
+                    about it. Project data is not sold and no account passwords should be shared here.</span></label>
+              </div>
+            </section>
+
+            <div class="lead-actions" id="lead-actions">
+              <button class="btn btn-secondary" id="lead-back" type="button" hidden>Back</button>
+              <button class="btn btn-primary" id="lead-next" type="button">Continue <span
+                  aria-hidden="true">→</span></button>
+              <button class="btn btn-primary" id="lead-submit" type="submit" hidden>Send my project <span
+                  aria-hidden="true">→</span></button>
+            </div>
+            <p class="lead-status" id="lead-status" role="alert" hidden></p>
+
+            <section class="lead-success" id="lead-success" hidden aria-labelledby="lead-success-title">
+              <div class="lead-success-icon">✓</div>
+              <h3 id="lead-success-title" tabindex="-1">Your project match is in.</h3>
+              <p>We’ll review it and reply with the right starting point. If you already have a few more minutes, you can
+                complete the build onboarding now.</p>
+              <div class="lead-success-actions"><a class="btn btn-primary" id="lead-onboarding-link" href="briefing"
+                  data-track-cta="continue_onboarding" data-track-location="lead_success">Continue onboarding
+                  →</a><a class="btn btn-secondary"
+                  href="https://api.whatsapp.com/send?phone=5531995536335&amp;text=Hi%20Sevenday%2C%20I%20just%20sent%20my%20project%20match."
+                  target="_blank" rel="noopener" data-track-cta="whatsapp_after_lead"
+                  data-track-location="lead_success">WhatsApp ↗</a></div>
+            </section>
+          </form>
         </div>
       </div>
     </section>
@@ -3285,6 +3953,9 @@
             <h2>Built for real businesses.</h2>
             <p class="section-lead">Home services, medical aesthetics, legal practices and B2B software. Different
               buying journeys, one fast process.</p>
+            <p class="portfolio-privacy-note"><strong>Privacy-safe portfolio:</strong> previews use demo versions of
+              delivered work. Client names, private assets and copy may be adapted, and selected Portuguese projects
+              are translated into English. The strategy, structure and design system reflect the delivered project.</p>
           </div>
           <div class="filters" id="work-filters" role="group" aria-label="Filter portfolio projects">
             <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">All<span
@@ -3315,15 +3986,15 @@
               </div>
             </div>
             <div class="work-info">
-              <div class="work-meta"><span>Lead-generation website</span><span class="delivery-badge">Live
-                  website</span></div>
+              <div class="work-meta"><span>Lead-generation website</span><span class="delivery-badge">Privacy-safe
+                  demo</span></div>
               <h3>Lion Leak Detection</h3>
               <p>A fast, trust-first local service journey built around calls, messages and urgent lead capture.</p>
               <div class="work-actions">
                 <button class="work-action preview" type="button" data-preview-title="Lion Leak Detection"
-                  data-preview-url="https://www.lionleak.com/">Live preview</button>
+                  data-preview-url="https://www.lionleak.com/">View demo</button>
                 <a class="work-action external" href="https://www.lionleak.com/" target="_blank"
-                  rel="noopener noreferrer">Open website ↗</a>
+                  rel="noopener noreferrer">Open demo ↗</a>
               </div>
             </div>
           </article>
@@ -3340,15 +4011,15 @@
               </div>
             </div>
             <div class="work-info">
-              <div class="work-meta"><span>Lead-generation website</span><span class="delivery-badge">Live
-                  website</span></div>
+              <div class="work-meta"><span>Lead-generation website</span><span class="delivery-badge">Privacy-safe
+                  demo</span></div>
               <h3>FloorSure Flooring</h3>
               <p>A residential flooring page that pairs visual confidence with an estimate form above the fold.</p>
               <div class="work-actions">
                 <button class="work-action preview" type="button" data-preview-title="FloorSure Flooring"
-                  data-preview-url="https://floorsurellc.lovable.app/">Live preview</button>
+                  data-preview-url="https://floorsurellc.lovable.app/">View demo</button>
                 <a class="work-action external" href="https://floorsurellc.lovable.app/" target="_blank"
-                  rel="noopener noreferrer">Open website ↗</a>
+                  rel="noopener noreferrer">Open demo ↗</a>
               </div>
             </div>
           </article>
@@ -3366,19 +4037,20 @@
               </div>
             </div>
             <div class="work-info">
-              <div class="work-meta"><span>Industry concept</span><span class="delivery-badge">Live demo</span></div>
+              <div class="work-meta"><span>Industry concept</span><span class="delivery-badge">Privacy-safe demo</span>
+              </div>
               <h3>Merae Skin Studio</h3>
               <p>A consultation-led concept for a premium medical-aesthetics studio, designed around informed choice.</p>
               <div class="work-actions">
                 <button class="work-action preview" type="button" data-preview-title="Merae Skin Studio"
-                  data-preview-url="/merae-skin-studio/">Live preview</button>
+                  data-preview-url="/merae-skin-studio/">View demo</button>
                 <a class="work-action external" href="/merae-skin-studio/" target="_blank"
-                  rel="noopener noreferrer">Open website ↗</a>
+                  rel="noopener noreferrer">Open demo ↗</a>
               </div>
             </div>
           </article>
 
-          <article class="work-card theme-clinic reveal" data-category="wellness">
+          <article class="work-card theme-clinic reveal mobile-extra" data-category="wellness">
             <div class="mock-stage">
               <div class="browser portfolio-browser">
                 <div class="browser-top" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -3390,21 +4062,22 @@
               </div>
             </div>
             <div class="work-info">
-              <div class="work-meta"><span>Conversion landing page</span><span class="delivery-badge">Live demo</span>
+              <div class="work-meta"><span>Conversion landing page</span><span class="delivery-badge">Privacy-safe
+                  demo</span>
               </div>
               <h3>Brazilian Clinic</h3>
               <p>A high-intent spa landing page for a Brazilian aesthetics clinic, pairing premium storytelling, local
                 SEO and WhatsApp booking.</p>
               <div class="work-actions">
                 <button class="work-action preview" type="button" data-preview-title="Brazilian Clinic"
-                  data-preview-url="/spa/">Live preview</button>
-                <a class="work-action external" href="/spa/" target="_blank" rel="noopener noreferrer">Open website
+                  data-preview-url="/spa/">View demo</button>
+                <a class="work-action external" href="/spa/" target="_blank" rel="noopener noreferrer">Open demo
                   ↗</a>
               </div>
             </div>
           </article>
 
-          <article class="work-card theme-legal reveal" data-category="professional">
+          <article class="work-card theme-legal reveal mobile-extra" data-category="professional">
             <div class="mock-stage">
               <div class="browser portfolio-browser">
                 <div class="browser-top" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -3416,20 +4089,20 @@
               </div>
             </div>
             <div class="work-info">
-              <div class="work-meta"><span>Multi-page website</span><span class="delivery-badge">Live website</span>
+              <div class="work-meta"><span>Multi-page website</span><span class="delivery-badge">Privacy-safe demo</span>
               </div>
               <h3>Friedland Law</h3>
               <p>An authority-led multilingual legal experience that turns high-intent visits into consultations.</p>
               <div class="work-actions">
                 <button class="work-action preview" type="button" data-preview-title="Friedland Law"
-                  data-preview-url="https://friedland-law-site.lovable.app">Live preview</button>
+                  data-preview-url="https://friedland-law-site.lovable.app">View demo</button>
                 <a class="work-action external" href="https://friedland-law-site.lovable.app" target="_blank"
-                  rel="noopener noreferrer">Open website ↗</a>
+                  rel="noopener noreferrer">Open demo ↗</a>
               </div>
             </div>
           </article>
 
-          <article class="work-card theme-saas reveal" data-category="saas">
+          <article class="work-card theme-saas reveal mobile-extra" data-category="saas">
             <div class="mock-stage">
               <div class="browser portfolio-browser">
                 <div class="browser-top" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -3441,19 +4114,21 @@
               </div>
             </div>
             <div class="work-info">
-              <div class="work-meta"><span>Product landing page</span><span class="delivery-badge">Live website</span>
+              <div class="work-meta"><span>Product landing page</span><span class="delivery-badge">Privacy-safe demo</span>
               </div>
               <h3>CbCloud MCP</h3>
               <p>A product-led SaaS page that turns complex AI infrastructure into a clear seven-day trial path.</p>
               <div class="work-actions">
                 <button class="work-action preview" type="button" data-preview-title="CbCloud MCP"
-                  data-preview-url="https://lp.cbcloud.com.br/mcp/?lang=en">Live preview</button>
+                  data-preview-url="https://lp.cbcloud.com.br/mcp/?lang=en">View demo</button>
                 <a class="work-action external" href="https://lp.cbcloud.com.br/mcp/?lang=en" target="_blank"
-                  rel="noopener noreferrer">Open website ↗</a>
+                  rel="noopener noreferrer">Open demo ↗</a>
               </div>
             </div>
           </article>
         </div>
+        <button class="btn btn-secondary work-more" id="work-more" type="button">Show all six projects
+          <span aria-hidden="true">↓</span></button>
       </div>
     </section>
 
@@ -3470,7 +4145,7 @@
           <article class="price-card reveal">
             <span class="price-index">01 / LEAN</span>
             <h3>Landing Page</h3>
-            <div class="price-tag">$600</div>
+            <div class="price-tag"><small>From</small> US$600</div>
             <div class="price-time">3 working days</div>
             <p class="price-description">One focused page, built to convert.</p>
             <ul class="feature-list">
@@ -3480,13 +4155,14 @@
               <li>Basic analytics installed</li>
               <li>1 revision round</li>
             </ul>
-            <div class="price-note">You provide text and photos.</div><a class="btn btn-secondary"
-              href="briefing?plan=landing">Choose Landing <span>→</span></a>
+            <div class="price-note">You provide text and photos.</div><a class="btn btn-secondary" href="#quote"
+              data-plan-interest="landing" data-track-cta="choose_landing" data-track-location="pricing">Choose Landing
+              <span>→</span></a>
           </article>
           <article class="price-card featured reveal">
             <span class="popular">Most chosen</span><span class="price-index">02 / GROW</span>
             <h3>Simple Website</h3>
-            <div class="price-tag">$1,000</div>
+            <div class="price-tag"><small>From</small> US$1,000</div>
             <div class="price-time">5 working days</div>
             <p class="price-description">A clean website for a growing business.</p>
             <ul class="feature-list">
@@ -3497,12 +4173,13 @@
               <li>2 revision rounds</li>
             </ul>
             <div class="price-note">Best fit for standard business, portfolio and service sites.</div><a class="btn"
-              href="briefing?plan=simple">Choose Simple <span>→</span></a>
+              href="#quote" data-plan-interest="simple" data-track-cta="choose_simple"
+              data-track-location="pricing">Choose Simple <span>→</span></a>
           </article>
           <article class="price-card reveal">
             <span class="price-index">03 / PREMIUM</span>
             <h3>Premium Website</h3>
-            <div class="price-tag">$1,600</div>
+            <div class="price-tag"><small>From</small> US$1,600</div>
             <div class="price-time">7+ working days</div>
             <p class="price-description">More pages, deeper polish and stronger launch setup.</p>
             <ul class="feature-list">
@@ -3513,7 +4190,8 @@
               <li>30 days post-launch support</li>
             </ul>
             <div class="price-note">For projects with extra content, visual complexity or functional needs.</div><a
-              class="btn btn-secondary" href="briefing?plan=premium">Choose Premium <span>→</span></a>
+              class="btn btn-secondary" href="#quote" data-plan-interest="premium" data-track-cta="choose_premium"
+              data-track-location="pricing">Choose Premium <span>→</span></a>
           </article>
         </div>
         <div class="terms-band reveal">
@@ -3553,7 +4231,8 @@
           <article class="process-step reveal">
             <div class="step-number">03 / BUILD</div>
             <h3>3–7 day build</h3>
-            <p>You receive a working preview link halfway through — something you can click, not a static mockup.</p>
+            <p>Most sites reach a working preview in 3–7 business days. Larger scopes receive a delivery date before
+              work begins.</p>
           </article>
           <article class="process-step reveal">
             <div class="step-number">04 / LAUNCH</div>
@@ -3568,10 +4247,10 @@
 
     <section class="about-strip" aria-labelledby="about-title">
       <div class="shell about-grid reveal">
-        <h2 class="about-label" id="about-title">Who you're hiring</h2>
-        <p class="about-copy"><strong>A senior designer, directly.</strong> No account manager in the middle, no work
-          disappearing into an agency queue. Clear communication in English or Portuguese, usually within a few hours.
-        </p>
+        <h2 class="about-label" id="about-title">The team behind your launch</h2>
+        <p class="about-copy"><strong>A focused Brazilian web team.</strong> Strategy, design, development and launch QA
+          work as one small project team — without the layers and overhead of a traditional agency. Direct communication
+          in English or Portuguese, contracts and invoices included.</p>
         <span class="availability">Taking new projects</span>
       </div>
     </section>
@@ -3591,9 +4270,10 @@
             </button>
             <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-question-1">
               <div>
-                <p>We're based in Brazil, work lean and use a tested component system. The work is custom; the
-                  overhead is not. That cost structure keeps the price lower without turning the project into template
-                  assembly.</p>
+                <p>We're a focused team based in Brazil, with lower overhead than a traditional US agency. Strategy,
+                  content architecture and visual direction are tailored to the business; tested components give the
+                  build speed and technical reliability. The project is custom where it creates value and standardized
+                  where that reduces cost and risk.</p>
               </div>
             </div>
           </div>
@@ -3664,45 +4344,24 @@
                 receive a fixed quote and delivery date.</p>
               <div class="contact-options"><a class="contact-pill"
                   href="https://api.whatsapp.com/send?phone=5531995536335&amp;text=Hi%20Sevenday%2C%20I%27d%20like%20a%20website%20quote."
-                  target="_blank" rel="noopener">WhatsApp ↗</a><a class="contact-pill"
-                  href="mailto:hello@sevendaysites.studio">Email ↗</a><span class="contact-pill">English /
+                  target="_blank" rel="noopener" data-track-cta="whatsapp" data-track-location="final_contact">WhatsApp
+                  ↗</a><a class="contact-pill" href="mailto:hello@sevendaysites.studio" data-track-cta="email"
+                  data-track-location="final_contact">Email ↗</a><span class="contact-pill">English /
                   Português</span></div>
             </div>
-            <!-- Replace the email and WhatsApp links with the real contact details before publishing. -->
-            <form class="contact-form reveal reveal-delay" action="mailto:hello@sevendaysites.studio" method="post"
-              enctype="text/plain" aria-labelledby="contact-title" aria-describedby="contact-form-note">
-              <label class="contact-field"><span>Your name</span><input type="text" name="name" autocomplete="name"
-                  placeholder="Jane Smith" required></label>
-              <label class="contact-field"><span>Email</span><input type="email" name="email" autocomplete="email"
-                  placeholder="jane@company.com" required></label>
-              <label class="contact-field"><span>Product type</span><span class="select-wrap"><select name="product"
-                    id="contact-product">
-                    <option>Landing page</option>
-                    <option selected>Simple website</option>
-                    <option>Premium website</option>
-                  </select></span></label>
-              <label class="contact-field"><span>Needed timeline</span><span class="select-wrap"><select name="deadline"
-                    id="contact-deadline">
-                    <option>As soon as possible</option>
-                    <option selected>Within a week</option>
-                    <option>This month</option>
-                    <option>Flexible</option>
-                  </select></span></label>
-              <label class="contact-field"><span>Main website goal</span><span class="select-wrap"><select name="goal"
-                    id="contact-goal">
-                    <option selected>Business growth</option>
-                    <option>Portfolio</option>
-                    <option>Personal brand</option>
-                    <option>Service inquiries</option>
-                    <option>Product launch</option>
-                  </select></span></label>
-              <label class="contact-field"><span>Useful context</span><textarea name="message"
-                  rows="4"
-                  placeholder="Current URL, references, must-have sections or anything else useful..."></textarea></label>
-              <button class="btn btn-primary" type="submit">Send my project <span aria-hidden="true">→</span></button>
-              <p class="form-note" id="contact-form-note">No spam. Just a price, a deadline and any useful questions.</p>
-              <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite"></p>
-            </form>
+            <div class="contact-form reveal reveal-delay" aria-labelledby="contact-next-title">
+              <p class="lead-step-kicker">90-second start</p>
+              <h3 id="contact-next-title">Start with the essentials.</h3>
+              <p>Choose a visual direction, tell us the outcome you want and share what is already ready.</p>
+              <ul class="contact-checklist">
+                <li>No discovery call required</li>
+                <li>Detailed onboarding comes after capture</li>
+                <li>Reply usually within a few hours</li>
+              </ul>
+              <a class="btn btn-primary" href="#quote" data-track-cta="start_project"
+                data-track-location="final_cta">Start my project <span aria-hidden="true">→</span></a>
+              <p class="form-note">Prefer a message? WhatsApp and email remain available.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -3712,12 +4371,12 @@
   <dialog class="preview-dialog" id="portfolio-preview" aria-labelledby="preview-title">
     <div class="preview-shell">
       <div class="preview-toolbar">
-        <div class="preview-toolbar-copy"><strong id="preview-title">Live website preview</strong><small>Some websites
-            may block embedded previews; use “Open site” if the frame stays blank.</small></div>
-        <a class="work-action" id="preview-external" target="_blank" rel="noopener noreferrer">Open site ↗</a>
+        <div class="preview-toolbar-copy"><strong id="preview-title">Privacy-safe portfolio demo</strong><small>Client
+            names, assets or language may be adapted. Use “Open demo” if the frame stays blank.</small></div>
+        <a class="work-action" id="preview-external" target="_blank" rel="noopener noreferrer">Open demo ↗</a>
         <button class="preview-close" id="preview-close" type="button" aria-label="Close preview">×</button>
       </div>
-      <div class="preview-frame-wrap"><iframe class="preview-frame" id="preview-frame" title="Live website preview"
+      <div class="preview-frame-wrap"><iframe class="preview-frame" id="preview-frame" title="Portfolio demo preview"
           src="about:blank" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
           sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
       </div>
@@ -3733,7 +4392,7 @@
         </div>
         <div class="footer-links" aria-label="Contact links"><a href="mailto:hello@sevendaysites.studio">Email</a><a
             href="https://api.whatsapp.com/send?phone=5531995536335&amp;text=Hi%20Sevenday%2C%20I%27d%20like%20a%20website%20quote."
-            target="_blank" rel="noopener">WhatsApp</a></div>
+            target="_blank" rel="noopener" data-track-cta="whatsapp" data-track-location="footer">WhatsApp</a></div>
       </div>
       <div class="footer-bottom"><span>Based in Brazil · Working worldwide</span><span>© 2026 Sevenday Sites</span>
       </div>
@@ -3749,7 +4408,7 @@
 
   <a class="whatsapp-float"
     href="https://api.whatsapp.com/send?phone=5531995536335&amp;text=Hi%20Sevenday%2C%20I%27d%20like%20a%20website%20quote." target="_blank"
-    rel="noopener" aria-label="Chat on WhatsApp">
+    rel="noopener" aria-label="Chat on WhatsApp" data-track-cta="whatsapp" data-track-location="floating_button">
     <svg viewBox="0 0 32 32" aria-hidden="true">
       <path
         d="M16 3a12.8 12.8 0 0 0-11 19.4L3.2 29l6.8-1.8A12.9 12.9 0 1 0 16 3Zm0 23.4a10.5 10.5 0 0 1-5.4-1.5l-.4-.2-4 .9 1.1-3.9-.3-.4A10.6 10.6 0 1 1 16 26.4Zm5.8-7.9c-.3-.2-1.9-1-2.2-1.1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1a8.6 8.6 0 0 1-2.6-1.6 9.6 9.6 0 0 1-1.8-2.2c-.2-.3 0-.5.1-.7l.5-.6.3-.6c.1-.2 0-.4 0-.6l-1-2.3c-.3-.6-.6-.5-.8-.5h-.7c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.9 0 1.7 1.2 3.3 1.4 3.6.2.2 2.5 3.8 6 5.3.8.4 1.5.6 2 .7.9.3 1.6.2 2.2.1.7-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.4-.3-.8-.4Z" />
@@ -3802,28 +4461,281 @@
       }
       setNavigationState(false);
 
-      const type = document.querySelector('#project-type');
-      const deadline = document.querySelector('#project-deadline');
-      const goal = document.querySelector('#project-goal');
-      const price = document.querySelector('#quote-price');
-      const time = document.querySelector('#quote-time');
-      const quoteCta = document.querySelector('#quote-cta');
+      const track = (eventName, payload = {}) => {
+        if (typeof window.sevendayTrack === 'function') window.sevendayTrack(eventName, payload);
+        else {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: eventName, ...payload });
+        }
+      };
+      const leadForm = document.querySelector('#lead-form');
+      const leadSteps = [...leadForm.querySelectorAll('.lead-step')];
+      const leadProgressBar = document.querySelector('#lead-progress-bar');
+      const leadProgressTrack = document.querySelector('.lead-progress-track');
+      const leadProgressLabel = document.querySelector('#lead-progress-label');
+      const leadProgressNumber = document.querySelector('#lead-progress-number');
+      const leadBack = document.querySelector('#lead-back');
+      const leadNext = document.querySelector('#lead-next');
+      const leadSubmit = document.querySelector('#lead-submit');
+      const leadStatus = document.querySelector('#lead-status');
+      const leadSuccess = document.querySelector('#lead-success');
+      const leadOnboardingLink = document.querySelector('#lead-onboarding-link');
+      const leadWebhookUrl = (document.documentElement.dataset.webhookUrl || '').trim();
+      const leadSubmissionId = window.crypto && crypto.randomUUID ? crypto.randomUUID() : 'lead-' + Date.now();
+      const leadStartedAt = Date.now();
+      let leadCurrentStep = 0;
+      let leadHasStarted = false;
 
-      const packages = {
-        landing: ['$600', '1 page'],
-        simple: ['$1,000', 'Up to 8 pages'],
-        premium: ['$1,600', 'More pages + SEO']
+      const leadValues = name => [...leadForm.querySelectorAll(`[name="${name}"]:checked`)].map(item => item.value);
+      const leadValue = name => {
+        const field = leadForm.elements[name];
+        if (!field) return '';
+        if (field instanceof RadioNodeList) return field.value || '';
+        return field.value || '';
       };
 
-      function updateQuote() {
-        const result = packages[type.value];
-        price.textContent = result[0];
-        time.textContent = result[1];
-        const params = new URLSearchParams({ plan: type.value, deadline: deadline.value, goal: goal.value });
-        quoteCta.href = 'briefing?' + params.toString();
+      function showLeadError(message, field) {
+        leadStatus.textContent = message;
+        leadStatus.hidden = false;
+        track('lead_form_validation_error', {
+          form_id: 'homepage_project_match',
+          step_number: leadCurrentStep + 1,
+          step_name: leadSteps[leadCurrentStep].dataset.stepName
+        });
+        if (field) field.focus();
       }
-      [type, deadline, goal].forEach(field => field.addEventListener('change', updateQuote));
-      updateQuote();
+
+      function syncLeadConditionals() {
+        const nameDefined = leadValue('business_name_status') === 'defined';
+        const businessField = document.querySelector('#business-name-field');
+        const businessInput = leadForm.elements.business_name;
+        businessField.hidden = !nameDefined;
+        businessInput.required = nameDefined;
+
+        const domainNeeded = ['owned', 'existing_site'].includes(leadValue('domain_status'));
+        const domainField = document.querySelector('#domain-value-field');
+        const domainInput = leadForm.elements.domain_or_site_url;
+        domainField.hidden = !domainNeeded;
+        domainInput.required = domainNeeded;
+      }
+
+      function showLeadStep(index, focus = true) {
+        leadCurrentStep = Math.max(0, Math.min(index, leadSteps.length - 1));
+        leadSteps.forEach((step, position) => { step.hidden = position !== leadCurrentStep; });
+        const percentage = ((leadCurrentStep + 1) / leadSteps.length) * 100;
+        leadProgressBar.style.width = percentage + '%';
+        leadProgressTrack.setAttribute('aria-valuenow', String(leadCurrentStep + 1));
+        leadProgressLabel.textContent = leadSteps[leadCurrentStep].dataset.stepName;
+        leadProgressNumber.textContent = `${leadCurrentStep + 1} of ${leadSteps.length}`;
+        leadBack.hidden = leadCurrentStep === 0;
+        leadNext.hidden = leadCurrentStep === leadSteps.length - 1;
+        leadSubmit.hidden = leadCurrentStep !== leadSteps.length - 1;
+        leadStatus.hidden = true;
+        track('lead_form_step_viewed', {
+          form_id: 'homepage_project_match',
+          step_number: leadCurrentStep + 1,
+          step_name: leadSteps[leadCurrentStep].dataset.stepName
+        });
+        if (focus) {
+          leadForm.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
+          leadSteps[leadCurrentStep].querySelector('h3').focus({ preventScroll: true });
+        }
+      }
+
+      function validateLeadStep() {
+        if (leadCurrentStep === 0) {
+          const styles = leadValues('visual_directions');
+          if (!styles.length) return showLeadError('Choose at least one visual direction.'), false;
+          if (styles.length > 2) return showLeadError('Choose no more than two visual directions.'), false;
+        }
+        if (leadCurrentStep === 1 && !leadValues('objectives').length) {
+          showLeadError('Choose at least one goal for the website.');
+          return false;
+        }
+        if (leadCurrentStep === 2 && !leadValues('assets_available').length) {
+          showLeadError('Choose what you already have, or select that you need help.');
+          return false;
+        }
+        if (leadCurrentStep === 3) {
+          if (!leadValue('business_name_status')) {
+            showLeadError('Tell us whether the business or website name is defined.');
+            return false;
+          }
+          if (!leadValue('domain_status')) {
+            showLeadError('Choose the option that best describes the domain or current site.');
+            return false;
+          }
+        }
+        const fields = [...leadSteps[leadCurrentStep].querySelectorAll('input, select')].filter(field => !field.disabled);
+        for (const field of fields) {
+          if (!field.checkValidity()) {
+            field.reportValidity();
+            field.focus();
+            return false;
+          }
+        }
+        if (leadCurrentStep === 4 && leadValue('preferred_channel') === 'whatsapp' && !leadValue('contact_phone').trim()) {
+          showLeadError('Add a WhatsApp number, or choose email as the preferred reply.', leadForm.elements.contact_phone);
+          return false;
+        }
+        return true;
+      }
+
+      function completeLeadStep() {
+        if (!validateLeadStep()) return;
+        track('lead_form_step_completed', {
+          form_id: 'homepage_project_match',
+          step_number: leadCurrentStep + 1,
+          step_name: leadSteps[leadCurrentStep].dataset.stepName,
+          selected_styles: leadCurrentStep === 0 ? leadValues('visual_directions').join('|') : undefined,
+          selected_objectives: leadCurrentStep === 1 ? leadValues('objectives').join('|') : undefined,
+          content_status: leadCurrentStep === 2 ? leadValues('assets_available').join('|') : undefined,
+          domain_status: leadCurrentStep === 3 ? leadValue('domain_status') : undefined
+        });
+        showLeadStep(leadCurrentStep + 1);
+      }
+
+      leadForm.addEventListener('input', () => {
+        if (!leadHasStarted) {
+          leadHasStarted = true;
+          track('lead_form_started', { form_id: 'homepage_project_match', form_version: '2.0' });
+        }
+        leadStatus.hidden = true;
+      });
+      leadForm.addEventListener('change', event => {
+        if (event.target.name === 'visual_directions') {
+          const openChoice = leadForm.querySelector('[name="visual_directions"][value="open_to_direction"]');
+          if (event.target.value === 'open_to_direction' && event.target.checked) {
+            leadForm.querySelectorAll('[name="visual_directions"]:not([value="open_to_direction"])').forEach(item => { item.checked = false; });
+          } else if (event.target.checked && openChoice) {
+            openChoice.checked = false;
+          }
+          const checked = leadValues('visual_directions');
+          if (checked.length > 2) {
+            event.target.checked = false;
+            showLeadError('Choose no more than two visual directions.', event.target);
+          }
+        }
+        if (event.target.name === 'assets_available' && event.target.value === 'need_help' && event.target.checked) {
+          leadForm.querySelectorAll('[name="assets_available"]:not([value="need_help"])').forEach(item => { item.checked = false; });
+        } else if (event.target.name === 'assets_available' && event.target.checked) {
+          const none = leadForm.querySelector('[name="assets_available"][value="need_help"]');
+          if (none) none.checked = false;
+        }
+        if (event.target.name === 'business_name_status' || event.target.name === 'domain_status') syncLeadConditionals();
+      });
+      leadNext.addEventListener('click', completeLeadStep);
+      leadBack.addEventListener('click', () => showLeadStep(leadCurrentStep - 1));
+
+      document.querySelectorAll('[data-plan-interest]').forEach(link => link.addEventListener('click', () => {
+        document.querySelector('#package-interest').value = link.dataset.planInterest;
+      }));
+
+      leadForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!validateLeadStep()) return;
+        if (leadValue('website').trim()) {
+          showLeadError('We could not send this form. Please refresh the page and try again.');
+          return;
+        }
+        const attribution = typeof window.sevendayGetAttribution === 'function' ? window.sevendayGetAttribution() : null;
+        const businessNameStatus = leadValue('business_name_status');
+        const domainStatus = leadValue('domain_status');
+        const payload = {
+          schema_version: '3.0',
+          event: 'lead_intake.submitted',
+          submission_id: leadSubmissionId,
+          submitted_at: new Date().toISOString(),
+          form: { id: 'homepage_project_match', version: '2.0', duration_ms: Date.now() - leadStartedAt },
+          source: attribution,
+          preferences: {
+            package_interest: leadValue('package_interest') || null,
+            visual_directions: leadValues('visual_directions'),
+            objectives: leadValues('objectives')
+          },
+          content: { assets_available: leadValues('assets_available') },
+          brand: {
+            business_name_status: businessNameStatus,
+            business_name: businessNameStatus === 'defined' ? leadValue('business_name').trim() || null : null,
+            domain_status: domainStatus,
+            domain_or_site_url: ['owned','existing_site'].includes(domainStatus) ? leadValue('domain_or_site_url').trim() || null : null
+          },
+          contact: {
+            name: leadValue('contact_name').trim(),
+            email: leadValue('contact_email').trim(),
+            phone_whatsapp: leadValue('contact_phone').trim() || null,
+            preferred_channel: leadValue('preferred_channel') || null
+          },
+          consent: { project_contact: leadValue('consent') === 'yes', notice_version: '2026-09' }
+        };
+
+        leadSubmit.disabled = true;
+        const originalLabel = leadSubmit.innerHTML;
+        leadSubmit.textContent = 'Sending…';
+        leadStatus.hidden = true;
+        track('lead_form_submit_attempt', { form_id: 'homepage_project_match', submission_id: leadSubmissionId });
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 20000);
+        try {
+          if (!leadWebhookUrl || !(/^https:\/\//i.test(leadWebhookUrl) || /^\/(?!\/)/.test(leadWebhookUrl))) {
+            throw new Error('Project form is not connected yet. Please use WhatsApp or email so we do not lose your details.');
+          }
+          const response = await fetch(leadWebhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(payload),
+            credentials: 'omit',
+            signal: controller.signal
+          });
+          if (!response.ok) throw new Error('The form returned HTTP ' + response.status + '. Please try again.');
+          let result = {};
+          try { result = await response.json(); } catch (error) { result = {}; }
+          const leadId = result.lead_id || result.submission_id || leadSubmissionId;
+          const context = {
+            lead_id: leadId,
+            submission_id: leadSubmissionId,
+            saved_at: Date.now(),
+            expires_at: Date.now() + 2 * 60 * 60 * 1000,
+            preferences: payload.preferences,
+            content: payload.content,
+            brand: payload.brand,
+            contact: payload.contact
+          };
+          try { sessionStorage.setItem('sevenday_lead_context_v1', JSON.stringify(context)); } catch (error) { }
+          const params = new URLSearchParams({ lead_id: leadId });
+          if (result.onboarding_token) params.set('token', result.onboarding_token);
+          leadOnboardingLink.href = result.onboarding_url || ('briefing?' + params.toString());
+          leadForm.querySelector('.quote-top').hidden = true;
+          leadForm.querySelector('.lead-progress').hidden = true;
+          leadSteps.forEach(step => { step.hidden = true; });
+          document.querySelector('#lead-actions').hidden = true;
+          leadSuccess.hidden = false;
+          leadSuccess.querySelector('h3').focus();
+          track('lead_form_success', {
+            form_id: 'homepage_project_match',
+            submission_id: leadSubmissionId,
+            duration_ms: Date.now() - leadStartedAt,
+            package_interest: payload.preferences.package_interest,
+            selected_styles: payload.preferences.visual_directions.join('|'),
+            selected_objectives: payload.preferences.objectives.join('|')
+          });
+        } catch (error) {
+          const message = error.name === 'AbortError' ? 'The request timed out. Your answers are still here — please try again or use WhatsApp.' : error.message;
+          showLeadError(message);
+          track('lead_form_error', {
+            form_id: 'homepage_project_match',
+            submission_id: leadSubmissionId,
+            error_type: error.name === 'AbortError' ? 'timeout' : 'request_failed'
+          });
+        } finally {
+          clearTimeout(timeout);
+          leadSubmit.disabled = false;
+          leadSubmit.innerHTML = originalLabel;
+        }
+      });
+
+      syncLeadConditionals();
+      showLeadStep(0, false);
 
       const isSafePreviewUrl = value => {
         const url = (value || '').trim();
@@ -3832,12 +4744,15 @@
       const workGrid = document.querySelector('#work-grid');
       const workFilters = document.querySelector('#work-filters');
       const filterStatus = document.querySelector('#work-filter-status');
+      const workMore = document.querySelector('#work-more');
 
       const filterButtons = [...workFilters.querySelectorAll('.filter-btn')];
       const workCards = [...workGrid.querySelectorAll('.work-card')];
       filterButtons.forEach(button => button.addEventListener('click', () => {
         const filter = button.dataset.filter;
         let visibleCount = 0;
+        workGrid.classList.toggle('is-filtered', filter !== 'all');
+        workMore.hidden = filter !== 'all' || workGrid.classList.contains('is-expanded');
         filterButtons.forEach(item => {
           const isActive = item === button;
           item.classList.toggle('active', isActive);
@@ -3854,6 +4769,13 @@
         });
         filterStatus.textContent = `${visibleCount} project${visibleCount === 1 ? '' : 's'} shown.`;
       }));
+
+      workMore.addEventListener('click', () => {
+        workGrid.classList.add('is-expanded');
+        workMore.hidden = true;
+        filterStatus.textContent = 'All 6 projects shown.';
+        track('portfolio_show_all', { project_count: 6 });
+      });
 
       const previewDialog = document.querySelector('#portfolio-preview');
       const previewFrame = document.querySelector('#preview-frame');
@@ -3884,6 +4806,10 @@
         previewDialog.showModal();
         previewFrame.src = rawUrl;
         previewCloseButton.focus();
+        track('portfolio_preview_opened', {
+          project_name: projectTitle,
+          project_category: trigger.closest('.work-card').dataset.category
+        });
       });
 
       previewCloseButton.addEventListener('click', closePreview);
@@ -3911,83 +4837,6 @@
         const isPaused = proofMarquee.classList.toggle('is-paused');
         marqueeToggle.setAttribute('aria-pressed', String(isPaused));
         marqueeToggle.querySelector('span').textContent = isPaused ? 'Play' : 'Pause';
-      });
-
-      const contactForm = document.querySelector('.contact-form');
-      const contactStatus = document.querySelector('#contact-form-status');
-      const contactSubmit = contactForm.querySelector('button[type="submit"]');
-      const CONTACT_WEBHOOK_URL = (document.documentElement.dataset.webhookUrl || '').trim();
-
-      function mailtoFallback(formData, statusMessage) {
-        const subject = `Website project — ${formData.get('product')}`;
-        const body = [
-          `Name: ${formData.get('name')}`,
-          `Email: ${formData.get('email')}`,
-          `Product: ${formData.get('product')}`,
-          `Timeline: ${formData.get('deadline')}`,
-          `Main goal: ${formData.get('goal')}`,
-          '',
-          String(formData.get('message') || '')
-        ].join('\n');
-        if (statusMessage) {
-          contactStatus.textContent = statusMessage;
-        } else {
-          contactStatus.classList.remove('is-error');
-          contactStatus.textContent = 'Opening your email app with the project details filled in.';
-        }
-        window.location.href = `mailto:hello@sevendaysites.studio?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      }
-
-      contactForm.addEventListener('submit', async event => {
-        event.preventDefault();
-        const formData = new FormData(contactForm);
-
-        // No webhook configured for this build: keep the mailto fallback.
-        if (!CONTACT_WEBHOOK_URL || !/^https:\/\//i.test(CONTACT_WEBHOOK_URL)) {
-          mailtoFallback(formData);
-          return;
-        }
-
-        const payload = {
-          schema_version: '1.0',
-          event: 'homepage_contact.submitted',
-          submitted_at: new Date().toISOString(),
-          name: formData.get('name'),
-          email: formData.get('email'),
-          product: formData.get('product'),
-          deadline: formData.get('deadline'),
-          goal: formData.get('goal'),
-          message: formData.get('message') || ''
-        };
-
-        contactSubmit.disabled = true;
-        const originalLabel = contactSubmit.innerHTML;
-        contactSubmit.textContent = 'Sending…';
-        contactStatus.classList.remove('is-error');
-        contactStatus.textContent = '';
-
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 20000);
-        try {
-          const response = await fetch(CONTACT_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify(payload),
-            credentials: 'omit',
-            signal: controller.signal
-          });
-          if (!response.ok) throw new Error('HTTP ' + response.status);
-          contactStatus.textContent = "Thanks! We've got your project details and reply within a few hours.";
-          contactForm.reset();
-        } catch (error) {
-          // Webhook unreachable or misconfigured: don't lose the lead, open the email app instead.
-          contactStatus.classList.add('is-error');
-          mailtoFallback(formData, "Couldn't reach our server, opening your email app instead.");
-        } finally {
-          clearTimeout(timeout);
-          contactSubmit.disabled = false;
-          contactSubmit.innerHTML = originalLabel;
-        }
       });
 
       const toTop = document.querySelector('#to-top');

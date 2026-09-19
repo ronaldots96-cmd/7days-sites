@@ -1,14 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" data-webhook-url="">
+<html lang="en" data-webhook-url="{{ forms_webhook_url }}" data-page-name="project_onboarding">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Build your website blueprint with Sevenday Sites, one choice at a time.">
   <meta name="robots" content="noindex, follow">
+  <meta name="referrer" content="no-referrer">
   <link rel="canonical" href="{{ site_url }}/briefing">
   <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}?v={{ asset_version }}" type="image/svg+xml">
   <meta name="theme-color" content="#f3f5f7">
-  <title>Website Blueprint — Sevenday Sites</title>
+  <script>
+    (() => {
+      try {
+        const url = new URL(window.location.href);
+        const leadId = url.searchParams.get('lead_id') || 'direct';
+        const storageKey = 'sevenday_onboarding_token_v1:' + leadId;
+        const tokenFromUrl = url.searchParams.get('token');
+        if (tokenFromUrl) sessionStorage.setItem(storageKey, tokenFromUrl);
+        const token = tokenFromUrl || sessionStorage.getItem(storageKey);
+        Object.defineProperty(window, '__sevendayOnboardingToken', {
+          value: token || null,
+          configurable: true
+        });
+        if (tokenFromUrl) {
+          url.searchParams.delete('token');
+          const query = url.searchParams.toString();
+          history.replaceState(null, '', url.pathname + (query ? '?' + query : '') + url.hash);
+        }
+      } catch (error) {
+        Object.defineProperty(window, '__sevendayOnboardingToken', {
+          value: null,
+          configurable: true
+        });
+      }
+    })();
+  </script>
+  {% if gtm_container_id %}
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f); })(window, document, 'script', 'dataLayer', '{{ gtm_container_id }}');</script>
+  <!-- End Google Tag Manager -->
+  {% endif %}
+  <script src="{{ url_for('static', filename='tracking.js') }}?v={{ asset_version }}" defer></script>
+  <title>Project Onboarding — Sevenday Sites</title>
   <style>
     :root {
       --ink: #12151a;
@@ -102,6 +135,7 @@
     @keyframes step-back { from { opacity: 0; transform: translateX(-22px); } to { opacity: 1; transform: translateX(0); } }
     .question-index { margin-bottom: 6px; color: var(--blue); font-size: 10px; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
     .question-title { max-width: 680px; margin-bottom: 9px; font-size: clamp(29px, 4vw, 43px); line-height: 1.03; }
+    .question-title[tabindex="-1"]:focus { outline: none; }
     .question-lead { max-width: 650px; margin-bottom: 28px; color: var(--muted); font-size: 14px; }
 
     .choice-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 11px; }
@@ -119,12 +153,12 @@
     .auto-hint { margin: 17px 0 0; color: var(--muted); font-size: 10px; text-align: center; }
 
     .fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
-    .field { min-width: 0; }
+    .field { min-width: 0; display: block; }
     .field.full { grid-column: 1 / -1; }
     .field > span, fieldset > legend { display: block; margin-bottom: 7px; color: var(--ink-2); font-size: 10px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
     .field small { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; }
     .required::after { content: " *"; color: var(--danger); }
-    input[type="text"], input[type="email"], input[type="tel"], input[type="url"], select, textarea, input[type="file"] { width: 100%; min-height: 51px; padding: 12px 13px; color: var(--ink); background: #fbfcfd; border: 1px solid var(--line-dark); border-radius: 10px; transition: border-color .2s ease, box-shadow .2s ease, background .2s ease; }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="url"], input[type="date"], select, textarea, input[type="file"] { width: 100%; min-height: 51px; padding: 12px 13px; color: var(--ink); background: #fbfcfd; border: 1px solid var(--line-dark); border-radius: 10px; transition: border-color .2s ease, box-shadow .2s ease, background .2s ease; }
     textarea { min-height: 92px; resize: vertical; }
     input:hover, select:hover, textarea:hover { border-color: #aeb6c2; }
     input:focus, select:focus, textarea:focus { background: white; border-color: var(--blue); box-shadow: 0 0 0 4px rgba(23,92,255,.09); }
@@ -141,9 +175,9 @@
     .chip input:focus-visible + span { outline: 3px solid rgba(23,92,255,.3); outline-offset: 2px; }
     .chip input:checked + span { color: white; background: var(--ink); border-color: var(--ink); }
     .chip input:checked + span::before { content: "✓"; color: var(--lime); font-weight: 900; }
-    .scope-panel { display: grid; gap: 20px; }
-    .scope-tip { display: flex; align-items: center; gap: 8px; margin: -12px 0 0; color: var(--muted); font-size: 10px; }
-    .scope-tip::before { content: "✦"; color: var(--blue); }
+    .scope-panel { display: block; }
+    .scope-tip { display: flex; align-items: flex-start; gap: 8px; margin: 12px 0 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
+    .scope-tip::before { content: "✦"; flex: 0 0 auto; color: var(--blue); }
 
     .cta-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; }
     .cta-choice { position: relative; }
@@ -176,7 +210,7 @@
 
     .brandbook-choice { display: grid; grid-template-columns: repeat(2,1fr); gap: 9px; margin-top: 18px; }
     .brandbook-choice .choice-face { min-height: 72px; justify-content: center; }
-    .brandbook-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; padding: 15px; background: var(--canvas); border: 1px solid var(--line); border-radius: 12px; }
+    .brandbook-panel { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 14px; padding: 15px; background: var(--canvas); border: 1px solid var(--line); border-radius: 12px; }
     .upload-status { display: block; min-height: 15px; margin-top: 5px; color: var(--muted); font-size: 9px; }
     .upload-status.error { color: var(--danger); }
 
@@ -200,6 +234,8 @@
     .btn-secondary:hover { border-color: var(--ink); }
     .status { margin: 0 28px 22px; padding: 11px 13px; color: var(--danger); background: var(--danger-soft); border: 1px solid #f2c1b6; border-radius: 9px; font-size: 11px; }
     .text-link { padding: 0; color: inherit; background: none; border: 0; font-size: inherit; font-weight: 800; text-decoration: underline; text-underline-offset: 2px; }
+    .intake-summary { margin: 20px 28px 0; padding: 12px 14px; color: var(--ink-2); background: var(--blue-soft); border: 1px solid #b7c8ff; border-radius: 11px; font-size: 11px; line-height: 1.45; }
+    .intake-summary strong { display: block; margin-bottom: 3px; color: var(--blue-dark); font-size: 9px; letter-spacing: .09em; text-transform: uppercase; }
 
     .blueprint { position: sticky; top: 92px; display: grid; gap: 12px; }
     .blueprint-card { padding: 18px; color: white; background: var(--ink); border: 1px solid #353b45; border-radius: var(--radius); box-shadow: 8px 8px 0 rgba(18,21,26,.1); }
@@ -309,17 +345,18 @@
       .builder-layout { gap: 14px; }
       .blueprint { grid-template-columns: 1fr; }
       .blueprint-card { display: block; padding: 14px; }
-      .blueprint-top { margin-bottom: 10px; }
+      .blueprint-top { margin-bottom: 0; }
       .mini-browser { display: none; }
       .preview-toggle { display: inline-flex; align-items: center; margin-left: auto; }
+      .blueprint-card.preview-open .blueprint-top { margin-bottom: 10px; }
       .blueprint-card.preview-open .mini-browser { display: block; margin-top: 12px; }
       .blueprint-card.preview-open .mini-site { min-height: 265px; }
       .build-card { display: none; }
       .reset { display: none; }
-      .quiz-card { border-radius: 18px; }
+      .quiz-card { border-radius: 18px; scroll-margin-top: 78px; }
       .quiz-progress { padding: 17px 20px 14px; }
       .milestones { display: none; }
-      .quiz-step { min-height: 480px; padding: 28px 20px 20px; }
+      .quiz-step { min-height: clamp(330px,48svh,440px); padding: 28px 20px 20px; }
       .choice-grid, .choice-grid.two { grid-template-columns: 1fr 1fr; }
       .choice-face { min-height: 112px; padding: 13px; }
       .choice-icon { margin-bottom: 12px; }
@@ -333,7 +370,9 @@
       .quiz-actions { padding: 14px 20px 20px; }
       .action-hint { display: none; }
       .action-buttons { width: 100%; }
-      .action-buttons .btn { flex: 1; }
+      .action-buttons .btn { min-height: 48px; }
+      .action-buttons .btn-secondary { flex: 0 0 96px; }
+      .action-buttons .btn-primary { flex: 1; }
       .status { margin-inline: 20px; }
       .unlock-toast { right: 12px; bottom: 12px; }
     }
@@ -350,7 +389,13 @@
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#quiz-form">Skip to website builder</a>
+  {% if gtm_container_id %}
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ gtm_container_id }}" height="0" width="0"
+      style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  {% endif %}
+  <a class="skip-link" href="#quiz-form">Skip to project onboarding</a>
   <header class="site-header">
     <nav class="nav shell" aria-label="Builder navigation">
       <a class="brand" href="{{ url_for('home') }}" aria-label="Sevenday Sites home"><span class="brand-mark">7D</span><span class="brand-name">SEVENDAY<span>/</span>SITES</span></a>
@@ -360,42 +405,45 @@
 
   <main>
     <section class="page-intro shell" aria-labelledby="page-title">
-      <div><p class="eyebrow">Interactive project builder</p><h1 id="page-title">Build your website blueprint.</h1><p class="intro-copy">One useful choice at a time. Watch your site take shape as you answer.</p></div>
-      <span class="intro-badge">About 4 minutes</span>
+      <div><p class="eyebrow">Phase 2 · project onboarding</p><h1 id="page-title">Turn the direction into a build plan.</h1><p class="intro-copy">We have the essentials. Now add the audience, message, structure and launch details the team needs to start well.</p></div>
+      <span class="intro-badge">About 10–15 minutes</span>
     </section>
 
     <noscript><div class="shell noscript">This interactive builder needs JavaScript enabled.</div></noscript>
 
-    <section class="builder-layout shell" aria-label="Interactive website blueprint">
+    <section class="builder-layout shell" aria-label="Project onboarding and live website blueprint">
       <div class="quiz-card">
         <div id="quiz-shell">
           <div class="quiz-progress">
             <div class="progress-top"><p class="progress-label" id="progress-label">Foundation</p><span class="progress-number" id="progress-number">Question 1 of 8 · 13%</span></div>
-            <div class="progress-track" role="progressbar" aria-label="Blueprint progress" aria-valuemin="1" aria-valuemax="8" aria-valuenow="1"><div class="progress-bar" id="progress-bar"></div></div>
+            <div class="progress-track" role="progressbar" aria-label="Onboarding progress" aria-valuemin="1" aria-valuemax="8" aria-valuenow="1"><div class="progress-bar" id="progress-bar"></div></div>
             <div class="milestones" aria-hidden="true"><span data-milestone="0">Foundation</span><span data-milestone="2">Message</span><span data-milestone="5">Structure</span><span data-milestone="7">Launch</span></div>
           </div>
 
           <form id="quiz-form" novalidate>
-            <section class="quiz-step" data-step="0" data-phase="Foundation" data-auto-step="true" aria-labelledby="q0-title">
+            <label class="sr-only" aria-hidden="true">Leave this field empty<input type="text" name="website"
+                tabindex="-1" autocomplete="off"></label>
+            <div class="intake-summary" id="intake-summary" hidden><strong>Phase 1 imported</strong><span
+                id="intake-summary-copy"></span></div>
+            <section class="quiz-step" data-step="0" data-phase="Foundation" aria-labelledby="q0-title">
               <p class="question-index">01 / Foundation</p>
-              <h2 class="question-title" id="q0-title">What are we building?</h2>
-              <p class="question-lead">Choose the starting point. The next questions will adapt to it.</p>
-              <fieldset data-auto-advance>
+              <h2 class="question-title" id="q0-title">Confirm the project type.</h2>
+              <p class="question-lead">This sets the scope model for the rest of your onboarding.</p>
+              <fieldset>
                 <legend class="sr-only">Website package</legend>
                 <div class="choice-grid">
                   <label class="choice"><input type="radio" name="project_type" value="landing" required><span class="choice-face"><span class="choice-icon">1</span><strong>Landing Page</strong><small>One focused page built around a single conversion.</small></span></label>
-                  <label class="choice"><input type="radio" name="project_type" value="simple" required checked><span class="choice-face"><span class="choice-icon">5</span><strong>Simple Website</strong><small>A clear multi-page home for a growing business.</small></span></label>
+                  <label class="choice"><input type="radio" name="project_type" value="simple" required><span class="choice-face"><span class="choice-icon">5</span><strong>Simple Website</strong><small>A clear multi-page home for a growing business.</small></span></label>
                   <label class="choice"><input type="radio" name="project_type" value="premium" required><span class="choice-face"><span class="choice-icon">+</span><strong>Premium Website</strong><small>More depth, custom behavior and visual polish.</small></span></label>
                 </div>
               </fieldset>
-              <p class="auto-hint">Select one to continue automatically</p>
             </section>
 
-            <section class="quiz-step" data-step="1" data-phase="Foundation" data-auto-step="true" aria-labelledby="q1-title" hidden>
+            <section class="quiz-step" data-step="1" data-phase="Foundation" aria-labelledby="q1-title" hidden>
               <p class="question-index">02 / Purpose</p>
-              <h2 class="question-title" id="q1-title">What should this website make happen?</h2>
-              <p class="question-lead">Pick the one result that matters most. A focused site converts better.</p>
-              <fieldset data-auto-advance>
+              <h2 class="question-title" id="q1-title">Choose the primary outcome.</h2>
+              <p class="question-lead">You may have selected several goals in phase one. Now choose the result the page should prioritize.</p>
+              <fieldset>
                 <legend class="sr-only">Main website goal</legend>
                 <div class="choice-grid two">
                   <label class="choice"><input type="radio" name="project_goal" value="service_inquiries" required><span class="choice-face"><span class="choice-icon">↗</span><strong>Get more inquiries</strong><small>Turn visitors into qualified conversations.</small></span></label>
@@ -406,7 +454,6 @@
                   <label class="choice"><input type="radio" name="project_goal" value="business_growth" required><span class="choice-face"><span class="choice-icon">＋</span><strong>Support growth</strong><small>Create a stronger digital base for the business.</small></span></label>
                 </div>
               </fieldset>
-              <p class="auto-hint">Select one to add the goal to your blueprint</p>
             </section>
 
             <section class="quiz-step" data-step="2" data-phase="Message" aria-labelledby="q2-title" hidden>
@@ -417,6 +464,8 @@
                 <label class="field"><span class="required">Business or brand name</span><input type="text" name="business_name" autocomplete="organization" required placeholder="Northstar Dental"></label>
                 <label class="field"><span class="required">Industry</span><select name="industry" required><option value="">Choose one</option><option value="healthcare">Healthcare / clinic</option><option value="legal">Legal services</option><option value="home_services">Home services</option><option value="saas_technology">SaaS / technology</option><option value="beauty_fitness">Beauty / fitness</option><option value="professional_services">Professional services</option><option value="creative">Creative / portfolio</option><option value="local_business">Local business</option><option value="ecommerce">E-commerce</option><option value="other">Other</option></select></label>
                 <label class="field full"><span class="required">Describe it in one sentence</span><input type="text" name="business_one_liner" required maxlength="180" placeholder="A family dental practice helping anxious patients feel at ease."><small>Plain language works best. No polished copy needed.</small></label>
+                <label class="field"><span>Service area or market</span><input type="text" name="service_area" maxlength="140" placeholder="Miami, Florida or worldwide"></label>
+                <label class="field"><span>Current website</span><input type="url" name="current_site_url" placeholder="https://example.com"><small>Optional. Keep this separate from your asset folder.</small></label>
               </div>
             </section>
 
@@ -466,14 +515,16 @@
               </div>
               <p class="scope-tip">Suggested choices are already selected — this should take seconds.</p>
               <label class="field" style="margin-top:20px"><span>Anything specific to include?</span><input type="text" name="scope_note" maxlength="220" placeholder="A booking tool, locations page, pricing calculator..."></label>
+              <fieldset style="margin-top:18px"><legend>Where do you want support?</legend><div class="chip-grid"><label class="chip"><input type="checkbox" name="content_support" value="copywriting"><span>Copywriting</span></label><label class="chip"><input type="checkbox" name="content_support" value="image_selection"><span>Image selection</span></label><label class="chip"><input type="checkbox" name="content_support" value="brand_direction"><span>Brand direction</span></label><label class="chip"><input type="checkbox" name="content_support" value="content_organization"><span>Content organization</span></label><label class="chip"><input type="checkbox" name="content_support" value="none"><span>No extra support</span></label></div></fieldset>
+              <label class="field" style="margin-top:18px"><span>Assets folder</span><input type="url" name="asset_folder_url" placeholder="Google Drive, Dropbox or OneDrive"><small>Optional. Share logos, photos, copy drafts and documents here.</small></label>
             </section>
 
             <section class="quiz-step" data-step="6" data-phase="Structure" aria-labelledby="q6-title" hidden>
               <p class="question-index">07 / Look & feel</p>
-              <h2 class="question-title" id="q6-title">Pick a visual direction.</h2>
-              <p class="question-lead">Choose a mood, an accent and how expressive the transitions should feel.</p>
+              <h2 class="question-title" id="q6-title">Refine the visual direction.</h2>
+              <p class="question-lead">Confirm the primary mood from phase one, then add any brand or reference material.</p>
               <fieldset><legend class="required">Overall mood</legend><div class="mood-grid">
-                <label class="mood mood-minimal"><input type="radio" name="visual_theme" value="minimal" required checked><span class="mood-face"><span class="mood-preview"></span><strong>Minimal</strong></span></label>
+                <label class="mood mood-minimal"><input type="radio" name="visual_theme" value="minimal" required><span class="mood-face"><span class="mood-preview"></span><strong>Minimal</strong></span></label>
                 <label class="mood mood-bold"><input type="radio" name="visual_theme" value="bold" required><span class="mood-face"><span class="mood-preview"></span><strong>Bold</strong></span></label>
                 <label class="mood mood-premium"><input type="radio" name="visual_theme" value="premium" required><span class="mood-face"><span class="mood-preview"></span><strong>Premium</strong></span></label>
                 <label class="mood mood-friendly"><input type="radio" name="visual_theme" value="friendly" required><span class="mood-face"><span class="mood-preview"></span><strong>Friendly</strong></span></label>
@@ -481,27 +532,29 @@
               </div></fieldset>
               <div class="visual-tools">
                 <label class="field"><span>Accent color</span><span class="color-control"><input type="color" name="accent_color" value="#175cff" aria-label="Accent color"><input type="text" name="color_note" placeholder="Or describe it"></span></label>
-                <fieldset><legend>Transitions</legend><div class="motion-grid"><label class="chip"><input type="radio" name="motion" value="subtle" checked><span>Subtle</span></label><label class="chip"><input type="radio" name="motion" value="expressive"><span>Expressive</span></label><label class="chip"><input type="radio" name="motion" value="minimal"><span>Minimal</span></label></div></fieldset>
+                <fieldset><legend>Transitions</legend><div class="motion-grid"><label class="chip"><input type="radio" name="motion" value="subtle"><span>Subtle</span></label><label class="chip"><input type="radio" name="motion" value="expressive"><span>Expressive</span></label><label class="chip"><input type="radio" name="motion" value="minimal"><span>Minimal</span></label></div></fieldset>
               </div>
-              <fieldset class="brandbook-choice"><legend class="sr-only">Do you have a brandbook?</legend><label class="choice"><input type="radio" name="has_brandbook" value="yes"><span class="choice-face"><strong>I have a brandbook</strong><small>Upload it or share a link.</small></span></label><label class="choice"><input type="radio" name="has_brandbook" value="no" checked><span class="choice-face"><strong>No brandbook yet</strong><small>This direction is enough to begin.</small></span></label></fieldset>
+              <fieldset class="brandbook-choice"><legend class="sr-only">Do you have a brandbook?</legend><label class="choice"><input type="radio" name="has_brandbook" value="yes"><span class="choice-face"><strong>I have a brandbook</strong><small>Share a secure folder or public link.</small></span></label><label class="choice"><input type="radio" name="has_brandbook" value="no"><span class="choice-face"><strong>No brandbook yet</strong><small>This direction is enough to begin.</small></span></label></fieldset>
               <div class="brandbook-panel" id="brandbook-panel" hidden>
-                <label class="field"><span>Upload guidelines</span><input type="file" name="brandbook_file" id="brandbook-file" accept=".pdf,.doc,.docx,.ppt,.pptx,image/*"><small>Up to 8 MB.</small><span class="upload-status" id="upload-status" aria-live="polite"></span></label>
-                <label class="field"><span>Or share a link</span><input type="url" name="brandbook_url" placeholder="https://drive.google.com/..."></label>
+                <label class="field"><span>Brandbook link</span><input type="url" name="brandbook_url" placeholder="https://drive.google.com/..."><small>Use a view-only link. Never share account passwords.</small></label>
               </div>
+              <label class="field" style="margin-top:16px"><span>Reference websites</span><textarea name="reference_sites" rows="3" maxlength="600" placeholder="Paste up to three URLs and what you like about each."></textarea></label>
             </section>
 
             <section class="quiz-step" data-step="7" data-phase="Launch" aria-labelledby="q7-title" hidden>
               <p class="question-index">08 / Ready to build</p>
-              <h2 class="question-title" id="q7-title">Where should we send your build plan?</h2>
-              <p class="question-lead">Last checkpoint. We will reply with useful questions, a fixed scope and delivery date.</p>
+              <h2 class="question-title" id="q7-title">Confirm launch and contact details.</h2>
+              <p class="question-lead">Details from phase one are filled automatically when available. Review them before sending.</p>
               <div class="finish-grid">
                 <label class="field"><span class="required">Your name</span><input type="text" name="contact_name" autocomplete="name" required placeholder="Jane Smith"></label>
                 <label class="field"><span class="required">Work email</span><input type="email" name="contact_email" autocomplete="email" required placeholder="jane@company.com"></label>
                 <label class="field"><span>WhatsApp / phone</span><input type="tel" name="contact_phone" autocomplete="tel" placeholder="+1 555 000 0000"></label>
                 <label class="field"><span class="required">Ideal timeline</span><select name="timeline" required><option value="">Choose one</option><option value="urgent">As soon as possible</option><option value="week">Within a week</option><option value="month">This month</option><option value="flexible">Flexible</option></select></label>
-                <label class="field full"><span>Assets or reference folder</span><input type="url" name="asset_folder_url" placeholder="Google Drive, Dropbox or current website URL"><small>Optional. Logos, photos, copy drafts and reference sites can live here.</small></label>
+                <label class="field"><span>Target launch date</span><input type="date" name="target_launch_date"></label>
+                <label class="field"><span>Domain status</span><select name="domain_status"><option value="">Choose one</option><option value="owned">Domain purchased</option><option value="existing_site">Existing website</option><option value="not_yet">Not purchased yet</option></select></label>
+                <label class="field full"><span>Domain or website address</span><input type="text" name="domain_or_site_url" maxlength="240" placeholder="example.com"></label>
                 <div class="finish-summary" id="finish-summary" aria-live="polite"></div>
-                <label class="consent full"><input type="checkbox" name="consent" value="yes" required><span>I confirm these details can be used to evaluate my project and contact me about it. The final price and scope will be confirmed before work begins.</span></label>
+                <label class="consent full"><input type="checkbox" name="consent" value="yes" required><span>I confirm these onboarding details can be used to prepare the project scope and contact me about delivery. The final price, scope and start date are confirmed before work begins.</span></label>
               </div>
             </section>
 
@@ -509,8 +562,8 @@
               <span class="action-hint" id="action-hint">Your draft is saved automatically</span>
               <div class="action-buttons">
                 <button class="btn btn-secondary" id="back-step" type="button" hidden>Back</button>
-                <button class="btn btn-primary" id="next-step" type="button">Add to blueprint <span aria-hidden="true">→</span></button>
-                <button class="btn btn-primary" id="submit-quiz" type="submit" hidden>Send my blueprint <span aria-hidden="true">→</span></button>
+                <button class="btn btn-primary" id="next-step" type="button">Continue <span aria-hidden="true">→</span></button>
+                <button class="btn btn-primary" id="submit-quiz" type="submit" hidden>Send onboarding <span aria-hidden="true">→</span></button>
               </div>
             </div>
             <div class="status" id="form-status" role="alert" hidden></div>
@@ -519,8 +572,8 @@
 
         <section class="success-panel" id="success-panel" hidden aria-labelledby="success-title">
           <div class="success-icon">✓</div>
-          <h2 id="success-title" tabindex="-1">Blueprint received.</h2>
-          <p>Your project now has a clear foundation. We’ll review it and reply with the next step, fixed scope and delivery date.</p>
+          <h2 id="success-title" tabindex="-1">Onboarding received.</h2>
+          <p>Your project now has a clear build foundation. We’ll review the details and reply with the confirmed scope, start date and next step.</p>
           <div class="success-actions"><a class="btn btn-primary" href="{{ url_for('home') }}">Back to the website</a><button class="btn btn-secondary" id="download-json" type="button">Download a copy</button></div>
         </section>
       </div>
@@ -550,13 +603,17 @@
   </main>
 
   <div class="unlock-toast" id="unlock-toast" role="status" aria-live="polite">✦ Blueprint upgraded</div>
-  <footer class="footer-note shell">© 2026 Sevenday Sites · Your information is only used to evaluate your project.</footer>
+  <footer class="footer-note shell">© 2026 Sevenday Sites · Your information is used for project evaluation and delivery, and is never sold.</footer>
 
   <script>
     (() => {
       const WEBHOOK_URL = document.documentElement.dataset.webhookUrl.trim();
-      const STORAGE_KEY = 'sevenday_blueprint_quiz_v2';
-      const MAX_FILE_BYTES = 8 * 1024 * 1024;
+      const params = new URLSearchParams(window.location.search);
+      const parentLeadId = params.get('lead_id') || 'direct';
+      const onboardingToken = window.__sevendayOnboardingToken || null;
+      const onboardingTokenStorageKey = 'sevenday_onboarding_token_v1:' + parentLeadId;
+      const STORAGE_KEY = 'sevenday_onboarding_v3:' + parentLeadId;
+      const onboardingSubmissionId = window.crypto && crypto.randomUUID ? crypto.randomUUID() : 'onboarding-' + Date.now();
       const form = document.querySelector('#quiz-form');
       const steps = Array.from(document.querySelectorAll('.quiz-step'));
       const progressBar = document.querySelector('#progress-bar');
@@ -568,20 +625,26 @@
       const submitButton = document.querySelector('#submit-quiz');
       const actionHint = document.querySelector('#action-hint');
       const statusBox = document.querySelector('#form-status');
-      const brandbookFile = document.querySelector('#brandbook-file');
-      const uploadStatus = document.querySelector('#upload-status');
       const blueprintCard = document.querySelector('#blueprint-card');
       const toast = document.querySelector('#unlock-toast');
       let currentStep = 0;
-      let brandbookData = null;
       let lastPayload = null;
       let saveTimer = null;
-      let autoTimer = null;
+      let onboardingStarted = false;
+      let importedLeadContext = null;
+      const onboardingStartedAt = Date.now();
+      const track = (eventName, payload = {}) => {
+        if (typeof window.sevendayTrack === 'function') window.sevendayTrack(eventName, payload);
+        else {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: eventName, ...payload });
+        }
+      };
 
       const plans = {
-        landing: { label: 'Landing Page', price: 'From $600', delivery: '3 working days' },
-        simple: { label: 'Simple Website', price: 'From $1,000', delivery: '5 working days' },
-        premium: { label: 'Premium Website', price: 'From $1,600', delivery: '7+ working days' }
+        landing: { label: 'Landing Page', price: 'From US$600', delivery: '3 working days' },
+        simple: { label: 'Simple Website', price: 'From US$1,000', delivery: '5 working days' },
+        premium: { label: 'Premium Website', price: 'From US$1,600', delivery: 'From 7 working days' }
       };
       const goalFallback = {
         service_inquiries: 'Turn interest into qualified inquiries.', appointments: 'Make booking feel effortless.', product_launch: 'Give your offer a strong first impression.', authority: 'Make your expertise impossible to miss.', portfolio: 'Put your best work front and center.', business_growth: 'Build a stronger base for growth.'
@@ -597,9 +660,10 @@
       }
       function all(name) { return Array.from(form.querySelectorAll('[name="' + name + '"]:checked:not(:disabled)')).map(item => item.value); }
       function text(name) { return value(name).trim() || null; }
-      function selectedPlan() { return value('project_type') || 'simple'; }
+      function selectedPlan() { return value('project_type'); }
       function selectedScope() {
         const plan = selectedPlan();
+        if (!plans[plan]) return [];
         return plan === 'landing' ? all('landing_sections') : plan === 'simple' ? all('simple_pages') : all('premium_modules');
       }
 
@@ -636,7 +700,8 @@
         const scope = selectedScope();
         const visibleScope = currentStep >= 5 ? scope : [];
         document.querySelector('#mini-brand').textContent = business || 'Your brand';
-        document.querySelector('#mini-kicker').textContent = industry && industry !== 'Choose one' ? industry : plans[selectedPlan()].label;
+        const planInfo = plans[selectedPlan()] || { label: 'Your website' };
+        document.querySelector('#mini-kicker').textContent = industry && industry !== 'Choose one' ? industry : planInfo.label;
         document.querySelector('#mini-title').textContent = offer || goalFallback[goal] || 'A clear promise lives here.';
         document.querySelector('#mini-copy').textContent = audience ? 'Designed for ' + audience + '.' : (text('business_one_liner') || 'Tell us who you help and we will shape the message around them.');
         document.querySelector('#mini-cta').textContent = cta || 'Your main action';
@@ -658,7 +723,6 @@
       }
 
       function showStep(index, direction, focus) {
-        clearTimeout(autoTimer);
         currentStep = Math.max(0, Math.min(index, steps.length - 1));
         steps.forEach((step, position) => {
           step.hidden = position !== currentStep;
@@ -672,17 +736,21 @@
         progressTrack.setAttribute('aria-valuenow', String(currentStep + 1));
         document.querySelector('#blueprint-percent').textContent = percentage + '% built';
         document.querySelectorAll('[data-milestone]').forEach(item => item.classList.toggle('active', Number(item.dataset.milestone) <= currentStep));
-        const autoAnswer = currentStep === 0 ? value('project_type') : currentStep === 1 ? value('project_goal') : '';
         backButton.hidden = currentStep === 0;
-        nextButton.hidden = (activeStep.dataset.autoStep === 'true' && !autoAnswer) || currentStep === steps.length - 1;
+        nextButton.hidden = currentStep === steps.length - 1;
         submitButton.hidden = currentStep !== steps.length - 1;
-        actionHint.textContent = activeStep.dataset.autoStep === 'true' ? (autoAnswer ? 'Answer selected — continue or choose another' : 'Choose an answer to keep building') : 'Your draft is saved automatically';
+        actionHint.textContent = 'Your non-contact answers are saved on this device';
         statusBox.hidden = true;
         if (currentStep === steps.length - 1) renderFinishSummary();
         updateBlueprint();
         saveDraft();
+        track('onboarding_step_viewed', {
+          parent_lead_id: parentLeadId === 'direct' ? null : parentLeadId,
+          step_number: currentStep + 1,
+          step_phase: activeStep.dataset.phase
+        });
         if (focus) {
-          window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          document.querySelector('.quiz-card').scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
           const heading = activeStep.querySelector('h2');
           heading.setAttribute('tabindex','-1');
           heading.focus({ preventScroll: true });
@@ -698,9 +766,9 @@
           showError('Choose at least one block or describe what you need.');
           return false;
         }
-        if (currentStep === 6 && value('has_brandbook') === 'yes' && !brandbookData && !text('brandbook_url')) {
-          showError('Upload your brandbook or add a share link.');
-          brandbookFile.focus();
+        if (currentStep === 6 && value('has_brandbook') === 'yes' && !text('brandbook_url')) {
+          showError('Add a view-only brandbook link, or choose “No brandbook yet.”');
+          field('brandbook_url').focus();
           return false;
         }
         return true;
@@ -722,27 +790,41 @@
 
       function goNext() {
         if (!validateStep()) return;
+        const activeStep = steps[currentStep];
+        track('onboarding_step_completed', {
+          parent_lead_id: parentLeadId === 'direct' ? null : parentLeadId,
+          step_number: currentStep + 1,
+          step_phase: activeStep.dataset.phase,
+          project_type: currentStep === 0 ? selectedPlan() : undefined,
+          primary_goal: currentStep === 1 ? value('project_goal') : undefined
+        });
         celebrate();
         showStep(currentStep + 1, 'next', true);
       }
 
       function renderFinishSummary() {
-        const items = [['Package',plans[selectedPlan()].label],['Goal',value('project_goal').replaceAll('_',' ') || '—'],['Style',value('visual_theme') || '—'],['Blocks',String(selectedScope().length)]];
+        const plan = plans[selectedPlan()] || { label: 'Not selected' };
+        const items = [['Package',plan.label],['Goal',value('project_goal').replaceAll('_',' ') || '—'],['Style',value('visual_theme') || '—'],['Blocks',String(selectedScope().length)]];
         document.querySelector('#finish-summary').innerHTML = items.map(item => '<div class="finish-item"><span>' + escapeHTML(item[0]) + '</span><strong>' + escapeHTML(item[1]) + '</strong></div>').join('');
       }
 
       function escapeHTML(input) { return String(input).replace(/[&<>"]/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[character]); }
 
       function serializeDraft() {
+        const privateFields = new Set(['contact_name','contact_email','contact_phone','consent','website']);
         return {
+          schema_version: 1,
+          parent_lead_id: parentLeadId,
+          expires_at: Date.now() + 7 * 24 * 60 * 60 * 1000,
           step: currentStep,
-          fields: Array.from(form.elements).filter(item => item.name && item.type !== 'file').map(item => ({ name:item.name, type:item.type, value:item.value, checked:Boolean(item.checked) }))
+          fields: Array.from(form.elements)
+            .filter(item => item.name && !privateFields.has(item.name) && !['file','submit','button'].includes(item.type))
+            .map(item => ({ name:item.name, type:item.type, value:item.value, checked:Boolean(item.checked) }))
         };
       }
 
       function saveDraft() {
-        const autoAnswer = currentStep === 0 ? value('project_type') : currentStep === 1 ? value('project_goal') : '';
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(serializeDraft())); actionHint.textContent = steps[currentStep].dataset.autoStep === 'true' ? (autoAnswer ? 'Answer selected — continue or choose another' : 'Choose an answer to keep building') : 'Draft saved on this device'; }
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(serializeDraft())); actionHint.textContent = 'Non-contact answers saved on this device'; }
         catch (error) { actionHint.textContent = 'Draft could not be saved'; }
       }
 
@@ -754,7 +836,10 @@
       function restoreDraft() {
         let draft = null;
         try { draft = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch (error) { draft = null; }
-        if (!draft || !Array.isArray(draft.fields)) return null;
+        if (!draft || !Array.isArray(draft.fields) || draft.parent_lead_id !== parentLeadId || Number(draft.expires_at || 0) < Date.now()) {
+          try { localStorage.removeItem(STORAGE_KEY); } catch (error) { }
+          return null;
+        }
         draft.fields.forEach(saved => {
           const candidates = Array.from(form.querySelectorAll('[name="' + CSS.escape(saved.name) + '"]'));
           const input = candidates.find(item => item.value === saved.value) || candidates[0];
@@ -766,7 +851,6 @@
       }
 
       function applyQuery() {
-        const params = new URLSearchParams(window.location.search);
         const plan = params.get('plan');
         if (plans[plan]) {
           const input = form.querySelector('[name="project_type"][value="' + plan + '"]');
@@ -783,50 +867,112 @@
         return plans[plan] ? 1 : 0;
       }
 
-      function readFile(file) {
-        return new Promise((resolve,reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(String(reader.result).split(',')[1] || '');
-          reader.onerror = () => reject(new Error('The file could not be read.'));
-          reader.readAsDataURL(file);
-        });
+      function setFieldValue(name, nextValue) {
+        if (nextValue === undefined || nextValue === null || nextValue === '') return false;
+        const item = field(name);
+        if (!item) return false;
+        if (item instanceof RadioNodeList) {
+          const input = form.querySelector('[name="' + CSS.escape(name) + '"][value="' + CSS.escape(String(nextValue)) + '"]');
+          if (!input) return false;
+          input.checked = true;
+          return true;
+        }
+        item.value = String(nextValue);
+        return true;
       }
 
-      async function handleFile() {
-        brandbookData = null;
-        uploadStatus.className = 'upload-status';
-        const file = brandbookFile.files[0];
-        if (!file) { uploadStatus.textContent = ''; return; }
-        if (file.size > MAX_FILE_BYTES) {
-          brandbookFile.value = '';
-          uploadStatus.textContent = 'Use a share link for files larger than 8 MB.';
-          uploadStatus.classList.add('error');
-          return;
+      function applyLeadContext() {
+        let context = null;
+        try { context = JSON.parse(sessionStorage.getItem('sevenday_lead_context_v1') || 'null'); } catch (error) { context = null; }
+        if (!context || Number(context.expires_at || 0) < Date.now()) {
+          try { sessionStorage.removeItem('sevenday_lead_context_v1'); } catch (error) { }
+          return false;
         }
-        uploadStatus.textContent = 'Preparing ' + file.name + '…';
-        try {
-          brandbookData = { name:file.name, mime_type:file.type || 'application/octet-stream', size_bytes:file.size, content_base64:await readFile(file) };
-          uploadStatus.textContent = file.name + ' is ready.';
-        } catch (error) { uploadStatus.textContent = error.message; uploadStatus.classList.add('error'); }
+        const requestedLead = params.get('lead_id');
+        if (requestedLead && requestedLead !== context.lead_id && requestedLead !== context.submission_id) return false;
+        importedLeadContext = context;
+
+        const preferences = context.preferences || {};
+        const brand = context.brand || {};
+        const contact = context.contact || {};
+        const assets = context.content && Array.isArray(context.content.assets_available) ? context.content.assets_available : [];
+        if (plans[preferences.package_interest]) setFieldValue('project_type', preferences.package_interest);
+
+        const goalMap = {
+          generate_leads:'service_inquiries', book_appointments:'appointments', sell_offer:'product_launch',
+          build_authority:'authority', showcase_work:'portfolio', replace_existing_site:'business_growth'
+        };
+        const primaryGoal = (preferences.objectives || []).map(item => goalMap[item]).find(Boolean);
+        setFieldValue('project_goal', primaryGoal);
+
+        const styleMap = {
+          minimal_clean:'minimal', bold_editorial:'bold', premium_refined:'premium',
+          friendly_playful:'friendly', technical_modern:'technical'
+        };
+        const primaryStyle = (preferences.visual_directions || []).map(item => styleMap[item]).find(Boolean);
+        setFieldValue('visual_theme', primaryStyle);
+        setFieldValue('business_name', brand.business_name);
+        setFieldValue('domain_status', brand.domain_status);
+        setFieldValue('domain_or_site_url', brand.domain_or_site_url);
+        if (brand.domain_status === 'existing_site') setFieldValue('current_site_url', brand.domain_or_site_url);
+        setFieldValue('contact_name', contact.name);
+        setFieldValue('contact_email', contact.email);
+        setFieldValue('contact_phone', contact.phone_whatsapp);
+        if (assets.includes('testimonials_reviews')) {
+          const testimonials = form.querySelector('[name="proof"][value="testimonials"]');
+          if (testimonials) testimonials.checked = true;
+        }
+
+        const labels = {
+          minimal_clean:'minimal', bold_editorial:'bold', premium_refined:'premium', friendly_playful:'friendly',
+          technical_modern:'technical', open_to_direction:'team recommendation', generate_leads:'generate leads',
+          book_appointments:'book appointments', sell_offer:'sell an offer', build_authority:'build authority',
+          showcase_work:'showcase work', replace_existing_site:'replace a site'
+        };
+        const styleSummary = (preferences.visual_directions || []).map(item => labels[item] || item).join(', ');
+        const goalSummary = (preferences.objectives || []).map(item => labels[item] || item).join(', ');
+        const parts = [];
+        if (styleSummary) parts.push('Visual direction: ' + styleSummary + '.');
+        if (goalSummary) parts.push('Goals: ' + goalSummary + '.');
+        if (assets.length) parts.push(assets.length + ' content readiness answer' + (assets.length === 1 ? '' : 's') + ' carried over.');
+        if (parts.length) {
+          document.querySelector('#intake-summary-copy').textContent = parts.join(' ');
+          document.querySelector('#intake-summary').hidden = false;
+        }
+        track('onboarding_context_imported', {
+          parent_lead_id: parentLeadId === 'direct' ? null : parentLeadId,
+          has_package_interest: Boolean(preferences.package_interest),
+          visual_direction_count: (preferences.visual_directions || []).length,
+          objective_count: (preferences.objectives || []).length
+        });
+        return true;
       }
 
       function sourceData() {
-        const params = new URLSearchParams(window.location.search);
-        return { page_url:window.location.href, referrer:document.referrer || null, utm:{ source:params.get('utm_source'), medium:params.get('utm_medium'), campaign:params.get('utm_campaign'), content:params.get('utm_content'), term:params.get('utm_term') } };
+        if (typeof window.sevendayGetAttribution === 'function') return window.sevendayGetAttribution();
+        return { page_url:window.location.href, referrer:document.referrer || null };
       }
 
       function buildPayload() {
         const plan = selectedPlan();
+        const planInfo = plans[plan] || {};
         return {
-          schema_version:'2.0', event:'website_blueprint.submitted', submission_id:crypto.randomUUID ? crypto.randomUUID() : 'blueprint-' + Date.now(), submitted_at:new Date().toISOString(), source:sourceData(),
-          project:{ type:plan, package_label:plans[plan].label, starting_price:plans[plan].price, estimated_delivery:plans[plan].delivery, goal:value('project_goal'), timeline:value('timeline') },
-          business:{ name:text('business_name'), industry:value('industry'), one_liner:text('business_one_liner') },
+          schema_version:'3.0', event:'client_onboarding.submitted', submission_id:onboardingSubmissionId,
+          parent_lead_id:parentLeadId === 'direct' ? null : parentLeadId,
+          parent_submission_id:importedLeadContext ? importedLeadContext.submission_id || null : null,
+          onboarding_token:onboardingToken,
+          submitted_at:new Date().toISOString(),
+          form:{ id:'project_onboarding', version:'3.0', duration_ms:Date.now() - onboardingStartedAt },
+          source:sourceData(),
+          project:{ type:plan, package_label:planInfo.label || null, starting_price:planInfo.price || null, estimated_delivery:planInfo.delivery || null, goal:value('project_goal') },
+          business:{ name:text('business_name'), industry:value('industry'), one_liner:text('business_one_liner'), service_area:text('service_area'), current_site_url:text('current_site_url') },
           messaging:{ target_audience:text('target_audience'), main_offer:text('main_offer'), differentiator:text('differentiator'), primary_cta:value('primary_cta'), proof_available:all('proof') },
-          scope:{ selected_blocks:selectedScope(), notes:text('scope_note') },
-          brand:{ visual_theme:value('visual_theme'), accent_color:value('accent_color'), color_note:text('color_note'), motion:value('motion'), has_brandbook:value('has_brandbook') === 'yes', brandbook_file:value('has_brandbook') === 'yes' ? brandbookData : null, brandbook_url:value('has_brandbook') === 'yes' ? text('brandbook_url') : null },
-          assets:{ folder_url:text('asset_folder_url') },
+          scope:{ selected_blocks:selectedScope(), notes:text('scope_note'), support_needed:all('content_support') },
+          brand:{ visual_theme:value('visual_theme'), accent_color:value('accent_color'), color_note:text('color_note'), motion:value('motion') || null, has_brandbook:value('has_brandbook') === 'yes', brandbook_url:value('has_brandbook') === 'yes' ? text('brandbook_url') : null, reference_sites:text('reference_sites') },
+          assets:{ folder_url:text('asset_folder_url'), phase_one_inventory:importedLeadContext && importedLeadContext.content ? importedLeadContext.content.assets_available || [] : [] },
+          launch:{ timeline:value('timeline'), target_date:text('target_launch_date'), domain_status:value('domain_status') || null, domain_or_site_url:text('domain_or_site_url') },
           contact:{ name:text('contact_name'), email:text('contact_email'), phone_whatsapp:text('contact_phone') },
-          consent:{ project_contact:value('consent') === 'yes' }
+          consent:{ project_contact:value('consent') === 'yes', notice_version:'2026-09' }
         };
       }
 
@@ -836,58 +982,110 @@
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'sevenday-blueprint-' + lastPayload.submission_id + '.json';
+        link.download = 'sevenday-onboarding-' + lastPayload.submission_id + '.json';
         document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
       }
 
       async function sendPayload() {
         lastPayload = buildPayload();
-        if (!WEBHOOK_URL || !/^https:\/\//i.test(WEBHOOK_URL)) throw new Error('Webhook not configured. Add the HTTPS endpoint to data-webhook-url in briefing.html. Your blueprint is still saved.');
+        if (!WEBHOOK_URL || !(/^https:\/\//i.test(WEBHOOK_URL) || /^\/(?!\/)/.test(WEBHOOK_URL))) throw new Error('Onboarding is not connected yet. Your non-contact answers are still saved; please contact us or try again later.');
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(),20000);
         try {
           const response = await fetch(WEBHOOK_URL,{ method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(lastPayload), credentials:'omit', signal:controller.signal });
-          if (!response.ok) throw new Error('The webhook returned HTTP ' + response.status + '. Please try again.');
+          if (!response.ok) {
+            const requestError = new Error('The form returned HTTP ' + response.status + '. Please try again.');
+            requestError.httpStatus = response.status;
+            throw requestError;
+          }
+          let result = {};
+          try { result = await response.json(); } catch (error) { result = {}; }
+          return result;
         } finally { clearTimeout(timeout); }
       }
 
       nextButton.addEventListener('click',goNext);
       backButton.addEventListener('click',() => showStep(currentStep - 1,'back',true));
-      form.addEventListener('input',event => { updateBlueprint(); scheduleSave(); });
+      form.addEventListener('input',() => {
+        if (!onboardingStarted) {
+          onboardingStarted = true;
+          track('onboarding_started', {
+            parent_lead_id: parentLeadId === 'direct' ? null : parentLeadId,
+            form_id: 'project_onboarding',
+            form_version: '3.0'
+          });
+        }
+        updateBlueprint();
+        scheduleSave();
+      });
       form.addEventListener('change',event => {
         if (event.target.name === 'project_type') updateScope();
         if (event.target.name === 'has_brandbook') updateBrandbook();
-        updateBlueprint(); scheduleSave();
-        if (event.target.closest('[data-auto-advance]')) {
-          const stepAtClick = currentStep;
-          clearTimeout(autoTimer);
-          autoTimer = setTimeout(() => { if (currentStep === stepAtClick) goNext(); },360);
+        if (event.target.name === 'proof' && event.target.checked) {
+          const exclusive = form.querySelector('[name="proof"][value="none"]');
+          if (event.target.value === 'none') {
+            form.querySelectorAll('[name="proof"]:not([value="none"])').forEach(item => { item.checked = false; });
+          } else if (exclusive) exclusive.checked = false;
         }
+        if (event.target.name === 'content_support' && event.target.checked) {
+          const exclusive = form.querySelector('[name="content_support"][value="none"]');
+          if (event.target.value === 'none') {
+            form.querySelectorAll('[name="content_support"]:not([value="none"])').forEach(item => { item.checked = false; });
+          } else if (exclusive) exclusive.checked = false;
+        }
+        updateBlueprint(); scheduleSave();
       });
-      brandbookFile.addEventListener('change',handleFile);
       form.addEventListener('keydown',event => {
-        if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA' && event.target.type !== 'file' && steps[currentStep].dataset.autoStep !== 'true') { event.preventDefault(); if (currentStep < steps.length - 1) goNext(); }
+        if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA' && currentStep < steps.length - 1) {
+          event.preventDefault();
+          goNext();
+        }
       });
 
       form.addEventListener('submit',async event => {
         event.preventDefault();
         if (!validateStep()) return;
+        if (text('website')) {
+          showError('We could not send this form. Please refresh the page and try again.');
+          return;
+        }
         submitButton.disabled = true;
         submitButton.textContent = 'Sending…';
         statusBox.hidden = true;
+        track('onboarding_submit_attempt', {
+          parent_lead_id: parentLeadId === 'direct' ? null : parentLeadId,
+          submission_id: onboardingSubmissionId,
+          project_type: selectedPlan()
+        });
         try {
           await sendPayload();
           localStorage.removeItem(STORAGE_KEY);
+          try { sessionStorage.removeItem(onboardingTokenStorageKey); } catch (error) { }
+          try { delete window.__sevendayOnboardingToken; } catch (error) { }
+          try { sessionStorage.removeItem('sevenday_lead_context_v1'); } catch (error) { }
           document.querySelector('#quiz-shell').hidden = true;
           document.querySelector('#success-panel').hidden = false;
           document.querySelector('#success-title').focus();
-          window.scrollTo({top:0,behavior:'smooth'});
+          document.querySelector('.quiz-card').scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+          track('onboarding_success', {
+            parent_lead_id: parentLeadId === 'direct' ? null : parentLeadId,
+            submission_id: onboardingSubmissionId,
+            project_type: selectedPlan(),
+            primary_goal: value('project_goal'),
+            duration_ms: Date.now() - onboardingStartedAt
+          });
         } catch (error) {
-          const message = error.name === 'AbortError' ? 'The request timed out. Your blueprint is saved; please try again.' : error.message;
+          const message = error.name === 'AbortError' ? 'The request timed out. Your non-contact answers are saved; please try again.' : error.message;
           statusBox.innerHTML = escapeHTML(message) + ' <button class="text-link" id="download-error" type="button">Download JSON</button>';
           statusBox.hidden = false;
           document.querySelector('#download-error').addEventListener('click',downloadPayload);
-        } finally { submitButton.disabled = false; submitButton.innerHTML = 'Send my blueprint <span aria-hidden="true">→</span>'; }
+          track('onboarding_error', {
+            parent_lead_id: parentLeadId === 'direct' ? null : parentLeadId,
+            submission_id: onboardingSubmissionId,
+            error_type: error.name === 'AbortError' ? 'timeout' : 'request_failed',
+            http_status: error.httpStatus || undefined
+          });
+        } finally { submitButton.disabled = false; submitButton.innerHTML = 'Send onboarding <span aria-hidden="true">→</span>'; }
       });
 
       document.querySelector('#download-json').addEventListener('click',downloadPayload);
@@ -897,13 +1095,18 @@
         event.currentTarget.textContent = open ? 'Hide ↑' : 'Preview ↓';
       });
       document.querySelector('#reset-draft').addEventListener('click',() => {
-        if (!confirm('Clear this blueprint and start again?')) return;
-        localStorage.removeItem(STORAGE_KEY); form.reset(); brandbookData = null; uploadStatus.textContent = '';
-        const start = applyQuery(); updateScope(); updateBrandbook(); updateBlueprint(); showStep(start,'back',true);
+        if (!confirm('Clear this onboarding draft and start again?')) return;
+        localStorage.removeItem(STORAGE_KEY);
+        form.reset();
+        importedLeadContext = null;
+        const start = applyQuery();
+        applyLeadContext();
+        updateScope(); updateBrandbook(); updateBlueprint(); showStep(start,'back',true);
       });
 
-      const restoredStep = restoreDraft();
       const queryStart = applyQuery();
+      applyLeadContext();
+      const restoredStep = restoreDraft();
       updateScope(); updateBrandbook(); updateBlueprint();
       showStep(restoredStep === null ? queryStart : restoredStep,'next',false);
     })();

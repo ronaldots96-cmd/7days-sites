@@ -11,6 +11,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 DIST = ROOT / "dist"
+PRODUCTION_SITE_URL = "https://7days-sites.pages.dev"
+PRODUCTION_GTM_CONTAINER_ID = "GTM-MMBHLWJQ"
+PRODUCTION_FORMS_ENDPOINT = "/api/forms"
+DEFAULT_PRODUCTION_BRANCH = "main"
 
 
 def env_flag(name: str, default: bool = False) -> bool:
@@ -21,16 +25,25 @@ def env_flag(name: str, default: bool = False) -> bool:
 
 
 def prepare_environment() -> tuple[str, bool]:
+    cloudflare_branch = os.getenv("CF_PAGES_BRANCH", "").strip()
+    production_branch = os.getenv(
+        "PAGES_PRODUCTION_BRANCH", DEFAULT_PRODUCTION_BRANCH
+    ).strip()
+    is_cloudflare_production = bool(
+        cloudflare_branch and cloudflare_branch == production_branch
+    )
     site_url = (
         os.getenv("SITE_URL", "").strip()
-        or os.getenv("CF_PAGES_URL", "").strip()
-        or "http://localhost:8000"
+        or PRODUCTION_SITE_URL
     ).rstrip("/")
-    site_indexable = env_flag("SITE_INDEXABLE", default=False)
+    site_indexable = env_flag(
+        "SITE_INDEXABLE",
+        default=is_cloudflare_production,
+    )
 
     if site_indexable and site_url.startswith("http://localhost"):
         raise RuntimeError(
-            "SITE_INDEXABLE=true requires SITE_URL or CF_PAGES_URL to contain the public URL."
+            "SITE_INDEXABLE=true requires SITE_URL to contain the public URL."
         )
 
     asset_version = (
@@ -44,6 +57,30 @@ def prepare_environment() -> tuple[str, bool]:
     os.environ["SITE_URL"] = site_url
     os.environ["SITE_INDEXABLE"] = "true" if site_indexable else "false"
     os.environ["ASSET_VERSION"] = asset_version
+    configured_gtm = os.getenv("GTM_CONTAINER_ID")
+    if configured_gtm is None:
+        os.environ["GTM_CONTAINER_ID"] = (
+            PRODUCTION_GTM_CONTAINER_ID if is_cloudflare_production else ""
+        )
+    else:
+        os.environ["GTM_CONTAINER_ID"] = configured_gtm.strip()
+
+    configured_webhook = os.getenv("FORMS_WEBHOOK_URL")
+    legacy_webhook = os.getenv("BRIEFING_WEBHOOK_URL")
+    if configured_webhook is not None:
+        webhook_url = configured_webhook.strip()
+    elif legacy_webhook is not None:
+        webhook_url = legacy_webhook.strip()
+    else:
+        webhook_url = PRODUCTION_FORMS_ENDPOINT
+    if webhook_url and not (
+        webhook_url.lower().startswith("https://")
+        or (webhook_url.startswith("/") and not webhook_url.startswith("//"))
+    ):
+        raise RuntimeError(
+            "FORMS_WEBHOOK_URL must be an HTTPS URL or a root-relative path."
+        )
+    os.environ["FORMS_WEBHOOK_URL"] = webhook_url
     return site_url, site_indexable
 
 
@@ -60,10 +97,6 @@ def render_pages() -> None:
     # Cloudflare deployment URL and the current commit as the asset version.
     from app import app
 
-    webhook_url = os.getenv("BRIEFING_WEBHOOK_URL", "").strip()
-    if webhook_url and not webhook_url.lower().startswith("https://"):
-        raise RuntimeError("BRIEFING_WEBHOOK_URL must be an absolute HTTPS URL.")
-
     with app.test_client() as client:
         for route, output_name in (("/", "index.html"), ("/briefing", "briefing.html")):
             response = client.get(route, headers={"Accept-Encoding": "identity"})
@@ -71,16 +104,6 @@ def render_pages() -> None:
                 raise RuntimeError(f"Could not render {route}: HTTP {response.status_code}")
 
             page = response.get_data(as_text=True)
-            if output_name in ("index.html", "briefing.html") and webhook_url:
-                marker = 'data-webhook-url=""'
-                if marker not in page:
-                    raise RuntimeError(f"Webhook marker was not found in rendered {output_name}.")
-                page = page.replace(
-                    marker,
-                    f'data-webhook-url="{html.escape(webhook_url, quote=True)}"',
-                    1,
-                )
-
             unresolved = [token for token in ("{{", "{%") if token in page]
             if unresolved:
                 raise RuntimeError(

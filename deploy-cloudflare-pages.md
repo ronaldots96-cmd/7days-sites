@@ -35,18 +35,28 @@ Build output directory: dist
 Root directory: deixe vazio (raiz do repositório)
 ```
 
-5. Em **Environment variables**, configure `SITE_INDEXABLE=false` tanto para
-   **Production** quanto para **Preview**.
-6. Não crie `SITE_URL` nesta fase. O build usará automaticamente
-   `CF_PAGES_URL`, definido pelo Pages para cada deploy.
-7. Se necessário, configure `BRIEFING_WEBHOOK_URL`. `ASSET_VERSION` pode ficar
-   vazio, pois o SHA do commit será usado como versão dos assets.
-8. Inicie o deploy. Ao concluir, o Pages fornecerá uma URL como
+5. Em **Environment variables**, configure `SITE_INDEXABLE=true` em
+   **Production** e `SITE_INDEXABLE=false` em **Preview**. Se a variável não
+   existir, a branch `main` é reconhecida automaticamente como produção.
+6. `SITE_URL` pode ficar vazio: o canonical padrão já é
+   `https://7days-sites.pages.dev`. Quando houver domínio próprio, substitua-o
+   apenas no ambiente de Production.
+7. O build da branch principal já carrega o GTM `GTM-MMBHLWJQ`. O navegador
+   envia os formulários para a Pages Function same-origin `/api/forms`.
+8. Em **Production → Environment variables**, crie a variável protegida
+   `N8N_LEAD_WEBHOOK_URL` com o valor
+   `https://n8n.v4lisboatech.com.br/webhook/7days-leadform`. Não a configure em
+   Preview, a menos que registros de teste possam chegar à automação.
+   Remova qualquer valor antigo de `FORMS_WEBHOOK_URL` ou defina-o como
+   `/api/forms`; nunca coloque a URL do n8n nessa variável pública.
+   `ASSET_VERSION` pode ficar vazio, pois o SHA do commit será usado como versão
+   dos assets.
+9. Inicie o deploy. Ao concluir, o Pages fornecerá uma URL como
    `https://nome-do-projeto.pages.dev`.
 
 Cada novo push na branch de produção gera outro deploy. Pull requests e outras
-branches podem gerar previews isolados, que também devem permanecer com
-`SITE_INDEXABLE=false`.
+branches podem gerar previews isolados, que devem permanecer com
+`SITE_INDEXABLE=false` e sem o webhook de produção.
 
 ## 3. Verificar o deploy temporário
 
@@ -66,6 +76,8 @@ Confirme também:
 - home e portfólio sem marcas de template como `{{ ... }}`;
 - filtros, links e previews dos cards funcionando;
 - briefing abrindo e, se configurado, chegando ao webhook correto;
+- `/api/forms` retornando `415` para requests sem JSON e nunca expondo a URL do
+  n8n no HTML;
 - resposta 404 real para uma rota inexistente;
 - meta robots e cabeçalho `X-Robots-Tag` com `noindex` na URL temporária;
 - ausência de erros relevantes no console do navegador.
@@ -73,9 +85,11 @@ Confirme também:
 Os arquivos `_headers` e `_redirects` são gerados dentro de `dist/` pelo build
 e aplicados automaticamente pelo Cloudflare Pages.
 
-## 4. Ativar o domínio definitivo
+## 4. Ativar indexação ou domínio definitivo
 
-Quando o domínio estiver comprado e validado:
+Para indexar o endereço atual, mantenha `SITE_INDEXABLE=true` em Production e
+confirme o sitemap em `https://7days-sites.pages.dev/sitemap.xml`. Quando um
+domínio próprio estiver comprado e validado:
 
 1. Adicione-o em **Pages → Custom domains** e conclua a configuração DNS.
 2. Na variável de **Production**, defina `SITE_URL=https://dominio-final.com`

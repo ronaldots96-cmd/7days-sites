@@ -1,5 +1,6 @@
 import gzip
 import os
+import re
 from datetime import datetime, timezone
 from xml.sax.saxutils import escape
 
@@ -21,6 +22,15 @@ IS_PRODUCTION = os.getenv("APP_ENV", os.getenv("FLASK_ENV", "development")).lowe
 ASSET_VERSION = os.getenv("ASSET_VERSION", "20260826")
 CONFIGURED_SITE_URL = os.getenv("SITE_URL", "").strip().rstrip("/")
 SITE_INDEXABLE = os.getenv("SITE_INDEXABLE", "false").lower() in {"1", "true", "yes", "on"}
+GTM_CONTAINER_ID = os.getenv("GTM_CONTAINER_ID", "").strip().upper()
+if GTM_CONTAINER_ID and not re.fullmatch(r"GTM-[A-Z0-9]+", GTM_CONTAINER_ID):
+    raise RuntimeError("GTM_CONTAINER_ID must look like GTM-XXXXXXX.")
+FORMS_WEBHOOK_URL = os.getenv("FORMS_WEBHOOK_URL", "").strip()
+if FORMS_WEBHOOK_URL and not (
+    FORMS_WEBHOOK_URL.lower().startswith("https://")
+    or (FORMS_WEBHOOK_URL.startswith("/") and not FORMS_WEBHOOK_URL.startswith("//"))
+):
+    raise RuntimeError("FORMS_WEBHOOK_URL must be an HTTPS URL or a root-relative path.")
 
 # Edit these two collections to swap portfolio categories, projects, links or thumbnails.
 PORTFOLIO_CATEGORIES = [
@@ -36,7 +46,7 @@ PORTFOLIO_PROJECTS = [
         "category": "home",
         "theme": "pool",
         "type": "Lead-generation website",
-        "status": "Live website",
+        "status": "Privacy-safe demo",
         "url": "https://www.lionleak.com/",
         "image": "portfolio/lion-leak.webp",
         "image_small": "portfolio/lion-leak-720.webp",
@@ -48,7 +58,7 @@ PORTFOLIO_PROJECTS = [
         "category": "home",
         "theme": "flooring",
         "type": "Lead-generation website",
-        "status": "Live website",
+        "status": "Privacy-safe demo",
         "url": "https://floorsurellc.lovable.app/",
         "image": "portfolio/floorsure.webp",
         "image_small": "portfolio/floorsure-720.webp",
@@ -60,7 +70,7 @@ PORTFOLIO_PROJECTS = [
         "category": "wellness",
         "theme": "wellness",
         "type": "Industry concept",
-        "status": "Live demo",
+        "status": "Privacy-safe demo",
         "url": "/merae-skin-studio/",
         "image": "portfolio/merae-skin-studio.webp",
         "image_small": "portfolio/merae-skin-studio-720.webp",
@@ -72,7 +82,7 @@ PORTFOLIO_PROJECTS = [
         "category": "wellness",
         "theme": "clinic",
         "type": "Conversion landing page",
-        "status": "Live demo",
+        "status": "Privacy-safe demo",
         "url": "/spa/",
         "image": "portfolio/brazilian-clinic.webp",
         "image_small": "portfolio/brazilian-clinic-720.webp",
@@ -84,7 +94,7 @@ PORTFOLIO_PROJECTS = [
         "category": "professional",
         "theme": "legal",
         "type": "Multi-page website",
-        "status": "Live website",
+        "status": "Privacy-safe demo",
         "url": "https://friedland-law-site.lovable.app",
         "image": "portfolio/friedland-law.webp",
         "image_small": "portfolio/friedland-law-720.webp",
@@ -96,7 +106,7 @@ PORTFOLIO_PROJECTS = [
         "category": "saas",
         "theme": "saas",
         "type": "Product landing page",
-        "status": "Live website",
+        "status": "Privacy-safe demo",
         "url": "https://lp.cbcloud.com.br/mcp/?lang=en",
         "image": "portfolio/cbcloud-mcp.webp",
         "image_small": "portfolio/cbcloud-mcp-720.webp",
@@ -238,6 +248,8 @@ def inject_site_context():
         "portfolio_projects": PORTFOLIO_PROJECTS,
         "faq_items": FAQ_ITEMS,
         "structured_data": structured_data(base_url),
+        "gtm_container_id": GTM_CONTAINER_ID,
+        "forms_webhook_url": FORMS_WEBHOOK_URL,
     }
 
 
