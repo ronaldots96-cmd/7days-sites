@@ -26,6 +26,27 @@ function isSameOrigin(request) {
   }
 }
 
+function isBoundedString(value, minLength, maxLength) {
+  return (
+    typeof value === "string" &&
+    value.length >= minLength &&
+    value.length <= maxLength
+  );
+}
+
+function safeOnboardingUrl(value, requestUrl) {
+  if (typeof value !== "string" || !value.trim()) return null;
+  try {
+    const requestOrigin = new URL(requestUrl).origin;
+    const target = new URL(value.trim(), requestOrigin);
+    if (target.origin !== requestOrigin) return null;
+    if (target.pathname !== "/briefing" && target.pathname !== "/briefing/") return null;
+    return `${target.pathname}${target.search}${target.hash}`;
+  } catch {
+    return null;
+  }
+}
+
 export async function onRequestOptions() {
   return new Response(null, {
     status: 204,
@@ -121,12 +142,23 @@ export async function onRequestPost({ request, env }) {
   } catch {
     upstreamData = {};
   }
+  if (!upstreamData || typeof upstreamData !== "object" || Array.isArray(upstreamData)) {
+    upstreamData = {};
+  }
+
+  if (
+    payload.event === "lead_intake.submitted" &&
+    (!isBoundedString(upstreamData.lead_id, 8, 100) ||
+      !isBoundedString(upstreamData.onboarding_token, 32, 2048))
+  ) {
+    return jsonResponse({ ok: false, error: "upstream_invalid_response" }, 502);
+  }
 
   return jsonResponse({
     ok: true,
     submission_id: payload.submission_id,
-    lead_id: upstreamData.lead_id || upstreamData.id || payload.submission_id,
+    lead_id: upstreamData.lead_id || null,
     onboarding_token: upstreamData.onboarding_token || null,
-    onboarding_url: upstreamData.onboarding_url || null,
+    onboarding_url: safeOnboardingUrl(upstreamData.onboarding_url, request.url),
   });
 }
